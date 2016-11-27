@@ -1,0 +1,47 @@
+{
+  "name": "archivator",
+  "version": "1.0.0",
+  "description": "Fetch and stream body contents for URLs",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src/ --minified -d dist/ -s",
+    "watch": "babel src/ -d dist/ -w -s",
+    "start": "babel-node src/index.js",
+    "lint": "xo"
+  },
+  "author": "Renoir Boulanger <hello@renoirboulanger.com> (http://renoirb.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "async-file": "^2.0.2",
+    "cheerio": "^0.22.0",
+    "node-fetch": "^1.6.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
+    "babel-preset-es2017": "^6.16.0",
+    "eslint": "^3.10.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-unicorn": "^1.0.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-cli": "^1.2.2",
+    "gulp-concat": "^2.6.1",
+    "xo": "^0.17.1"
+  },
+  "xo": {
+    "esnext": true,
+    "space": 2,
+    "plugins": [
+      "unicorn"
+    ],
+    "ignores": [
+      "dist/**",
+      "example.js",
+      "gulpfile.js"
+    ],
+    "rules": {
+      "func-names": 0
+    }
+  }
+}
