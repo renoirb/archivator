@@ -2,11 +2,18 @@
   "name": "archivator",
   "version": "1.0.0",
   "description": "Fetch and stream body contents for URLs",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:renoirb/archivator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/renoirb/archivator/issues"
+  },
   "main": "index.js",
   "scripts": {
     "build": "babel src/ --minified -d dist/ -s",
     "watch": "babel src/ -d dist/ -w -s",
-    "start": "babel-node src/index.js",
+    "start": "babel-node src/cli.js",
     "lint": "xo"
   },
   "author": "Renoir Boulanger <hello@renoirboulanger.com> (http://renoirb.com/)",
@@ -14,19 +21,18 @@
   "dependencies": {
     "async-file": "^2.0.2",
     "cheerio": "^0.22.0",
+    "marked": "*",
     "node-fetch": "^1.6.3"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
     "babel-preset-es2017": "^6.16.0",
+    "co": "^4.6",
     "eslint": "^3.10.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-unicorn": "^1.0.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-cli": "^1.2.2",
-    "gulp-concat": "^2.6.1",
+    "read-all-stream": "~3.1",
     "xo": "^0.17.1"
   },
   "xo": {
@@ -37,8 +43,7 @@
     ],
     "ignores": [
       "dist/**",
-      "example.js",
-      "gulpfile.js"
+      "example.js"
     ],
     "rules": {
       "func-names": 0

@@ -18,47 +18,39 @@
 import cheerio from 'cheerio';
 import fetch from 'node-fetch';
 import * as fs from 'async-file';
-import {prepareList} from './common';
+import {prepareListGenerator} from './common';
 
-function handleFailedUrls(failedUrls) {
-  for (const element of failedUrls) {
-    console.error(`Failed to handle "${element.url}"`);
-  }
-}
-
-async function format(element, promisedPayload) {
+async function handle(element, promisedPayload) {
   return promisedPayload.text()
     .then(payload => cheerio.load(payload))
-    .then(shard => {
-      const html = shard.html();
-      return `${element.url}\n${html}\n\n\n\n\n`;
-    });
+    .then(shard => shard.html());
 }
 
-async function _main(elementList, where) {
-  let failedUrls = []; // eslint-disable-line prefer-const
+async function cache(elementList, where) {
+  const processed = {ok: [], failed: []}; // eslint-disable-line prefer-const
   for (const element of elementList) {
     const dirName = `${where}/${element.name}`;
-    const fileName = `${dirName}/index.md`;
+    const fileName = `${dirName}/cache.html`;
+    await fs.createDirectory(dirName);
     if ((await fs.exists(fileName)) === false) {
       const response = await fetch(element.url);
       if (response.ok === true) {
-        await fs.createDirectory(dirName);
-        const pageSnippet = (await format(element, response));
+        processed.ok.push(element.url);
+        const pageSnippet = await handle(element, response);
         await fs.writeTextFile(fileName, pageSnippet, 'utf8');
+        console.info(`Archived ${fileName}`);
       } else {
-        failedUrls.push(element, response);
+        processed.failed.push(element.url);
+        console.info(`Had problem with ${element.url}`);
       }
-      console.info(`Archived ${element.name}`);
     } else {
-      console.info(`Already exists ${element.name}`);
+      console.info(`Already exists ${fileName}`);
     }
   }
-  handleFailedUrls(failedUrls);
 }
 
 async function fetcher(list, where = 'archive') {
-  await _main(prepareList(list), where);
+  await cache(prepareListGenerator(list), where);
 }
 
 export default fetcher;
