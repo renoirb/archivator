@@ -1,24 +1,16 @@
 'use strict';
 
-import * as fs from 'async-file';
-import read from 'read-all-stream';
 import fetcher from './fetcher';
-import pathutil from 'path';
+import {readLines, handleIndexSourceErrors} from './common';
 
 const URL_LIST = 'archive/index.csv';
 
-function handleErrors(errorObj) {
-  if (errorObj.code === 'ENOENT' && Boolean(errorObj.path)) {
-    const dirName = pathutil.dirname(errorObj.path);
-    fs.createDirectory(dirName);
-    const fileContents = 'http://renoirb.com;#contents;';
-    const msg = `File "${errorObj.path}" did not exist, we created one. Try again.`;
-    fs.writeTextFile(errorObj.path, fileContents, 'utf8');
-    throw new Error(msg);
-  }
-}
+const [...urls] = readLines(URL_LIST);
 
-read(fs.createReadStream(URL_LIST))
-  .then(data => data.split('\n'))
-  .then(lines => fetcher(lines))
-  .catch(handleErrors);
+/**
+ * Something is going somewhat as an anti-pattern here.
+ * Gotta wire generator and async/await TODO
+ */
+Promise.all(urls)
+  .then(u => fetcher(u))
+  .catch(handleIndexSourceErrors);

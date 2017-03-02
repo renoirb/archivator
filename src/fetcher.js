@@ -18,9 +18,9 @@
 import cheerio from 'cheerio';
 import fetch from 'node-fetch';
 import * as fs from 'async-file';
-import {prepareListGenerator} from './common';
 
-async function handle(element, promisedPayload) {
+async function httpGet(element, promisedPayload) {
+  // console.log(promisedPayload);
   return promisedPayload.text()
     .then(payload => cheerio.load(payload))
     .then(shard => shard.html());
@@ -29,14 +29,14 @@ async function handle(element, promisedPayload) {
 async function cache(elementList, where) {
   const processed = {ok: [], failed: []}; // eslint-disable-line prefer-const
   for (const element of elementList) {
-    const dirName = `${where}/${element.name}`;
+    const dirName = `${where}/${element.slug}`;
     const fileName = `${dirName}/cache.html`;
     await fs.createDirectory(dirName);
     if ((await fs.exists(fileName)) === false) {
       const response = await fetch(element.url);
       if (response.ok === true) {
         processed.ok.push(element.url);
-        const pageSnippet = await handle(element, response);
+        const pageSnippet = await httpGet(element, response);
         await fs.writeTextFile(fileName, pageSnippet, 'utf8');
         console.info(`Archived ${fileName}`);
       } else {
@@ -50,7 +50,7 @@ async function cache(elementList, where) {
 }
 
 async function fetcher(list, where = 'archive') {
-  await cache(prepareListGenerator(list), where);
+  await cache(list, where);
 }
 
 export default fetcher;
