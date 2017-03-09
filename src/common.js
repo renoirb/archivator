@@ -37,7 +37,7 @@ function handlePathName(urlObjPathName = '') {
           .replace(/\.(html?|php|xml|aspx?)/, '');
 }
 
-function urlToSlug(url) {
+function slugifier(url) {
   let urlObj = {};
   try {
     urlObj = new URL(url);
@@ -70,7 +70,7 @@ function * prepareListGenerator(urls) {
 
 function parseCsvLine(line) {
   const [url, selector = '', truncate = ''] = line.split(';');
-  const slug = urlToSlug(url);
+  const slug = slugifier(url);
   return {url, slug, selector, truncate};
 }
 
@@ -88,7 +88,7 @@ function handleIndexSourceErrors(errorObj) {
 
 export {
   readLines,
-  urlToSlug,
+  slugifier,
   parseCsvLine,
   prepareListGenerator,
   handleIndexSourceErrors
