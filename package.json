@@ -23,6 +23,7 @@
     "async-file": "^2.0.2",
     "babel-polyfill": "^6.23.0",
     "cheerio": "^0.22.0",
+    "elasticsearch": "^12.1.3",
     "gen-readlines": "^0.1.3",
     "marked": "*",
     "node-fetch": "^1.6.3"
