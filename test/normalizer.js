@@ -1,11 +1,18 @@
 'use strict';
 
-import slugifier from '../src/normalizer/path';
+import slugs from '../src/normalizer/slugs';
+import assets from '../src/normalizer/assets';
 import {inputExpectedOutputStringsTests} from './utils';
 
-const testSubjects = {slugifier};
+function assetsArgumentStringSplitter(input) {
+  const args = input.split(' ');
+  return assets.apply(null, args);
+}
+
+const testSubjects = {slugs, assets: assetsArgumentStringSplitter};
 
 const testCases = {};
-testCases.slugifier = require('./normalizer/path.csv');
+testCases.slugs = require('./normalizer/slugs.csv');
+testCases.assets = require('./normalizer/assets.csv');
 
 inputExpectedOutputStringsTests(testCases, testSubjects);

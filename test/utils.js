@@ -34,9 +34,9 @@ const inputExpectedOutputStringsTests = (useCases, subjectFunctions) => {
       const assertions = useCases[subjectFunctionName];
       assertions.forEach((fields, index) => {
         if (fields.length > 2) {
-          const [url, expected, description] = fields;
+          const [input, expected, description] = fields;
           it(`${index}: ${description}`, () => { // eslint-disable-line no-undef
-            assert.equal(expected, subjectFunctions[subjectFunctionName].call(null, url)); // eslint-disable-line no-undef
+            assert.equal(subjectFunctions[subjectFunctionName].call(null, input), expected); // eslint-disable-line no-undef
           });
         }
       });

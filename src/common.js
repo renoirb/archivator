@@ -3,7 +3,24 @@
 import fs from 'fs';
 import pathutil from 'path';
 import readlines from 'gen-readlines';
-import slugifier from './normalizer/path';
+import slugifier from './normalizer/slugs';
+
+/**
+ * Co Routine - A Generator factory helper
+ *
+ * Pass a Generator closure and Immediately Invoke that helper
+ * so that we can iterate using generators as async handlers.
+ *
+ * This pattern is used so we can use generators as async consumers
+ * or as async handlers.
+ */
+function coroutine(gen) {
+  return function (...args) {
+    const g = gen(...args);
+    g.next();
+    return g;
+  };
+}
 
 function * readLines(path) {
   const fd = fs.openSync(path, 'r');
@@ -35,11 +52,12 @@ function handleIndexSourceErrors(errorObj) {
     fs.writeTextFile(errorObj.path, fileContents, 'utf8');
     throw new Error(msg);
   }
-  console.error(errorObj);
+  console.error('handleIndexSourceErrors', errorObj);
 }
 
 export {
   readLines,
+  coroutine,
   parseCsvLine,
   prepareListGenerator,
   handleIndexSourceErrors

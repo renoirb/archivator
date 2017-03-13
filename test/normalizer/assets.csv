@@ -1,0 +1,22 @@
+http://example.org/ A.PNG;http://example.org/A.PNG;Case sensitive
+http://example.org/ a.png;http://example.org/a.png;Relative path when at root
+http://example.org/ a.png?foo=BAR;http://example.org/a.png?foo=BAR;Does not remove search query string
+http://example.org a.png;http://example.org/a.png;Relative path when at root, without trailing slash
+http://example.org/ ./a.png;http://example.org/a.png;Explicit parent from current context root
+http://example.org ./a.png;http://example.org/a.png;Explicit parent from current context root, without trailing slash
+http://example.org/a ./b.png;http://example.org/a/b.png;Explicit parent from current context root in sub folder, without trailing slash
+http://example.org/a/ ./b.png;http://example.org/a/b.png;Explicit parent from current context root
+http://example.org/a/ b.png;http://example.org/a/b.png;Relative path from a sub folder
+http://example.org/a b.png;http://example.org/a/b.png;Relative path from a sub folder, without trailing slash
+http://example.org/a B.pnG;http://example.org/a/B.pnG;Case sensitive, relative path from a sub folder, without trailing slash
+http://example.org/a/c/ ../b.png;http://example.org/a/b.png;Relative path going into 1 parent up
+http://example.org/a/c ../b.png;http://example.org/a/b.png;Relative path going into 1 parent up, without trailing slash
+http://example.org/ignored/also_ignored/ ../../a.jpg;http://example.org/a.jpg;Relative path going into 2 parents up
+http://example.org/ignored/also_ignored/and_too ../../../a.jpg;http://example.org/a.jpg;Relative path going into 3 parents up, without trailing slash
+http://example.org/a/ b/c.png;http://example.org/a/b/c.png;Deeper relative path
+http://example.org/a b/c.png;http://example.org/a/b/c.png;Deeper relative path, without trailing slash
+http://example.org/bogus/ /a.png;http://example.org/a.png;Absolute path, without trailing slash, ignoring sub folder from hostname
+http://example.org/bogus /a.png;http://example.org/a.png;Absolute path, ignoring sub folder from hostname
+http://example.org/bogus/deep/path /a.png;http://example.org/a.png;Absolute path, without trailing slash, ignoring sub folder from hostname
+http://example.org/a Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg;http://example.org/a/Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg;Do not touch spaces and case
+http://example.org/a b(WTH).png;http://example.org/a/b(WTH).png;Parens are not valid, but some uses them, must support them
