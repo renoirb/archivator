@@ -52,6 +52,8 @@ function handleIndexSourceErrors(errorObj) {
     fs.writeTextFile(errorObj.path, fileContents, 'utf8');
     throw new Error(msg);
   }
+  // Handle error codes below #TODO
+  // if (errorObj.code === 'ENOTFOUND')
   console.error('handleIndexSourceErrors', errorObj);
 }
 

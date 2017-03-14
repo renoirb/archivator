@@ -19,29 +19,41 @@ import cheerio from 'cheerio';
 import fetch from 'node-fetch';
 import * as fs from 'async-file';
 
-async function httpGet(element, promisedPayload) {
-  // console.log(promisedPayload);
-  return promisedPayload.text()
+async function handleDocument(recv, archivable) {
+  return recv.text()
     .then(payload => cheerio.load(payload))
     .then(shard => shard.html());
 }
 
-async function cache(elementList, where) {
+async function fetchDocument(url) {
+  return fetch(url)
+    .catch(fetchDocumentError);
+}
+
+function fetchDocumentError(errorObj) {
+  // Handle error codes below #TODO
+  // if (errorObj.code === 'ETIMEDOUT')
+  // if (errorObj.code === 'ENETUNREACH')
+  console.error(`fetchDocumentError: ${errorObj.message}`);
+  return {ok: false};
+}
+
+async function cache(listArchivable, where) {
   const processed = {ok: [], failed: []}; // eslint-disable-line prefer-const
-  for (const element of elementList) {
-    const dirName = `${where}/${element.slug}`;
+  for (const archivable of listArchivable) {
+    const dirName = `${where}/${archivable.slug}`;
     const fileName = `${dirName}/cache.html`;
     await fs.createDirectory(dirName);
     if ((await fs.exists(fileName)) === false) {
-      const response = await fetch(element.url);
+      const response = await fetchDocument(archivable.url);
       if (response.ok === true) {
-        processed.ok.push(element.url);
-        const pageSnippet = await httpGet(element, response);
+        processed.ok.push(archivable.url);
+        const pageSnippet = await handleDocument(response);
         await fs.writeTextFile(fileName, pageSnippet, 'utf8');
         console.info(`Archived ${fileName}`);
       } else {
-        processed.failed.push(element.url);
-        console.info(`Had problem with ${element.url}`);
+        processed.failed.push(archivable.url);
+        console.info(`Had problem with ${archivable.url}`);
       }
     } else {
       console.info(`Already exists ${fileName}`);
