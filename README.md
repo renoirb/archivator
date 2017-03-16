@@ -76,9 +76,9 @@ archive/
    `-blog/
      `-2015/
        `-05/
-         |--add-openstack-instance-meta-data-info-salt-grains/
+         |-add-openstack-instance-meta-data-info-salt-grains/
          |  `-cache.html
-          `-converting-dynamic-site-static-copy/
+         `-converting-dynamic-site-static-copy/
             `-cache.html
 ```
 
@@ -127,7 +127,11 @@ Make an archiving system while learning how to use bleeding edge JavaScript.
 
 * :white_check_mark: Cache HTML payload of source Web Pages URLs we want archived (see `src/fetcher.js`)
 * :white_check_mark: Store files for each source URL at a consistent path name. With unit tests! (see `src/normalizer/path.js`)
-* Extract image paths from Cached HTML, download them for archiving purposes. With unit tests!
+* Extract paths from Cached HTML, download them for archiving purposes.
+  * Download images from Web Pages
+* Read link list from different source list
+  * RSS xml document
+  * CSV file
 * Extract the main content for each article
 * Export into simplified excerpt document
 * Add documents into a search index

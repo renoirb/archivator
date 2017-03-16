@@ -20,3 +20,7 @@ http://example.org/bogus /a.png;http://example.org/a.png;Absolute path, ignoring
 http://example.org/bogus/deep/path /a.png;http://example.org/a.png;Absolute path, without trailing slash, ignoring sub folder from hostname
 http://example.org/a Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg;http://example.org/a/Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg;Do not touch spaces and case
 http://example.org/a b(WTH).png;http://example.org/a/b(WTH).png;Parens are not valid, but some uses them, must support them
+http://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path http://example.org/a/b.png;http://example.org/a/b.png;Ignore document origin if resource has full URL
+https://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path http://example.org/a/b.png;http://example.org/a/b.png;Ignore document origin if resource has full URL, even over TLS, we shall take asset resource URL as-is
+http://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path //example.org/a/b.png;http://example.org/a/b.png;Ignore document origin if resource has full URL, protocol relative, non TLS
+https://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path-tls //example.org/a/b.png;https://example.org/a/b.png;Ignore document origin if resource has full URL, protocol relative, over TLS

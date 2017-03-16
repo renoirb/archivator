@@ -22,37 +22,57 @@ export default (given, asset) => {
     throw new Error(given, err);
   }
 
-  let modifiedGiven = String(urlObj.href)
-            .replace(/([a-z0-9_\-.:])$/i, '$1/');
+  let targetGiven = String(urlObj.href)
+        .replace(/([a-z0-9_\-.:])$/i, '$1/');
 
-  let file = String(asset)
-            .replace(/^\.\//, '');
+  let targetAsset = String(asset)
+        .replace(/^\.\//, '');
+
+  const givenIsTls = /^https:\/\//.test(urlObj.href);
+
+  const assetHasFullUrl = /^https?:\/\//.test(asset);
+
+  const assetHasFullUrlProtocolRelative = /^\/\//.test(asset);
 
   /**
-   * If file starts by /, we explicitly want
+   * If targetAsset starts by /, we explicitly want
    * to start directly from the top of the
    * folder hirerarchy
    */
-  if (/^\//.test(file)) {
-    // console.log(`Start from top top most parent directory "${file}"`); // DEBUG
-    modifiedGiven = String(`${urlObj.protocol}//${urlObj.hostname}`);
+  if (/^\//.test(targetAsset)) {
+    // console.log(`Start from top top most parent directory "${targetAsset}"`); // DEBUG
+    targetGiven = String(`${urlObj.protocol}//${urlObj.hostname}`);
   }
 
   /**
    * How many times has the asset contains "../"
    * so we need to remove from
    */
-  if (/\.\.\//.test(file)) {
-    const goUp = file.match(/\.\.\//g);
-    // console.log(`Has go up parent operator in path "${file}", found ${goUp.length} times`); // DEBUG
-    const newGiven = modifiedGiven.split('/');
+  if (/\.\.\//.test(targetAsset)) {
+    const goUp = targetAsset.match(/\.\.\//g);
+    // console.log(`Has go up parent operator in path "${targetAsset}", found ${goUp.length} times`); // DEBUG
+    const newGiven = targetGiven.split('/');
     for (let i = 0; i < (goUp.length + 1); i++) {
       newGiven.pop();
       // console.log(newGiven.join('/')); // DEBUG
     }
-    modifiedGiven = newGiven.join('/');
-    file = '/' + file.replace(/\.\.\//g, '');
+    targetGiven = newGiven.join('/');
+    targetAsset = '/' + targetAsset.replace(/\.\.\//g, '');
   }
 
-  return String(`${modifiedGiven}${file}`);
+  /**
+   * If targetAsset starts by https?://, we ignore targetGiven
+   */
+  if (assetHasFullUrl === true) {
+    targetGiven = '';
+  }
+
+  /**
+   * If targetAsset starts by //, we ignore targetGiven
+   */
+  if (assetHasFullUrlProtocolRelative === true) {
+    targetGiven = (givenIsTls === true) ? 'https:' : 'http:';
+  }
+
+  return String(`${targetGiven}${targetAsset}`);
 };
