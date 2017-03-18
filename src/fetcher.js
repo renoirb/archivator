@@ -13,13 +13,11 @@
  * * https://github.com/kriasoft/babel-starter-kit/blob/master/package.json
  */
 
-// cheerio, or https://github.com/lapwinglabs/x-ray
-// http://noodlejs.com/#Overview
 import cheerio from 'cheerio';
 import fetch from 'node-fetch';
 import * as fs from 'async-file';
 
-async function handleDocument(recv, archivable) {
+async function handleDocument(recv) {
   return recv.text()
     .then(payload => cheerio.load(payload))
     .then(shard => shard.html());
