@@ -35,10 +35,10 @@ function readDocumentError(errorObj) {
   switch (errorObj.code) {
     case 'ENOENT':
       // ENOENT: no such file or directory, open '...' Handle differently? #TODO
-      console.error(`readDocumentError: Could not access file at "${errorObj.path}"`);
+      console.error(`readDocumentError (code ${errorObj.code}: Could not access file at "${errorObj.path}"`);
       break;
     default:
-      console.error(`readDocumentError: ${errorObj.message}`);
+      console.error(`readDocumentError (code ${errorObj.code}: ${errorObj.message}`);
       break;
   }
   return {ok: false};

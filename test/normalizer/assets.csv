@@ -1,6 +1,9 @@
 http://example.org/ A.PNG;http://example.org/A.PNG;Case sensitive
 http://example.org/ a.png;http://example.org/a.png;Relative path when at root
+https://example.org/ a.png;https://example.org/a.png;Maintains protocol
+http://example.org/ a/b;http://example.org/a/b;Do not affect if no file extension
 http://example.org/ a.png?foo=BAR;http://example.org/a.png?foo=BAR;Does not remove search query string
+http://example.org/ a.png?foo=BAR&BaZ=Bizz;http://example.org/a.png?foo=BAR&BaZ=Bizz;Does not remove search query string with amperstands
 http://example.org a.png;http://example.org/a.png;Relative path when at root, without trailing slash
 http://example.org/ ./a.png;http://example.org/a.png;Explicit parent from current context root
 http://example.org ./a.png;http://example.org/a.png;Explicit parent from current context root, without trailing slash
@@ -20,6 +23,7 @@ http://example.org/bogus /a.png;http://example.org/a.png;Absolute path, ignoring
 http://example.org/bogus/deep/path /a.png;http://example.org/a.png;Absolute path, without trailing slash, ignoring sub folder from hostname
 http://example.org/a Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg;http://example.org/a/Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg;Do not touch spaces and case
 http://example.org/a b(WTH).png;http://example.org/a/b(WTH).png;Parens are not valid, but some uses them, must support them
+http://example.org/foo 1*23.png;http://example.org/foo/1*23.png;Star is not typical in path, must support them
 http://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path http://example.org/a/b.png;http://example.org/a/b.png;Ignore document origin if resource has full URL
 https://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path http://example.org/a/b.png;http://example.org/a/b.png;Ignore document origin if resource has full URL, even over TLS, we shall take asset resource URL as-is
 http://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path //example.org/a/b.png;http://example.org/a/b.png;Ignore document origin if resource has full URL, protocol relative, non TLS

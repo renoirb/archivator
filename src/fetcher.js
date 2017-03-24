@@ -32,7 +32,7 @@ function fetchDocumentError(errorObj) {
   // Handle error codes below #TODO
   // if (errorObj.code === 'ETIMEDOUT')
   // if (errorObj.code === 'ENETUNREACH')
-  console.error(`fetchDocumentError: ${errorObj.message}`);
+  console.error(`fetchDocumentError (code ${errorObj.code}: ${errorObj.message}`);
   return {ok: false};
 }
 
