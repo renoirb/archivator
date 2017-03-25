@@ -74,5 +74,8 @@ export default (given, asset) => {
     targetGiven = (givenIsTls === true) ? 'https:' : 'http:';
   }
 
-  return String(`${targetGiven}${targetAsset}`);
+  const ret = String(`${targetGiven}${targetAsset}`);
+  // console.log('normalizer/assets', ret); // DEBUG
+
+  return ret;
 };

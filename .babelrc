@@ -1,4 +1,7 @@
 {
   "presets": ["es2017"],
-  "plugins": ["transform-es2015-modules-commonjs"]
+  "plugins": [
+    "transform-es2015-modules-commonjs",
+    "transform-flow-strip-types"
+  ]
 }

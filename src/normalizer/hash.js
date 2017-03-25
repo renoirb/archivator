@@ -45,8 +45,8 @@ export default resourceUrl => {
   } else {
     extension = extension[0];
   }
-  // console.log(resourceUrl, extension); // DEBUG
-  const rv = hash.update(resourceUrl).digest('hex') + extension.toLowerCase();
-  // console.log(rv); // DEBUG
-  return rv;
+  // console.log('normalizer/hash', resourceUrl, extension); // DEBUG
+  const ret = hash.update(resourceUrl).digest('hex') + extension.toLowerCase();
+  // console.log('normalizer/hash', ret); // DEBUG
+  return ret;
 };
