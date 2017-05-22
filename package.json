@@ -14,8 +14,8 @@
     "build": "babel src/ --minified -d dist/ -s",
     "watch": "babel src/ -d dist/ -w -s",
     "start": "babel-node src/cli.js",
-    "test": "mocha --compilers js:babel-core/register",
-    "lint": "xo"
+    "test": "node_modules/.bin/mocha --compilers js:babel-core/register",
+    "lint": "node_modules/.bin/xo"
   },
   "author": "Renoir Boulanger <hello@renoirboulanger.com> (http://renoirb.com/)",
   "license": "MIT",
@@ -33,7 +33,6 @@
     "babel": "^6.23.0",
     "babel-cli": "^6.18.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
-    "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-es2017": "^6.16.0",
     "chai": "^3.5.0",
     "eslint": "^3.10.0",

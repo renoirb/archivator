@@ -11,7 +11,7 @@
 import cheerio from 'cheerio';
 import * as fs from 'async-file';
 
-async function handleDocument(recv) {
+async function handleAssets(recv) {
   const cheerioConfig = {normalizeWhitespace: true, xmlMode: false, decodeEntities: true};
   const data = new Promise(resolve => resolve(cheerio.load(recv, cheerioConfig)));
 
@@ -35,10 +35,10 @@ function readDocumentError(errorObj) {
   switch (errorObj.code) {
     case 'ENOENT':
       // ENOENT: no such file or directory, open '...' Handle differently? #TODO
-      console.error(`readDocumentError (code ${errorObj.code}: Could not access file at "${errorObj.path}"`);
+      console.error(`readDocumentError (code ${errorObj.code}): Could not access file at "${errorObj.path}"`);
       break;
     default:
-      console.error(`readDocumentError (code ${errorObj.code}: ${errorObj.message}`);
+      console.error(`readDocumentError (code ${errorObj.code}): ${errorObj.message}`);
       break;
   }
   return {ok: false};
@@ -49,10 +49,10 @@ async function transform(listArchivable, where) {
     const dirName = `${where}/${archivable.slug}`;
     const fileName = `${dirName}/cache.html`;
     const fileContents = await readDocument(fileName).catch(readDocumentError);
-    const handledDocument = await handleDocument(fileContents, archivable);
-    const prep = {slug: fileName, url: archivable.url, assets: handledDocument};
+    const assets = await handleAssets(fileContents, archivable);
+    const prep = {slug: fileName, url: archivable.url, assets};
     // Not finished here #TODO
-    console.log(JSON.stringify(prep));
+    //console.log(JSON.stringify(prep));
   }
 }
 
