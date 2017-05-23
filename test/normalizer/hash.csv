@@ -1,4 +1,4 @@
-http://example.org/a.png;6c65613db26a19d838c0359989f941c303c04474.png;On typical file path adds file extension at the end of hash
+http://example.org/a.png;6c65613db26a19d838c0359989f941c303c04474.png;Add type extension at end of new hashed file name
 https://example.org/a.png;1eca4fc3792a1c54d3eccf3785579b4eb98ff02a.png;Doesn't give same hash if origin is not same protocol as another one
 http://example.org/a.pnG;3750d891b292c8a32710e800aefcfa1f0ce98c61.png;Considers pathname string case, but lowercases at final file name
 http://example.org/a.png?foo=BAR;dc17a31094432f0c1146866820d4e273707659b9.png;Take into account query string

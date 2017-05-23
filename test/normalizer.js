@@ -6,21 +6,22 @@ import slugs from '../src/normalizer/slugs';
 import assets from '../src/normalizer/assets';
 import hash from '../src/normalizer/hash';
 
-import {inputExpectedOutputStringsTests} from './utils';
+import {csvRowRunner} from './utils';
 
-function assetsArgumentStringSplitter(input) {
+function fieldArgumentSplitterAtSpace(input) {
   const args = input.split(' ');
+  // assuming "assets" is the original function closure.
   return assets.apply(null, args);
 }
 
-const testSubjects = {slugs, assets: assetsArgumentStringSplitter, hash};
+const testSubjects = {slugs, assets: fieldArgumentSplitterAtSpace, hash};
 
 const testCases = {};
-testCases.slugs = require('./normalizer/slugs.csv');
-testCases.assets = require('./normalizer/assets.csv');
-testCases.hash = require('./normalizer/hash.csv');
+testCases.slugs = {name: 'normalizer/slugs', data: require('./normalizer/slugs.csv')};
+testCases.assets = {name: 'normalizer/assets', data: require('./normalizer/assets.csv')};
+testCases.hash = {name: 'normalizer/hash', data: require('./normalizer/hash.csv')};
 
-inputExpectedOutputStringsTests(testCases, testSubjects);
+csvRowRunner(testCases, testSubjects);
 
 /**
  * Let's test things tested above glued together
