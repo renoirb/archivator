@@ -14,5 +14,5 @@ const [...urls] = readLines(URL_LIST);
  */
 Promise.all(urls)
   .then(u => fetcher(u))
-  //.then(u => transformer(u))
+  .then(u => transformer(u))
   .catch(handleIndexSourceErrors);

@@ -10,6 +10,7 @@
 // http://noodlejs.com/#Overview
 import cheerio from 'cheerio';
 
+import fetch from 'node-fetch';
 import * as fs from 'async-file';
 
 import hasher from './normalizer/hash';
@@ -83,14 +84,55 @@ async function handleAssets(matches, archivable) {
   // console.log('handleAssets', [matches, archivable]); // DEBUG
   const p = new Promise(resolve => resolve(matches));
   return p.then(m => {
-      const reduced = [];
-      m.forEach(match => {
-        const src = assetizer(archivable.url, match);
-        const dest = `${archivable.slug}/${hasher(src)}`;
-        reduced.push({src, match, dest});
-      });
-      return reduced;
+    const reduced = [];
+    m.forEach(match => {
+      const src = assetizer(archivable.url, match);
+      const dest = `${archivable.slug}/${hasher(src)}`;
+      reduced.push({src, match, dest});
     });
+    return reduced;
+  });
+}
+
+async function downloadAssets(assets) {
+  console.log(`    assets:`);
+  console.log(`      length: ${assets.length}`);
+  if (assets.length > 0) {
+    console.log(`      matches:`);
+    for (const asset of assets) {
+      await download(asset).catch(downloadError);
+    }
+  }
+  console.log(`\n`);
+}
+
+async function download({src, dest}) {
+  const fileName = `archive/${dest}`;
+  const fileExists = await fs.exists(fileName);
+  console.log(`      - src: ${src}`);
+  if (fileExists === false) {
+    const recv = await fetch(src);
+    if (recv.ok === true) {
+      console.log(`        dest: ${fileName}`);
+      const dest = fs.createWriteStream(fileName);
+      recv.body.pipe(dest);
+      console.log(`        status: OK`);
+    } else {
+      console.log(`        status: ERR, could not download.`);
+    }
+  }
+}
+
+function downloadError(errorObj) {
+  switch (errorObj.code) {
+    case 'ECONNREFUSED':
+      console.error(`downloadError (code ${errorObj.code}): Could not download ${errorObj.message}`);
+      break;
+    default:
+      console.error(`downloadError (code ${errorObj.code}): ${errorObj.message}`, errorObj);
+      break;
+  }
+  return Promise.reject({ok: false});
 }
 
 async function readCached(where, filePath) {
@@ -115,19 +157,24 @@ function readCachedError(errorObj) {
 
 async function transform(listArchivable, where) {
   for (const archivable of listArchivable) {
+    console.log(`  - source: ${archivable.url}`);
+    console.log(`    path:   archive/${archivable.slug}/`);
     const cachedFileName = `${archivable.slug}/cache.html`;
     const cached = await readCached(where, cachedFileName).catch(readCachedError);
     const matches = await handleDocument(cached);
     const assets = await handleAssets(matches, archivable);
-    const prep = {source: {cache: cachedFileName, src: archivable.url}, assets};
-    // prep.matches = await handleDocument(matches); // DEBUG
+    await downloadAssets(assets);
+    // const prep = {source: {cache: cachedFileName, src: archivable.url}, assets};
+    // prep.matches = matches; // DEBUG
     // Not finished here #TODO
-    console.log(JSON.stringify(prep));
+    // console.log(JSON.stringify(prep));
   }
 }
 
 async function transformer(list, where = 'archive') {
+  console.log(`Reading archive to gather image assets:`);
   await transform(list, where);
+  return Promise.all(list);
 }
 
 export default transformer;

@@ -61,6 +61,8 @@ async function cache(listArchivable, where) {
 
 async function fetcher(list, where = 'archive') {
   await cache(list, where);
+  console.log(`Done fetching.\n\n`);
+  return Promise.all(list);
 }
 
 export default fetcher;
