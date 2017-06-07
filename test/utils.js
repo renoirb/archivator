@@ -41,7 +41,6 @@ const csvRowRunner = (useCases, subjectFunctions) => {
     describe(`${useCaseName}:`, () => { // eslint-disable-line no-undef
       useCaseData.forEach((fields, index) => {
         if (fields.length > 2) {
-
           /**
            * Assertion description
            *

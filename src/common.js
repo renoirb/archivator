@@ -15,7 +15,7 @@ import slugifier from './normalizer/slugs';
  * or as async handlers.
  */
 function coroutine(gen) {
-  return function (...args) {
+  return function coroutineHandler(...args) {
     const g = gen(...args);
     g.next();
     return g;
