@@ -9,6 +9,7 @@
 // cheerio, or https://github.com/lapwinglabs/x-ray
 // http://noodlejs.com/#Overview
 import cheerio from 'cheerio';
+import htmlmd from 'html-md-2';
 
 import fetch from 'node-fetch';
 import * as fs from 'async-file';
@@ -17,6 +18,39 @@ import hasher from './normalizer/hash';
 import assetizer from './normalizer/assets';
 
 const cheerioConfig = {normalizeWhitespace: true, xmlMode: false, decodeEntities: true};
+
+async function simplifyDocument(recv, archivable) {
+  const p = new Promise(resolve => resolve(cheerio.load(recv, {})));
+  return p.then(shard => {
+    // Selector is the second argument in CSV from index.csv.
+    // If we know exactly where the main content is, otherwise grab the whole
+    // document body.
+    // Fix this double negation below #TODO
+    const selector = (!!archivable.selector) ? archivable.selector : 'body';
+    // Truncate is to strip off any patterns we do not want
+    // as part of our archived article.
+    let truncate = 'script,style,noscript';
+    // Fix this double negation below #TODO
+    if (!!archivable.truncate) {
+      truncate += `,${archivable.truncate}`;
+    }
+    // Gather more from the document head. #TODO
+    const title = shard('title').text();
+    shard(truncate).remove();
+    const body = shard(selector).html();
+    const frontMatter = {title};
+    return {meta: frontMatter, body};
+  })
+  .then(simplified => {
+    const metadata = [];
+    for (const k in simplified.meta) {
+      metadata.push(`${k}: "${simplified.meta[k]}"`);
+    }
+    const top = metadata.join(`\n`);
+    const bottom = htmlmd(simplified.body);
+    return `${top}\n\n----\n\n${bottom}\n`;
+  });
+}
 
 async function handleDocument(recv) {
   const p = new Promise(resolve => resolve(cheerio.load(recv, cheerioConfig)));
@@ -87,8 +121,9 @@ async function handleAssets(matches, archivable) {
     const reduced = [];
     m.forEach(match => {
       const src = assetizer(archivable.url, match);
-      const dest = `${archivable.slug}/${hasher(src)}`;
-      reduced.push({src, match, dest});
+      const name = hasher(src);
+      const dest = `${archivable.slug}/${name}`;
+      reduced.push({src, match, dest, name});
     });
     return reduced;
   });
@@ -111,6 +146,8 @@ async function download({src, dest}) {
   const fileExists = await fs.exists(fileName);
   console.log(`      - src: ${src}`);
   if (fileExists === false) {
+    // Should we pass a User-Agent string?
+    // ... and a Referrer. As if we downloaded it from a UA?
     const recv = await fetch(src);
     if (recv.ok === true) {
       console.log(`        dest: ${fileName}`);
@@ -151,7 +188,7 @@ function readCachedError(errorObj) {
       console.error(`readCachedError (code ${errorObj.code}): ${errorObj.message}`);
       break;
   }
-  return {ok: false};
+  return Promise.reject({ok: false});
 }
 
 async function transform(listArchivable) {
@@ -165,8 +202,21 @@ async function transform(listArchivable) {
     const assets = await handleAssets(matches, archivable);
     const prep = {source: archivable, assets};
     // prep.matches = matches; // DEBUG
-    await fs.writeTextFile(`${cachedFilePath}/assets.json`, JSON.stringify(prep), 'utf8');
+    // Make this asset cache elsewhere #TODO
+    const assetCacheFile = `${cachedFilePath}/assets.json`; // Rename this to cache.json and add other things to it?
+    if ((await fs.exists(assetCacheFile)) === false) {
+      await fs.writeTextFile(assetCacheFile, JSON.stringify(prep), 'utf8');
+    }
     await downloadAssets(assets);
+    // Hacky. For now. I'll fix this soon.
+    const markdownifiedFile = `${cachedFilePath}/index.md`;
+    if ((await fs.exists(markdownifiedFile)) === false) {
+      let markdownified = `url: ${archivable.url}\n`;
+      // This is heavy. Let's not do it unless we really want.
+      // Not sure we NEVER want to overwrite. Make this configurable?
+      markdownified += await simplifyDocument(cached, archivable);
+      await fs.writeTextFile(markdownifiedFile, markdownified, 'utf8');
+    }
     // Not finished here #TODO
     // console.log(JSON.stringify(prep));
   }
