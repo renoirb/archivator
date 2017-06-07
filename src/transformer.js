@@ -107,7 +107,7 @@ async function downloadAssets(assets) {
 }
 
 async function download({src, dest}) {
-  const fileName = `archive/${dest}`;
+  const fileName = `archive/${dest}`; // Make parent folder configurable #TODO
   const fileExists = await fs.exists(fileName);
   console.log(`      - src: ${src}`);
   if (fileExists === false) {
@@ -135,9 +135,8 @@ function downloadError(errorObj) {
   return Promise.reject({ok: false});
 }
 
-async function readCached(where, filePath) {
-  const path = `${where}/${filePath}`;
-  const data = await fs.readFile(path, 'utf8');
+async function readCached(file) {
+  const data = await fs.readFile(file, 'utf8');
   return data;
 }
 
@@ -155,25 +154,27 @@ function readCachedError(errorObj) {
   return {ok: false};
 }
 
-async function transform(listArchivable, where) {
+async function transform(listArchivable) {
   for (const archivable of listArchivable) {
+    const cachedFilePath = `archive/${archivable.slug}`; // Make parent folder configurable #TODO
     console.log(`  - source: ${archivable.url}`);
-    console.log(`    path:   archive/${archivable.slug}/`);
-    const cachedFileName = `${archivable.slug}/cache.html`;
-    const cached = await readCached(where, cachedFileName).catch(readCachedError);
+    console.log(`    path:   ${cachedFilePath}/`);
+    const cachedFileName = `${cachedFilePath}/cache.html`;
+    const cached = await readCached(cachedFileName).catch(readCachedError);
     const matches = await handleDocument(cached);
     const assets = await handleAssets(matches, archivable);
-    await downloadAssets(assets);
-    // const prep = {source: {cache: cachedFileName, src: archivable.url}, assets};
+    const prep = {source: archivable, assets};
     // prep.matches = matches; // DEBUG
+    await fs.writeTextFile(`${cachedFilePath}/assets.json`, JSON.stringify(prep), 'utf8');
+    await downloadAssets(assets);
     // Not finished here #TODO
     // console.log(JSON.stringify(prep));
   }
 }
 
-async function transformer(list, where = 'archive') {
+async function transformer(list) {
   console.log(`Reading archive to gather image assets:`);
-  await transform(list, where);
+  await transform(list);
   return Promise.all(list);
 }
 

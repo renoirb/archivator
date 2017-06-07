@@ -36,10 +36,10 @@ function fetchDocumentError(errorObj) {
   return {ok: false};
 }
 
-async function cache(listArchivable, where) {
+async function cache(listArchivable) {
   const processed = {ok: [], failed: []}; // eslint-disable-line prefer-const
   for (const archivable of listArchivable) {
-    const dirName = `${where}/${archivable.slug}`;
+    const dirName = `archive/${archivable.slug}`; // Make parent folder configurable #TODO
     const fileName = `${dirName}/cache.html`;
     await fs.createDirectory(dirName);
     if ((await fs.exists(fileName)) === false) {
@@ -59,8 +59,8 @@ async function cache(listArchivable, where) {
   }
 }
 
-async function fetcher(list, where = 'archive') {
-  await cache(list, where);
+async function fetcher(list) {
+  await cache(list);
   console.log(`Done fetching.\n\n`);
   return Promise.all(list);
 }
