@@ -13,11 +13,14 @@ import htmlmd from 'html-md-2';
 
 import fetch from 'node-fetch';
 import * as fs from 'async-file';
+import {URL} from 'url';
 
 import hasher from './normalizer/hash';
 import assetizer from './normalizer/assets';
 
 const cheerioConfig = {normalizeWhitespace: true, xmlMode: false, decodeEntities: true};
+
+const domainsBlacklist = ['in.getclicky.com', 's7.addthis.com', 'c.statcounter.com'];
 
 async function simplifyDocument(recv, archivable) {
   const p = new Promise(resolve => resolve(cheerio.load(recv, {})));
@@ -96,21 +99,21 @@ async function handleDocument(recv) {
  * e.g.
  * {
  *   "assets": [{
- *         "src": "http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg",
- *         "match": "http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg",
- *         "dest": "renoirboulanger.com/page/3/430e2156af17010e0d8ffcd726a95595fa71a4fd.jpg"
- *     },{
- *         "src": "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png",
- *         "match": "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png",
- *         "dest": "renoirboulanger.com/page/3/b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png"
- *     },{
- *         "src": "http://www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500",
- *         "match": "//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500",
- *         "dest": "renoirboulanger.com/page/3/63dc122dfd3c702e12714fbe4ba744e463c49edb.img"
- *     },{
- *         "src": "http://renoirboulanger.com/wp-content/themes/renoirb/assets/img/zce_logo.jpg",
- *         "match": "/wp-content/themes/renoirb/assets/img/zce_logo.jpg",
- *         "dest": "renoirboulanger.com/page/3/840257d7de220958ca4cc05a3c0ee337e2b0401d.jpg"
+ *     "src": "http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg",
+ *     "match": "http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg",
+ *     "dest": "renoirboulanger.com/page/3/430e2156af17010e0d8ffcd726a95595fa71a4fd.jpg"
+ *   },{
+ *     "src": "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png",
+ *     "match": "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png",
+ *     "dest": "renoirboulanger.com/page/3/b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png"
+ *   },{
+ *     "src": "http://www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500",
+ *     "match": "//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500",
+ *     "dest": "renoirboulanger.com/page/3/63dc122dfd3c702e12714fbe4ba744e463c49edb.img"
+ *   },{
+ *     "src": "http://renoirboulanger.com/wp-content/themes/renoirb/assets/img/zce_logo.jpg",
+ *     "match": "/wp-content/themes/renoirb/assets/img/zce_logo.jpg",
+ *     "dest": "renoirboulanger.com/page/3/840257d7de220958ca4cc05a3c0ee337e2b0401d.jpg"
  *   }]
  * }
  */
@@ -135,7 +138,11 @@ async function downloadAssets(assets) {
   if (assets.length > 0) {
     console.log(`      matches:`);
     for (const asset of assets) {
-      await download(asset).catch(downloadError);
+      // if (asset.src) is in blacklist #TODO
+      const assetSrcOrigin = new URL(asset.src);
+      if (domainsBlacklist.includes(assetSrcOrigin.hostname) === false) {
+        await download(asset).catch(downloadError);
+      }
     }
   }
   console.log(`\n`);
@@ -146,7 +153,7 @@ async function download({src, dest}) {
   const fileExists = await fs.exists(fileName);
   console.log(`      - src: ${src}`);
   if (fileExists === false) {
-    // Should we pass a User-Agent string?
+    // Should we pass a User-Agent string? #TODO
     // ... and a Referrer. As if we downloaded it from a UA?
     const recv = await fetch(src);
     if (recv.ok === true) {
@@ -193,6 +200,7 @@ function readCachedError(errorObj) {
 
 async function transform(listArchivable) {
   for (const archivable of listArchivable) {
+    console.log(`  ----`);
     const cachedFilePath = `archive/${archivable.slug}`; // Make parent folder configurable #TODO
     console.log(`  - source: ${archivable.url}`);
     console.log(`    path:   ${cachedFilePath}/`);
@@ -211,11 +219,14 @@ async function transform(listArchivable) {
     // Hacky. For now. I'll fix this soon.
     const markdownifiedFile = `${cachedFilePath}/index.md`;
     if ((await fs.exists(markdownifiedFile)) === false) {
+      console.log(`  ... markdownifying\n\n`);
       let markdownified = `url: ${archivable.url}\n`;
       // This is heavy. Let's not do it unless we really want.
       // Not sure we NEVER want to overwrite. Make this configurable?
       markdownified += await simplifyDocument(cached, archivable);
       await fs.writeTextFile(markdownifiedFile, markdownified, 'utf8');
+    } else {
+      console.log(`  Already in Markdown!\n\n`);
     }
     // Not finished here #TODO
     // console.log(JSON.stringify(prep));
