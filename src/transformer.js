@@ -8,36 +8,60 @@
 
 // cheerio, or https://github.com/lapwinglabs/x-ray
 // http://noodlejs.com/#Overview
+import {URL} from 'url';
 import cheerio from 'cheerio';
 import htmlmd from 'html-md-2';
 
 import fetch from 'node-fetch';
 import * as fs from 'async-file';
-import {URL} from 'url';
 
 import hasher from './normalizer/hash';
 import assetizer from './normalizer/assets';
 
 const cheerioConfig = {normalizeWhitespace: true, xmlMode: false, decodeEntities: true};
 
-const domainsBlacklist = ['in.getclicky.com', 's7.addthis.com', 'c.statcounter.com'];
+const domainsBlacklist = ['in.getclicky.com', 's7.addthis.com', 'c.statcounter.com', 'sb.scorecardresearch.com', 'pubads.g.doubleclick.net', 'googleads.g.doubleclick.net'];
 
-async function simplifyDocument(recv, archivable) {
+/**
+ * Given every row in source file .csv
+ * http://example.org/a/b.html;selector;truncate
+ *
+ * selector is the CSS selector where the main content is
+ * truncate is a list of CSS selectors to strip off
+ */
+function figureOutTruncateAndSelector(sourceArgument) {
+  // If we know exactly where the main content is, otherwise grab the whole
+  // document body.
+  const selector = (sourceArgument.selector.length === 0) ? 'body' : `${sourceArgument.selector}`;
+  // Truncate is to strip off any patterns we do not want
+  // as part of our archived article.
+  let truncate = (sourceArgument.truncate.length === 0) ? '' : `${sourceArgument.truncate},`;
+  truncate += 'script,style,noscript';
+  return {selector, truncate};
+}
+
+async function extractLinks(recv, source) {
   const p = new Promise(resolve => resolve(cheerio.load(recv, {})));
   return p.then(shard => {
-    // Selector is the second argument in CSV from index.csv.
-    // If we know exactly where the main content is, otherwise grab the whole
-    // document body.
-    // Fix this double negation below #TODO
-    const selector = (!!archivable.selector) ? archivable.selector : 'body';
-    // Truncate is to strip off any patterns we do not want
-    // as part of our archived article.
-    let truncate = 'script,style,noscript';
-    // Fix this double negation below #TODO
-    if (!!archivable.truncate) {
-      truncate += `,${archivable.truncate}`;
-    }
-    // Gather more from the document head. #TODO
+    const {selector, truncate} = figureOutTruncateAndSelector(source);
+    shard(truncate).remove();
+    shard(selector);
+    const links = [];
+    shard('a[href]').each((_, element) => {
+      const href = shard(element).attr('href');
+      try {
+        const hrefObj = new URL(href);
+        links.push(`${hrefObj.origin}${hrefObj.pathname}`);
+      } catch (err) {}
+    });
+    return links;
+  });
+}
+
+async function markdownify(recv, source) {
+  const p = new Promise(resolve => resolve(cheerio.load(recv, {})));
+  return p.then(shard => {
+    const {selector, truncate} = figureOutTruncateAndSelector(source);
     const title = shard('title').text();
     shard(truncate).remove();
     const body = shard(selector).html();
@@ -55,7 +79,59 @@ async function simplifyDocument(recv, archivable) {
   });
 }
 
-async function handleDocument(recv) {
+async function reworkAssetReference(body, assets) {
+  const p = new Promise(resolve => resolve(cheerio.load(body, cheerioConfig)));
+  return p.then(shard => {
+    /**
+     * Each references dictionary should look like this;
+     * ```
+     * { 'http://example.org/a.png': '6c65613db26a19d838c0359989f941c303c04474.png',
+     *   'http://example.org/a.webm': '5c737acd98c723bbed666bbfb3d14a8e0d34266b.webm' }
+     * ```
+     */
+    const references = {};
+    assets.forEach(ref => {
+      references[ref.match] = ref.name;
+    });
+    return {references, shard};
+  })
+  .then(({references, shard}) => {
+    shard('img[src]').each((_, element) => {
+      /**
+       * What we receive looks like this;
+       * ```
+       * { '_': 0,
+       *   'element':
+       *    { type: 'tag',
+       *      name: 'img',
+       *      attribs:
+       *       { src: 'http://example.org/a.png',
+       *         alt: 'A Image Alt text',
+       *         class: 'example img class-name list' },
+       *      children: [],
+       *      next: null,
+       *      prev: {},
+       *      parent: {} } }
+       * ```
+       */
+      shard(element).attr('class', null);
+      const src = shard(element).attr('src');
+      /**
+       * Assuming our references object (see above) has a key
+       * (e.g. http://example.org/a.png) with a matching
+       * value (e.g. 6c65613db26a19d838c0359989f941c303c04474.png)
+       * we replace the img[src] value with it.
+       * That way, our Markdownified file will refer to archived
+       * assets beside it instead of ones from source origin.
+       */
+      const newSrc = (typeof references[src] === 'string') ? references[src] : src + '?err=CouldNotFind';
+      shard(element).attr('src', newSrc);
+    });
+    return shard.html();
+  });
+}
+
+async function extractAssets(recv) {
   const p = new Promise(resolve => resolve(cheerio.load(recv, cheerioConfig)));
   return p.then(shard => {
     // We do not need duplicates
@@ -66,7 +142,11 @@ async function handleDocument(recv) {
      */
     shard('body img[src]').each((_, element) => {
       const potential = shard(element).attr('src');
-      s.add(potential);
+      // or is in a blacklist?
+      const isInlineImage = /;base64,/.test(potential);
+      if (isInlineImage === false) {
+        s.add(potential);
+      }
     });
     // We can return an Array once done
     return [...s];
@@ -85,10 +165,10 @@ async function handleDocument(recv) {
  *            ,"//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500"
  *            ,"/wp-content/themes/renoirb/assets/img/zce_logo.jpg" ]
  *
- * archivable = { url: "http://renoirboulanger.com/page/3/"
+ * source = { url: "http://renoirboulanger.com/page/3/"
  *               ,slug: 'renoirboulanger.com/page/3"}
  *
- * Running handleAssets(matches, archivable) gives us a cleaned up list of assets where is a good guess
+ * Running handleAssets(matches, source) gives us a cleaned up list of assets where is a good guess
  * the asset might be found so we can make a copy and archive it.
  *
  * Notice:
@@ -117,15 +197,15 @@ async function handleDocument(recv) {
  *   }]
  * }
  */
-async function handleAssets(matches, archivable) {
-  // console.log('handleAssets', [matches, archivable]); // DEBUG
+async function handleAssets(matches, source) {
+  // console.log('handleAssets', [matches, source]); // DEBUG
   const p = new Promise(resolve => resolve(matches));
   return p.then(m => {
     const reduced = [];
     m.forEach(match => {
-      const src = assetizer(archivable.url, match);
+      const src = assetizer(source.url, match);
       const name = hasher(src);
-      const dest = `${archivable.slug}/${name}`;
+      const dest = `${source.slug}/${name}`;
       reduced.push({src, match, dest, name});
     });
     return reduced;
@@ -172,11 +252,14 @@ function downloadError(errorObj) {
     case 'ECONNREFUSED':
       console.error(`downloadError (code ${errorObj.code}): Could not download ${errorObj.message}`);
       break;
+    case 'ECONNRESET':
+      console.error(`downloadError (code ${errorObj.code}): Could not continue ${errorObj.message}`);
+      break;
     default:
       console.error(`downloadError (code ${errorObj.code}): ${errorObj.message}`, errorObj);
       break;
   }
-  return Promise.reject({ok: false});
+  return {ok: false}; // Return Promise.reject({}) or not to? That is the question.
 }
 
 async function readCached(file) {
@@ -198,32 +281,33 @@ function readCachedError(errorObj) {
   return Promise.reject({ok: false});
 }
 
-async function transform(listArchivable) {
-  for (const archivable of listArchivable) {
+async function main(sourceList) {
+  for (const source of sourceList) {
     console.log(`  ----`);
-    const cachedFilePath = `archive/${archivable.slug}`; // Make parent folder configurable #TODO
-    console.log(`  - source: ${archivable.url}`);
+    const cachedFilePath = `archive/${source.slug}`; // Make parent folder configurable #TODO
+    console.log(`  - source: ${source.url}`);
     console.log(`    path:   ${cachedFilePath}/`);
     const cachedFileName = `${cachedFilePath}/cache.html`;
     const cached = await readCached(cachedFileName).catch(readCachedError);
-    const matches = await handleDocument(cached);
-    const assets = await handleAssets(matches, archivable);
-    const prep = {source: archivable, assets};
-    // prep.matches = matches; // DEBUG
-    // Make this asset cache elsewhere #TODO
-    const assetCacheFile = `${cachedFilePath}/assets.json`; // Rename this to cache.json and add other things to it?
-    if ((await fs.exists(assetCacheFile)) === false) {
-      await fs.writeTextFile(assetCacheFile, JSON.stringify(prep), 'utf8');
+    const matches = await extractAssets(cached);
+    const assets = await handleAssets(matches, source);
+    const links = await extractLinks(cached, source);
+    const cacheJsonRepresentation = {source, assets, links};
+    // cacheJsonRepresentation.matches = matches; // DEBUG
+    const cacheJsonFile = `${cachedFilePath}/cache.json`;
+    if ((await fs.exists(cacheJsonFile)) === false) {
+      await fs.writeTextFile(cacheJsonFile, JSON.stringify(cacheJsonRepresentation), 'utf8');
     }
     await downloadAssets(assets);
     // Hacky. For now. I'll fix this soon.
     const markdownifiedFile = `${cachedFilePath}/index.md`;
     if ((await fs.exists(markdownifiedFile)) === false) {
       console.log(`  ... markdownifying\n\n`);
-      let markdownified = `url: ${archivable.url}\n`;
+      let markdownified = `url: ${source.url}\n`;
       // This is heavy. Let's not do it unless we really want.
       // Not sure we NEVER want to overwrite. Make this configurable?
-      markdownified += await simplifyDocument(cached, archivable);
+      const reworked = await reworkAssetReference(cached, assets);
+      markdownified += await markdownify(reworked, source);
       await fs.writeTextFile(markdownifiedFile, markdownified, 'utf8');
     } else {
       console.log(`  Already in Markdown!\n\n`);
@@ -235,7 +319,7 @@ async function transform(listArchivable) {
 
 async function transformer(list) {
   console.log(`Reading archive to gather image assets:`);
-  await transform(list);
+  await main(list);
   return Promise.all(list);
 }
 
