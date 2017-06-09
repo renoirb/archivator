@@ -75,7 +75,7 @@ async function markdownify(recv, source) {
     }
     const top = metadata.join(`\n`);
     const bottom = htmlmd(simplified.body);
-    return `${top}\n\n----\n\n${bottom}\n`;
+    return `${top}\n\n---\n\n${bottom}\n`;
   });
 }
 
@@ -303,7 +303,7 @@ async function main(sourceList) {
     const markdownifiedFile = `${cachedFilePath}/index.md`;
     if ((await fs.exists(markdownifiedFile)) === false) {
       console.log(`  ... markdownifying\n\n`);
-      let markdownified = `url: ${source.url}\n`;
+      let markdownified = `---\nurl: ${source.url}\n`;
       // This is heavy. Let's not do it unless we really want.
       // Not sure we NEVER want to overwrite. Make this configurable?
       const reworked = await reworkAssetReference(cached, assets);
