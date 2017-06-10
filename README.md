@@ -1,16 +1,16 @@
 # Archivator
 
-**CURRENT STATUS**: Under **heavy** development
+**CURRENT STATUS**: Under **heavy** development, *but now usable* see [renoirb/archivator-demo](https://github.com/renoirb/archivator-demo).
 
 Ever wanted to archive your own copy of articles you enjoyed reading
 and to be able to search through them?
 
 This project is a means to try out ECMAScript 2017 tooling and do something useful.
-See *Challenge* below.
+See [Challenge](#challenge) below.
 
 The objective of this project is to:
 
-(**Note** Check marks :white_check_mark: denotes work has been done on the feature)
+(**Note** Check marks below :white_check_mark: denotes that work had been done and should be usable)
 
 * :white_check_mark: Cache HTML payload of source Web Pages URLs we want archived (see `src/fetcher.js`)
 * :white_check_mark: Store files for each source URL at a consistent path name (see `src/normalizer/slugs.js`)
@@ -25,6 +25,7 @@ The objective of this project is to:
 * :white_check_mark: Export into simplified excerpt document (see `src/transformer.js` at `markdownify`)
 * Add documents into a search index
 * Make a [stand-alone bundle using `Rollup`](https://gist.github.com/renoirb/eb935d86d58cdf03f487a07deb0c8d83)
+* :white_check_mark: (incomplete) Make it usable as an external module (see [renoirb/archivator-demo](https://github.com/renoirb/archivator-demo))
 * Make it an NPM package
 
 
