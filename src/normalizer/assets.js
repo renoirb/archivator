@@ -1,82 +1,81 @@
-'use strict';
-
 import {URL} from 'url';
 
 /**
  * Asset URL normalizer
  *
- * Given we have an article on http://example.org/foo/bar/baz.html
- * (refered to as "given") where an image tag contains /image/a.jpg
- * (refered to as "asset").
- * Typically an asset would be in an <img /> tag that would look like
- * this <img src="/a/b.jpg" />.
- * In this example, the image path would be http://example.org/a/b.jpg.
- * because the src attribute started by a slash.
+ * Given we have an article URL at http://example.org/foo/bar/baz.html
+ * (refered to as "given") where we can have many image tags we want
+ * to keep a copy (e.g. <img src="/image/a.jpg" />, refered here as "asset").
+ * We want to know where should we download /image/a.jpg from.
+ * To do this, we can figure out by combining the given and the asset
  *
- * What would be the other valid values an img[src] contain?
+ * For a given URL with 0 or more assets in document's HTML,
+ * we want to get output as:
+ * [ http://example.org/image/a.jpg,
+ *   ... ]
  *
- * - /a/b.jpg
- * - a/b.jpg
- * - a/b
- * - ../a/b.jpg
- * - a/b.jpg?foo=bar
- * - //example.org/a/b.jpg
- * - http://elsewhere.org/a/b.jpg
- * - http://example.org/a/b.jpg
- * - https://example.org/a/b.jpg
+ * This module should handle all valid asset paths and return
+ * a fully qualified URL so we can download the asset.
  *
- * Each reference are relative to the path of document in
- * relation to the origin (e.g. http://example.org) and
- * the protocol (e.g. https:).
+ * For example, given an URL document is "http://example.org/foo/bar.html"
+ * with asset img[src] values;
  *
- * ------------------------------------------------------
- *
- * Here are a few representation of an URL instance with
- * varying possible values.
- *
- * URL {
- *   href: 'http://example.org/a.html',
- *   origin: 'http://example.org',
- *   protocol: 'http:',
- *   username: '',
- *   password: '',
- *   host: 'example.org',
- *   hostname: 'example.org',
- *   port: '',
- *   pathname: '/a.html',
- *   search: '',
- *   searchParams: URLSearchParams {},
- *   hash: '' }
- *
- * Without an ending slash
- *
- * URL {
- *    href: 'http://example.org/a',
- *    ...
- *    pathname: '/a',
- *    ... }
- *
- * With an ending slash
- *
- *    URL {
- *      href: 'http://example.org/a/',
- *      ...
- *      pathname: '/a/',
- *      ... }
- *
+ * - /a/b.jpg                      => http://example.org/a/b.jpg
+ * - a/b.jpg                       => http://example.org/foo/a/b.jpg
+ * - a/b                           => http://example.org/foo/a/b
+ * - ../a/b.jpg                    => http://example.org/a/b.jpg
+ * - a/b.jpg?foo=bar               => http://example.org/foo/a/b.jpg?foo=bar
+ * - //example.org/a/b.jpg         => http://example.org/a/b.jpg
+ * - http://elsewhere.org/a/b.jpg  => http://elsewhere.org/a/b.jpg
+ * - https://example.org/a/b.jpg   => https://example.org/a/b.jpg
  */
 export default (given, asset) => {
   // console.log(`Given: ${given}, Asset: ${asset}`); // DEBUG
-  let urlObj = {};
+  let givenUrlObj = {};
 
   try {
-    urlObj = new URL(given);
-    // console.log(urlObj); // DEBUG
+    /**
+     * Here are a few representation of an URL instance with
+     * varying possible values.
+     *
+     * URL {
+     *   href: 'http://example.org/a.html',
+     *   origin: 'http://example.org',
+     *   protocol: 'http:',
+     *   username: '',
+     *   password: '',
+     *   host: 'example.org',
+     *   hostname: 'example.org',
+     *   port: '',
+     *   pathname: '/a.html',
+     *   search: '',
+     *   searchParams: URLSearchParams {},
+     *   hash: '' }
+     *
+     * Without an ending slash
+     *
+     * URL {
+     *    href: 'http://example.org/a',
+     *    ...
+     *    pathname: '/a',
+     *    ... }
+     *
+     * With an ending slash
+     *
+     *    URL {
+     *      href: 'http://example.org/a/',
+     *      ...
+     *      pathname: '/a/',
+     *      ... }
+     *
+     */
+    givenUrlObj = new URL(given);
+    // console.log(givenUrlObj); // DEBUG
   } catch (err) {
     throw new Error(given, err);
   }
 
-  let targetGiven = String(urlObj.href)
+  let targetGiven = String(givenUrlObj.href)
         .replace(/([a-z0-9_\-.:])$/i, '$1/');
 
   let targetAsset = String(asset)
@@ -98,14 +97,13 @@ export default (given, asset) => {
    * File with an extension (e.g. /index.html, /action.do)
    * should not be treated as folders.
    */
-  if (hasFileExtensionRegEx.test(urlObj.pathname) === true) {
-    targetGiven = String(`${urlObj.origin}/`);
+  if (hasFileExtensionRegEx.test(givenUrlObj.pathname) === true) {
+    targetGiven = String(`${givenUrlObj.origin}/`);
     if (startWithOneSlashRegEx.test(asset) === false) {
       // If asset DOES NOT start with a slash (e.g. <img src="a.png" />)
       // An array out of the URL, without empty members
       // e.g. '/a/c.html' => [ '', 'a', 'c.html' ]
-      // With this below, it becomes [ '', 'a', 'c.html' ]
-      const targetAssetPathnameArray = urlObj.pathname.split('/').filter(n => n);
+      const targetAssetPathnameArray = givenUrlObj.pathname.split('/').filter(n => n);
       targetAssetPathnameArray.pop(); // Strip off file and extension member
       targetGiven += targetAssetPathnameArray.join('/');
       if (endWithOneSlashRegEx.test(targetGiven) === false) {
@@ -123,7 +121,7 @@ export default (given, asset) => {
    */
   if (startWithOneSlashRegEx.test(targetAsset)) {
     // console.log(`Start from top top most parent directory "${targetAsset}"`); // DEBUG
-    targetGiven = String(`${urlObj.protocol}//${urlObj.hostname}/`);
+    targetGiven = String(`${givenUrlObj.protocol}//${givenUrlObj.hostname}/`);
     targetAsset = targetAsset.replace(startWithOneSlashRegEx, '');
     // Make sure if we had a / at the asset, it's stripped off uniformally
     // {asset: '/a.png', targetGiven: 'http://example.org/', targetAsset: 'a.png'}
@@ -207,7 +205,7 @@ export default (given, asset) => {
     const newTargetGivenPathname = targetGivenPathname.slice(0, sliceUntilHowMany);
     const targetAssetArray = newTargetGivenPathname.concat(targetAsset.split('/').filter(n => n !== '..'));
     // console.log([{given, targetGiven}, {asset, targetAsset}, {isTargetAssetGoUpOverflow, targetGivenPathname: targetGivenPathname.length, goUp: goUp.length, targetAssetArray, newTargetGivenPathname, sliceUntilHowMany}]);
-    targetGiven = String(`${urlObj.origin}/`);
+    targetGiven = String(`${givenUrlObj.origin}/`);
     targetAsset = String(`${targetAssetArray.join('/')}`);
   }
 
@@ -222,7 +220,7 @@ export default (given, asset) => {
    * If targetAsset starts by //, we ignore targetGiven
    */
   if (startWithDoublySlashRegEx.test(asset) === true) {
-    targetGiven = (startWithHttpsRegEx.test(urlObj.href) === true) ? 'https:' : 'http:';
+    targetGiven = (startWithHttpsRegEx.test(givenUrlObj.href) === true) ? 'https:' : 'http:';
   }
 
   const ret = String(`${targetGiven}${targetAsset}`);

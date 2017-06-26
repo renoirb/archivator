@@ -100,7 +100,7 @@ archive/
            |- 881811befc2fa6ad9c8ec058e1be3bd231fdcc1f.png
            |- b69a780dc3278f5d86296d2f219821eeac385f20.jpg
            |- c0e21ae7f0a56374116f08b44087d07ab8710035.png
-           |- c3d25fac5b0c573275b15822294e484097edd945.img
+           |- c3d25fac5b0c573275b15822294e484097edd945
            |- cd5f2a6cfa00a45e755b07013e59cb7c03bb9826.jpg
            |- eb31cca43b832b0016a2211e6e0058b263f4a1c0.png
            |- f6c4338884f46d3942589fcc29611fa68b600bad.png

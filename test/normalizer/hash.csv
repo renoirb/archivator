@@ -4,11 +4,11 @@ http://example.org/a.pnG;3750d891b292c8a32710e800aefcfa1f0ce98c61.png;Considers 
 http://example.org/a.png?foo=BAR;dc17a31094432f0c1146866820d4e273707659b9.png;Take into account query string
 http://example.org/a.png?foo=BAR&BaZ=Bizz;f56af46c277965347a2ed0db7e57f60761058eb3.png;Take into account query string and case
 http://example.org/a.png?foo=bar&baz=bizz;9fede0e698b5241268430ab05e521848ef4d5b8e.png;Take into account query string, when longer
-http://example.org/Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg;08a9c6fc3a7512d3c098256df09791bae30c02e1.jpg;Whatever we throw at it is fine
+http://example.org/Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg;08a9c6fc3a7512d3c098256df09791bae30c02e1.jpg;File name with spaces %20 encoded should be untouched
 http://example.org/a/b(WTH).png;9bac43534c9051a0ee8d3dbca604a0c61105b56d.png;Supports atypical URL pathname non ASCII characters (The reason of this very module!)
 http://example.org/a/1*23.png;1d8ed3c75ca15a8c1c7f8856fa62b00d108e2008.png;Supports other atypical URL pathname characters
 http://example.org/a.webm;5c737acd98c723bbed666bbfb3d14a8e0d34266b.webm;Do not fiddle with extension, if it is letters (webm)
 http://example.org/a.svg;f8b0a16a05a0d01d6415bb53f4862b463d11b319.svg;Do not fiddle with extension, if it is letters (svg)
 http://example.org/a/123.456.7.jpg;c6881ba4ed92af50810ba8a6259519730b1cdd9a.jpg;With dotted file name, still gets file extension
-http://example.org/a/123.456.7;207ceac2fbf9735e86d7e4f9915f756038fda2b4.img;With dotted file name and no extension, add .img instead (maybe we should detect mime-type instead TODO)
-http://example.org/a/123;3f68ab7d8d97b39d710cd67b5c5f821574c85ad6.img;With no dots at all, add .img instead
+http://example.org/a/123.456.7;207ceac2fbf9735e86d7e4f9915f756038fda2b4;No mingling with file name, even when dot exists
+http://example.org/a/123;3f68ab7d8d97b39d710cd67b5c5f821574c85ad6;No mingling with file name, without a dot in file name

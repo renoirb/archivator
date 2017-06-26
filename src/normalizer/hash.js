@@ -1,10 +1,10 @@
-'use strict';
-
 import crypto from 'crypto';
 import {URL} from 'url';
 
 /**
- * Rewrite a file name based on an URL they were downloaded from
+ * File name hasher
+ *
+ * For any given Rewrite a file name based on an URL they were downloaded from
  */
 
 export default resourceUrl => {
@@ -37,16 +37,15 @@ export default resourceUrl => {
     /**
      * We want an extension, but maybe we should support loading the resource via HTTP
      * and grab mime-type and figure out what extension.
-     * Maybe we could have an optional parameter to this function and if it exists
-     * and is a string, starting by a dot, we just append that.
-     * Food for thoughts. #TODO
+     * Let's not mingle file extensions at all.
      */
-    extension = '.img';
+    extension = '';
   } else {
     extension = extension[0];
   }
   // console.log('normalizer/hash', resourceUrl, extension); // DEBUG
   const ret = hash.update(resourceUrl).digest('hex') + extension.toLowerCase();
+
   // console.log('normalizer/hash', ret); // DEBUG
   return ret;
 };
