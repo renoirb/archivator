@@ -5,7 +5,6 @@ import transformer from './transformer';
 import {readLines, handleIndexSourceErrors} from './common';
 
 const URL_LIST = 'archive/index.csv';
-
 const [...urls] = readLines(URL_LIST);
 
 /**

@@ -2,6 +2,7 @@
 
 import fs from 'fs';
 import pathutil from 'path';
+import * as fsa from 'async-file';
 import readlines from 'gen-readlines';
 import slugifier from './normalizer/slugs';
 
@@ -57,7 +58,31 @@ function handleIndexSourceErrors(errorObj) {
   console.error('handleIndexSourceErrors', errorObj);
 }
 
+async function readCached(file) {
+  try {
+    const data = await fsa.readFile(file, 'utf8');
+    return data;
+  } catch (err) {
+    readCachedError(err);
+    return {};
+  }
+}
+
+function readCachedError(errorObj) {
+  // Handle error codes below #TODO
+  switch (errorObj.code) {
+    case 'ENOENT':
+      // ENOENT: no such file or directory, open '...' Handle differently? #TODO
+      console.error(`readCachedError: Could not access file at "${errorObj.path}"`);
+      break;
+    default:
+      console.error(`readCachedError: ${errorObj.message}`);
+      break;
+  }
+}
+
 export {
+  readCached,
   readLines,
   coroutine,
   parseCsvLine,

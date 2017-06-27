@@ -1,3 +1,5 @@
+'use strict';
+
 import {URL} from 'url';
 
 /**

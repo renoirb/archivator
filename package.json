@@ -13,9 +13,10 @@
   "scripts": {
     "build": "babel src/ --minified -d dist/ -s",
     "watch": "babel src/ -d dist/ -w -s",
-    "start": "babel-node src/cli.js",
+    "archive": "babel-node src/cli.js",
     "test": "node_modules/.bin/mocha --compilers js:babel-core/register",
-    "lint": "node_modules/.bin/xo"
+    "lint": "node_modules/.bin/xo",
+    "fix": "node_modules/.bin/xo --fix"
   },
   "author": "Renoir Boulanger <hello@renoirboulanger.com> (http://renoirb.com/)",
   "license": "MIT",
@@ -26,8 +27,11 @@
     "elasticsearch": "^12.1.3",
     "gen-readlines": "^0.1.3",
     "html-md-2": "^3.0.0",
-    "maybe": "0.0.2",
-    "node-fetch": "^1.6.3"
+    "node-fetch": "^1.6.3",
+    "node-wordnet": "^0.1",
+    "occurences": "^1.4.8",
+    "wordnet-db": "^3.1",
+    "wordpos": "^0.1"
   },
   "devDependencies": {
     "babel": "^6.23.0",

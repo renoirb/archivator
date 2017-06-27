@@ -17,7 +17,7 @@ import cheerio from 'cheerio';
 import fetch from 'node-fetch';
 import * as fs from 'async-file';
 
-async function handleDocument(recv) {
+async function handleHtmlDocument(recv) {
   return recv.text()
     .then(payload => cheerio.load(payload))
     .then(shard => shard.html());
@@ -33,28 +33,28 @@ function fetchDocumentError(errorObj) {
   // if (errorObj.code === 'ETIMEDOUT')
   // if (errorObj.code === 'ENETUNREACH')
   console.error(`fetchDocumentError (code ${errorObj.code}: ${errorObj.message}`);
-  return {ok: false};
 }
 
 async function cache(listArchivable) {
-  const processed = {ok: [], failed: []}; // eslint-disable-line prefer-const
   for (const archivable of listArchivable) {
     const dirName = `archive/${archivable.slug}`; // Make parent folder configurable #TODO
     const fileName = `${dirName}/cache.html`;
-    await fs.createDirectory(dirName);
-    if ((await fs.exists(fileName)) === false) {
-      const response = await fetchDocument(archivable.url);
-      if (response.ok === true) {
-        processed.ok.push(archivable.url);
-        const pageSnippet = await handleDocument(response);
-        await fs.writeTextFile(fileName, pageSnippet, 'utf8');
-        console.info(`Archived ${fileName}`);
+    try {
+      await fs.createDirectory(dirName);
+      if ((await fs.exists(fileName)) === false) {
+        const response = await fetchDocument(archivable.url);
+        if (response.ok === true) {
+          const pageSnippet = await handleHtmlDocument(response);
+          await fs.writeTextFile(fileName, pageSnippet, 'utf8');
+          console.info(`Archived ${fileName}`);
+        } else {
+          console.info(`Had problem with ${archivable.url}`);
+        }
       } else {
-        processed.failed.push(archivable.url);
-        console.info(`Had problem with ${archivable.url}`);
+        console.info(`Already exists ${fileName}`);
       }
-    } else {
-      console.info(`Already exists ${fileName}`);
+    } catch (err) {
+      console.info(`Had problem with ${archivable.url}: ${err.message}`);
     }
   }
 }

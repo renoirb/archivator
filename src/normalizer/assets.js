@@ -4,12 +4,12 @@ import {URL} from 'url';
  * Asset URL normalizer
  *
  * Given we have an article URL at http://example.org/foo/bar/baz.html
- * (refered to as "given") where we can have many image tags we want
+ * (refered to as "sourceDocument") where we can have many image tags we want
  * to keep a copy (e.g. <img src="/image/a.jpg" />, refered here as "asset").
  * We want to know where should we download /image/a.jpg from.
- * To do this, we can figure out by combining the given and the asset
+ * To do this, we can figure out by combining the sourceDocument and the asset
  *
- * For a given URL with 0 or more assets in document's HTML,
+ * For a given sourceDocument URL with 0 or more assets in document's HTML,
  * we want to get output as:
  * [ http://example.org/image/a.jpg,
  *   ... ]
@@ -17,8 +17,8 @@ import {URL} from 'url';
  * This module should handle all valid asset paths and return
  * a fully qualified URL so we can download the asset.
  *
- * For example, given an URL document is "http://example.org/foo/bar.html"
- * with asset img[src] values;
+ * For example, the URL of a sourceDocument could be "http://example.org/foo/bar.html"
+ * with images ("asset" img tags with src="...") img[src] values;
  *
  * - /a/b.jpg                      => http://example.org/a/b.jpg
  * - a/b.jpg                       => http://example.org/foo/a/b.jpg
@@ -29,9 +29,9 @@ import {URL} from 'url';
  * - http://elsewhere.org/a/b.jpg  => http://elsewhere.org/a/b.jpg
  * - https://example.org/a/b.jpg   => https://example.org/a/b.jpg
  */
-export default (given, asset) => {
-  // console.log(`Given: ${given}, Asset: ${asset}`); // DEBUG
-  let givenUrlObj = {};
+export default (sourceDocument, asset) => {
+  // console.log(`Given: ${sourceDocument}, Asset: ${asset}`); // DEBUG
+  let sourceDocumentUrlObj = {};
 
   try {
     /**
@@ -69,13 +69,13 @@ export default (given, asset) => {
      *      ... }
      *
      */
-    givenUrlObj = new URL(given);
-    // console.log(givenUrlObj); // DEBUG
+    sourceDocumentUrlObj = new URL(sourceDocument);
+    // console.log(sourceDocumentUrlObj); // DEBUG
   } catch (err) {
-    throw new Error(given, err);
+    throw new Error(sourceDocument, err);
   }
 
-  let targetGiven = String(givenUrlObj.href)
+  let targetGiven = String(sourceDocumentUrlObj.href)
         .replace(/([a-z0-9_\-.:])$/i, '$1/');
 
   let targetAsset = String(asset)
@@ -97,13 +97,13 @@ export default (given, asset) => {
    * File with an extension (e.g. /index.html, /action.do)
    * should not be treated as folders.
    */
-  if (hasFileExtensionRegEx.test(givenUrlObj.pathname) === true) {
-    targetGiven = String(`${givenUrlObj.origin}/`);
+  if (hasFileExtensionRegEx.test(sourceDocumentUrlObj.pathname) === true) {
+    targetGiven = String(`${sourceDocumentUrlObj.origin}/`);
     if (startWithOneSlashRegEx.test(asset) === false) {
       // If asset DOES NOT start with a slash (e.g. <img src="a.png" />)
       // An array out of the URL, without empty members
       // e.g. '/a/c.html' => [ '', 'a', 'c.html' ]
-      const targetAssetPathnameArray = givenUrlObj.pathname.split('/').filter(n => n);
+      const targetAssetPathnameArray = sourceDocumentUrlObj.pathname.split('/').filter(n => n);
       targetAssetPathnameArray.pop(); // Strip off file and extension member
       targetGiven += targetAssetPathnameArray.join('/');
       if (endWithOneSlashRegEx.test(targetGiven) === false) {
@@ -121,7 +121,7 @@ export default (given, asset) => {
    */
   if (startWithOneSlashRegEx.test(targetAsset)) {
     // console.log(`Start from top top most parent directory "${targetAsset}"`); // DEBUG
-    targetGiven = String(`${givenUrlObj.protocol}//${givenUrlObj.hostname}/`);
+    targetGiven = String(`${sourceDocumentUrlObj.protocol}//${sourceDocumentUrlObj.hostname}/`);
     targetAsset = targetAsset.replace(startWithOneSlashRegEx, '');
     // Make sure if we had a / at the asset, it's stripped off uniformally
     // {asset: '/a.png', targetGiven: 'http://example.org/', targetAsset: 'a.png'}
@@ -136,7 +136,7 @@ export default (given, asset) => {
    * ```
    * ----
    * Equal number directory deep and request for going up.
-   * [ { given: 'http://example.org/ignored/also_ignored/and_too',
+   * [ { sourceDocument: 'http://example.org/ignored/also_ignored/and_too',
    *     targetGiven: 'http://example.org/ignored/also_ignored/and_too/' },
    *   { asset: '../../../a.jpg', targetAsset: '../../../a.jpg' },
    *   { isTargetAssetGoUpOverflow: false,
@@ -147,7 +147,7 @@ export default (given, asset) => {
    *     sliceUntilHowMany: 0 } ]
    *
    * ----
-   * [ { given: 'http://example.org/ignored/also_ignored/',
+   * [ { sourceDocument: 'http://example.org/ignored/also_ignored/',
    *     targetGiven: 'http://example.org/ignored/also_ignored/' },
    *   { asset: '../../a.jpg', targetAsset: '../../a.jpg' },
    *   { isTargetAssetGoUpOverflow: false,
@@ -159,7 +159,7 @@ export default (given, asset) => {
    *
    * ----
    * File has extension, we cannot treat it as a directory.
-   * [ { given: 'http://example.org/b/c.html',
+   * [ { sourceDocument: 'http://example.org/b/c.html',
    *     targetGiven: 'http://example.org/b/' },
    *   { asset: '../a.png', targetAsset: '../a.png' },
    *   { isTargetAssetGoUpOverflow: false,
@@ -172,7 +172,7 @@ export default (given, asset) => {
    * ----
    * Here, we are asking to go beyond one directory deep.
    * Notice isTargetAssetGoUpOverflow is true.
-   * [ { given: 'http://example.org/b/c.html',
+   * [ { sourceDocument: 'http://example.org/b/c.html',
    *     targetGiven: 'http://example.org/' },
    *   { asset: '../../../../../a.png', targetAsset: 'a.png' },
    *   { isTargetAssetGoUpOverflow: true,
@@ -204,8 +204,8 @@ export default (given, asset) => {
 
     const newTargetGivenPathname = targetGivenPathname.slice(0, sliceUntilHowMany);
     const targetAssetArray = newTargetGivenPathname.concat(targetAsset.split('/').filter(n => n !== '..'));
-    // console.log([{given, targetGiven}, {asset, targetAsset}, {isTargetAssetGoUpOverflow, targetGivenPathname: targetGivenPathname.length, goUp: goUp.length, targetAssetArray, newTargetGivenPathname, sliceUntilHowMany}]);
-    targetGiven = String(`${givenUrlObj.origin}/`);
+    // console.log([{sourceDocument, targetGiven}, {asset, targetAsset}, {isTargetAssetGoUpOverflow, targetGivenPathname: targetGivenPathname.length, goUp: goUp.length, targetAssetArray, newTargetGivenPathname, sliceUntilHowMany}]);
+    targetGiven = String(`${sourceDocumentUrlObj.origin}/`);
     targetAsset = String(`${targetAssetArray.join('/')}`);
   }
 
@@ -220,7 +220,7 @@ export default (given, asset) => {
    * If targetAsset starts by //, we ignore targetGiven
    */
   if (startWithDoublySlashRegEx.test(asset) === true) {
-    targetGiven = (startWithHttpsRegEx.test(givenUrlObj.href) === true) ? 'https:' : 'http:';
+    targetGiven = (startWithHttpsRegEx.test(sourceDocumentUrlObj.href) === true) ? 'https:' : 'http:';
   }
 
   const ret = String(`${targetGiven}${targetAsset}`);

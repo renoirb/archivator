@@ -15,6 +15,7 @@ import htmlmd from 'html-md-2';
 import fetch from 'node-fetch';
 import * as fs from 'async-file';
 
+import {readCached} from './common';
 import hasher from './normalizer/hash';
 import assetizer from './normalizer/assets';
 
@@ -69,11 +70,14 @@ async function markdownify(recv, source) {
     return {meta: frontMatter, body};
   })
   .then(simplified => {
-    const metadata = [];
-    for (const k in simplified.meta) {
-      metadata.push(`${k}: "${simplified.meta[k]}"`);
+    const dto = [];
+    const meta = simplified.meta;
+    for (const key in meta) {
+      if (Object.prototype.hasOwnProperty.call(meta, key)) {
+        dto.push(`${key}: "${meta[key]}"`);
+      }
     }
-    const top = metadata.join(`\n`);
+    const top = dto.join(`\n`);
     const bottom = htmlmd(simplified.body);
     return `${top}\n\n---\n\n${bottom}\n`;
   });
@@ -259,61 +263,46 @@ function downloadError(errorObj) {
       console.error(`downloadError (code ${errorObj.code}): ${errorObj.message}`, errorObj);
       break;
   }
-  return {ok: false}; // Return Promise.reject({}) or not to? That is the question.
-}
-
-async function readCached(file) {
-  const data = await fs.readFile(file, 'utf8');
-  return data;
-}
-
-function readCachedError(errorObj) {
-  // Handle error codes below #TODO
-  switch (errorObj.code) {
-    case 'ENOENT':
-      // ENOENT: no such file or directory, open '...' Handle differently? #TODO
-      console.error(`readCachedError (code ${errorObj.code}): Could not access file at "${errorObj.path}"`);
-      break;
-    default:
-      console.error(`readCachedError (code ${errorObj.code}): ${errorObj.message}`);
-      break;
-  }
-  return Promise.reject({ok: false});
+  return Promise.resolve({});
 }
 
 async function main(sourceList) {
   for (const source of sourceList) {
     console.log(`  ----`);
-    const cachedFilePath = `archive/${source.slug}`; // Make parent folder configurable #TODO
-    console.log(`  - source: ${source.url}`);
-    console.log(`    path:   ${cachedFilePath}/`);
-    const cachedFileName = `${cachedFilePath}/cache.html`;
-    const cached = await readCached(cachedFileName).catch(readCachedError);
-    const matches = await extractAssets(cached);
-    const assets = await handleAssets(matches, source);
-    const links = await extractLinks(cached, source);
-    const cacheJsonRepresentation = {source, assets, links};
-    // cacheJsonRepresentation.matches = matches; // DEBUG
-    const cacheJsonFile = `${cachedFilePath}/cache.json`;
-    if ((await fs.exists(cacheJsonFile)) === false) {
-      await fs.writeTextFile(cacheJsonFile, JSON.stringify(cacheJsonRepresentation), 'utf8');
+    try {
+      const cachedFilePath = `archive/${source.slug}`; // Make parent folder configurable #TODO
+      const cachedFileName = `${cachedFilePath}/cache.html`;
+      const cached = await readCached(cachedFileName);
+      const matches = await extractAssets(cached);
+      const assets = await handleAssets(matches, source);
+      const links = await extractLinks(cached, source);
+      const cacheJsonRepresentation = {source, assets, links};
+      // cacheJsonRepresentation.matches = matches; // DEBUG
+      const cacheJsonFile = `${cachedFilePath}/cache.json`;
+      if ((await fs.exists(cacheJsonFile)) === false) {
+        await fs.writeTextFile(cacheJsonFile, JSON.stringify(cacheJsonRepresentation), 'utf8');
+      }
+      console.log(`  - source: ${source.url}`);
+      console.log(`    path:   ${cachedFilePath}/`);
+      // console.log(JSON.stringify(cacheJsonRepresentation));
+      await downloadAssets(assets);
+      // Hacky. For now. I'll fix this soon.
+      const markdownifiedFile = `${cachedFilePath}/index.md`;
+      if ((await fs.exists(markdownifiedFile)) === false) {
+        console.log(`  ... markdownifying\n\n`);
+        let markdownified = `---\nurl: ${source.url}\n`;
+        // This is heavy. Let's not do it unless we really want.
+        // Not sure we NEVER want to overwrite. Make this configurable?
+        const reworked = await reworkAssetReference(cached, assets);
+        markdownified += await markdownify(reworked, source);
+        await fs.writeTextFile(markdownifiedFile, markdownified, 'utf8');
+      } else {
+        console.log(`  Already in Markdown!\n\n`);
+      }
+    } catch (err) {
+      // Not finished here, need better error handling #TODO
+      console.error(err);
     }
-    await downloadAssets(assets);
-    // Hacky. For now. I'll fix this soon.
-    const markdownifiedFile = `${cachedFilePath}/index.md`;
-    if ((await fs.exists(markdownifiedFile)) === false) {
-      console.log(`  ... markdownifying\n\n`);
-      let markdownified = `---\nurl: ${source.url}\n`;
-      // This is heavy. Let's not do it unless we really want.
-      // Not sure we NEVER want to overwrite. Make this configurable?
-      const reworked = await reworkAssetReference(cached, assets);
-      markdownified += await markdownify(reworked, source);
-      await fs.writeTextFile(markdownifiedFile, markdownified, 'utf8');
-    } else {
-      console.log(`  Already in Markdown!\n\n`);
-    }
-    // Not finished here #TODO
-    // console.log(JSON.stringify(prep));
   }
 }
 
