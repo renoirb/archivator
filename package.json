@@ -9,13 +9,13 @@
   "bugs": {
     "url": "https://github.com/renoirb/archivator/issues"
   },
-  "main": "index.js",
   "scripts": {
     "dist": "babel src/ --minified -d dist/ -s",
     "test": "node_modules/.bin/mocha --compilers js:babel-core/register",
     "lint": "node_modules/.bin/xo",
     "watch": "babel src/ -d dist/ -w -s",
-    "archive": "babel-node src/cli.js",
+    "archive": "babel-node src/archive.js",
+    "analyze": "babel-node src/analyze.js",
     "fix": "node_modules/.bin/xo --fix"
   },
   "author": "Renoir Boulanger <hello@renoirboulanger.com> (http://renoirb.com/)",

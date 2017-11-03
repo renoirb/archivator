@@ -3,7 +3,7 @@
 import fs from 'fs';
 import pathutil from 'path';
 import * as fsa from 'async-file';
-import readlines from 'gen-readlines';
+import lines from 'gen-readlines';
 import slugifier from './normalizer/slugs';
 
 /**
@@ -26,16 +26,10 @@ function coroutine(gen) {
 function * readLines(path) {
   const fd = fs.openSync(path, 'r');
   const stats = fs.fstatSync(fd);
-  for (const line of readlines(fd, stats.size)) {
+  for (const line of lines(fd, stats.size)) {
     yield parseCsvLine(line.toString());
   }
   fs.closeSync(fd);
-}
-
-function * prepareListGenerator(urls) {
-  for (const line of urls) {
-    yield parseCsvLine(line);
-  }
 }
 
 function parseCsvLine(line) {
@@ -86,6 +80,5 @@ export {
   readLines,
   coroutine,
   parseCsvLine,
-  prepareListGenerator,
   handleIndexSourceErrors
 };

@@ -13,9 +13,10 @@ import cheerio from 'cheerio';
 import htmlmd from 'html-md-2';
 
 import fetch from 'node-fetch';
-import * as fs from 'async-file';
+import * as fsa from 'async-file';
 
 import {readCached} from './common';
+import {stopWords} from './stopwords';
 import hasher from './normalizer/hash';
 import assetizer from './normalizer/assets';
 
@@ -41,9 +42,44 @@ function figureOutTruncateAndSelector(sourceArgument) {
   return {selector, truncate};
 }
 
+// Make possible to do extractLinks, markdownify, ... in parallel TODO
+async function cheerioLoad(recv, configObj = {}) {
+  return new Promise(resolve => resolve(cheerio.load(recv, configObj)));
+}
+
+function removePunctuation(input) {
+  return input.replace(/[^\w\s]|_/g, '');
+}
+
+async function extractWords(recv, source) {
+  const loaded = cheerioLoad(recv);
+  return loaded.then(shard => {
+    const {_, truncate} = figureOutTruncateAndSelector(source);
+    shard(truncate).remove();
+    const text = shard.text().split(' ');
+    const words = {};
+    const foundOnce = new Set();
+    for (let i = 0; i < text.length; i++) {
+      const w = removePunctuation(text[i]).toLowerCase();
+      if (/^[a-zA-ZÀ-ÖØ-öø-ÿ]+$/.test(w) && stopWords.has(w) === false) {
+        if (foundOnce.has(w)) {
+          if (Object.prototype.hasOwnProperty.call(words, w)) {
+            words[w]++;
+          } else {
+            words[w] = 2;
+          }
+        } else {
+          foundOnce.add(w);
+        }
+      }
+    }
+    return words;
+  });
+}
+
 async function extractLinks(recv, source) {
-  const p = new Promise(resolve => resolve(cheerio.load(recv, {})));
-  return p.then(shard => {
+  const loaded = cheerioLoad(recv);
+  return loaded.then(shard => {
     const {selector, truncate} = figureOutTruncateAndSelector(source);
     shard(truncate).remove();
     shard(selector);
@@ -60,8 +96,8 @@ async function extractLinks(recv, source) {
 }
 
 async function markdownify(recv, source) {
-  const p = new Promise(resolve => resolve(cheerio.load(recv, {})));
-  return p.then(shard => {
+  const loaded = cheerioLoad(recv);
+  return loaded.then(shard => {
     const {selector, truncate} = figureOutTruncateAndSelector(source);
     const title = shard('title').text();
     shard(truncate).remove();
@@ -83,9 +119,9 @@ async function markdownify(recv, source) {
   });
 }
 
-async function reworkAssetReference(body, assets) {
-  const p = new Promise(resolve => resolve(cheerio.load(body, cheerioConfig)));
-  return p.then(shard => {
+async function reworkAssetReference(recv, assets) {
+  const loaded = cheerioLoad(recv, cheerioConfig);
+  return loaded.then(shard => {
     /**
      * Each references dictionary should look like this;
      * ```
@@ -234,7 +270,7 @@ async function downloadAssets(assets) {
 
 async function download({src, dest}) {
   const fileName = `archive/${dest}`; // Make parent folder configurable #TODO
-  const fileExists = await fs.exists(fileName);
+  const fileExists = await fsa.exists(fileName);
   console.log(`      - src: ${src}`);
   if (fileExists === false) {
     // Should we pass a User-Agent string? #TODO
@@ -242,7 +278,7 @@ async function download({src, dest}) {
     const recv = await fetch(src);
     if (recv.ok === true) {
       console.log(`        dest: ${fileName}`);
-      const dest = fs.createWriteStream(fileName);
+      const dest = await fsa.createWriteStream(fileName);
       recv.body.pipe(dest);
       console.log(`        status: OK`);
     } else {
@@ -276,11 +312,12 @@ async function main(sourceList) {
       const matches = await extractAssets(cached);
       const assets = await handleAssets(matches, source);
       const links = await extractLinks(cached, source);
-      const cacheJsonRepresentation = {source, assets, links};
+      const words = await extractWords(cached, source);
+      const cacheJsonRepresentation = {source, assets, links, words};
       // cacheJsonRepresentation.matches = matches; // DEBUG
       const cacheJsonFile = `${cachedFilePath}/cache.json`;
-      if ((await fs.exists(cacheJsonFile)) === false) {
-        await fs.writeTextFile(cacheJsonFile, JSON.stringify(cacheJsonRepresentation), 'utf8');
+      if ((await fsa.exists(cacheJsonFile)) === false) {
+        await fsa.writeTextFile(cacheJsonFile, JSON.stringify(cacheJsonRepresentation), 'utf8');
       }
       console.log(`  - source: ${source.url}`);
       console.log(`    path:   ${cachedFilePath}/`);
@@ -288,14 +325,14 @@ async function main(sourceList) {
       await downloadAssets(assets);
       // Hacky. For now. I'll fix this soon.
       const markdownifiedFile = `${cachedFilePath}/index.md`;
-      if ((await fs.exists(markdownifiedFile)) === false) {
+      if ((await fsa.exists(markdownifiedFile)) === false) {
         console.log(`  ... markdownifying\n\n`);
         let markdownified = `---\nurl: ${source.url}\n`;
         // This is heavy. Let's not do it unless we really want.
         // Not sure we NEVER want to overwrite. Make this configurable?
         const reworked = await reworkAssetReference(cached, assets);
         markdownified += await markdownify(reworked, source);
-        await fs.writeTextFile(markdownifiedFile, markdownified, 'utf8');
+        await fsa.writeTextFile(markdownifiedFile, markdownified, 'utf8');
       } else {
         console.log(`  Already in Markdown!\n\n`);
       }

@@ -1,5 +1,6 @@
 
 .PHONY: lint
+
 lint:
 	npm run-script lint
 
@@ -7,15 +8,16 @@ lint:
 test:
 	npm test
 
-.PHONY: run
-run:
-	babel-node src/cli.js
+.PHONY: archive
+archive:
+	yarn archive
+
+.PHONY: analyze
+analyze:
+	yarn analyze
 
 dist:
 	babel src/ --minified -d dist/ -s
 
-.PHONY: watch
-watch:
-	babel src/ -d dist/ -w -s
 
 

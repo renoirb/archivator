@@ -15,7 +15,7 @@
 
 import cheerio from 'cheerio';
 import fetch from 'node-fetch';
-import * as fs from 'async-file';
+import * as fsa from 'async-file';
 
 async function handleHtmlDocument(recv) {
   return recv.text()
@@ -40,12 +40,12 @@ async function cache(listArchivable) {
     const dirName = `archive/${archivable.slug}`; // Make parent folder configurable #TODO
     const fileName = `${dirName}/cache.html`;
     try {
-      await fs.createDirectory(dirName);
-      if ((await fs.exists(fileName)) === false) {
+      await fsa.createDirectory(dirName);
+      if ((await fsa.exists(fileName)) === false) {
         const response = await fetchDocument(archivable.url);
         if (response.ok === true) {
           const pageSnippet = await handleHtmlDocument(response);
-          await fs.writeTextFile(fileName, pageSnippet, 'utf8');
+          await fsa.writeTextFile(fileName, pageSnippet, 'utf8');
           console.info(`Archived ${fileName}`);
         } else {
           console.info(`Had problem with ${archivable.url}`);
