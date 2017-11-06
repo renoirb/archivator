@@ -15,8 +15,7 @@ import htmlmd from 'html-md-2';
 import fetch from 'node-fetch';
 import * as fsa from 'async-file';
 
-import {readCached} from './common';
-import {stopWords} from './stopwords';
+import {readCached, figureOutTruncateAndSelector, cheerioLoad} from './common';
 import hasher from './normalizer/hash';
 import assetizer from './normalizer/assets';
 
@@ -24,72 +23,19 @@ const cheerioConfig = {normalizeWhitespace: true, xmlMode: false, decodeEntities
 
 const domainsBlacklist = ['in.getclicky.com', 's7.addthis.com', 'c.statcounter.com', 'sb.scorecardresearch.com', 'pubads.g.doubleclick.net', 'googleads.g.doubleclick.net'];
 
-/**
- * Given every row in source file .csv
- * http://example.org/a/b.html;selector;truncate
- *
- * selector is the CSS selector where the main content is
- * truncate is a list of CSS selectors to strip off
- */
-function figureOutTruncateAndSelector(sourceArgument) {
-  // If we know exactly where the main content is, otherwise grab the whole
-  // document body.
-  const selector = (sourceArgument.selector.length === 0) ? 'body' : `${sourceArgument.selector}`;
-  // Truncate is to strip off any patterns we do not want
-  // as part of our archived article.
-  let truncate = (sourceArgument.truncate.length === 0) ? '' : `${sourceArgument.truncate},`;
-  truncate += 'script,style,noscript';
-  return {selector, truncate};
-}
-
-// Make possible to do extractLinks, markdownify, ... in parallel TODO
-async function cheerioLoad(recv, configObj = {}) {
-  return new Promise(resolve => resolve(cheerio.load(recv, configObj)));
-}
-
-function removePunctuation(input) {
-  return input.replace(/[^\w\s]|_/g, '');
-}
-
-async function extractWords(recv, source) {
-  const loaded = cheerioLoad(recv);
-  return loaded.then(shard => {
-    const {_, truncate} = figureOutTruncateAndSelector(source);
-    shard(truncate).remove();
-    const text = shard.text().split(' ');
-    const words = {};
-    const foundOnce = new Set();
-    for (let i = 0; i < text.length; i++) {
-      const w = removePunctuation(text[i]).toLowerCase();
-      if (/^[a-zA-ZÀ-ÖØ-öø-ÿ]+$/.test(w) && stopWords.has(w) === false) {
-        if (foundOnce.has(w)) {
-          if (Object.prototype.hasOwnProperty.call(words, w)) {
-            words[w]++;
-          } else {
-            words[w] = 2;
-          }
-        } else {
-          foundOnce.add(w);
-        }
-      }
-    }
-    return words;
-  });
-}
-
 async function extractLinks(recv, source) {
   const loaded = cheerioLoad(recv);
   return loaded.then(shard => {
     const {selector, truncate} = figureOutTruncateAndSelector(source);
     shard(truncate).remove();
     shard(selector);
-    const links = [];
+    const links = new Set();
     shard('a[href]').each((_, element) => {
       const href = shard(element).attr('href');
       try {
         const hrefObj = new URL(href);
-        links.push(`${hrefObj.origin}${hrefObj.pathname}`);
-      } catch (err) {}
+        links.add(`${hrefObj.origin}${hrefObj.pathname}`);
+      } catch (err) { }
     });
     return links;
   });
@@ -105,18 +51,18 @@ async function markdownify(recv, source) {
     const frontMatter = {title};
     return {meta: frontMatter, body};
   })
-  .then(simplified => {
-    const dto = [];
-    const meta = simplified.meta;
-    for (const key in meta) {
-      if (Object.prototype.hasOwnProperty.call(meta, key)) {
-        dto.push(`${key}: "${meta[key]}"`);
+    .then(simplified => {
+      const dto = [];
+      const meta = simplified.meta;
+      for (const key in meta) {
+        if (Object.prototype.hasOwnProperty.call(meta, key)) {
+          dto.push(`${key}: "${meta[key]}"`);
+        }
       }
-    }
-    const top = dto.join(`\n`);
-    const bottom = htmlmd(simplified.body);
-    return `${top}\n\n---\n\n${bottom}\n`;
-  });
+      const top = dto.join(`\n`);
+      const bottom = htmlmd(simplified.body);
+      return `${top}\n\n---\n\n${bottom}\n`;
+    });
 }
 
 async function reworkAssetReference(recv, assets) {
@@ -135,47 +81,47 @@ async function reworkAssetReference(recv, assets) {
     });
     return {references, shard};
   })
-  .then(({references, shard}) => {
-    shard('img[src]').each((_, element) => {
-      /**
-       * What we receive looks like this;
-       * ```
-       * { '_': 0,
-       *   'element':
-       *    { type: 'tag',
-       *      name: 'img',
-       *      attribs:
-       *       { src: 'http://example.org/a.png',
-       *         alt: 'A Image Alt text',
-       *         class: 'example img class-name list' },
-       *      children: [],
-       *      next: null,
-       *      prev: {},
-       *      parent: {} } }
-       * ```
-       */
-      shard(element).attr('class', null);
-      const src = shard(element).attr('src');
-      /**
-       * Assuming our references object (see above) has a key
-       * (e.g. http://example.org/a.png) with a matching
-       * value (e.g. 6c65613db26a19d838c0359989f941c303c04474.png)
-       * we replace the img[src] value with it.
-       * That way, our Markdownified file will refer to archived
-       * assets beside it instead of ones from source origin.
-       */
-      const newSrc = (typeof references[src] === 'string') ? references[src] : src + '?err=CouldNotFind';
-      shard(element).attr('src', newSrc);
+    .then(({references, shard}) => {
+      shard('img[src]').each((_, element) => {
+        /**
+         * What we receive looks like this;
+         * ```
+         * { '_': 0,
+         *   'element':
+         *    { type: 'tag',
+         *      name: 'img',
+         *      attribs:
+         *       { src: 'http://example.org/a.png',
+         *         alt: 'A Image Alt text',
+         *         class: 'example img class-name list' },
+         *      children: [],
+         *      next: null,
+         *      prev: {},
+         *      parent: {} } }
+         * ```
+         */
+        shard(element).attr('class', null);
+        const src = shard(element).attr('src');
+        /**
+         * Assuming our references object (see above) has a key
+         * (e.g. http://example.org/a.png) with a matching
+         * value (e.g. 6c65613db26a19d838c0359989f941c303c04474.png)
+         * we replace the img[src] value with it.
+         * That way, our Markdownified file will refer to archived
+         * assets beside it instead of ones from source origin.
+         */
+        const newSrc = (typeof references[src] === 'string') ? references[src] : src + '?err=CouldNotFind';
+        shard(element).attr('src', newSrc);
+      });
+      return shard.html();
     });
-    return shard.html();
-  });
 }
 
 async function extractAssets(recv) {
   const p = new Promise(resolve => resolve(cheerio.load(recv, cheerioConfig)));
   return p.then(shard => {
     // We do not need duplicates
-    const s = new Set();
+    const assets = new Set();
     /**
      * Iterate with other types of assets.
      * TODO
@@ -185,11 +131,11 @@ async function extractAssets(recv) {
       // or is in a blacklist?
       const isInlineImage = /;base64,/.test(potential);
       if (isInlineImage === false) {
-        s.add(potential);
+        assets.add(potential);
       }
     });
     // We can return an Array once done
-    return [...s];
+    return [...assets];
   });
 }
 
@@ -256,7 +202,7 @@ async function downloadAssets(assets) {
   console.log(`    assets:`);
   console.log(`      length: ${assets.length}`);
   if (assets.length > 0) {
-    console.log(`      matches:`);
+    // console.log(`      matches:`);
     for (const asset of assets) {
       // if (asset.src) is in blacklist #TODO
       const assetSrcOrigin = new URL(asset.src);
@@ -271,16 +217,16 @@ async function downloadAssets(assets) {
 async function download({src, dest}) {
   const fileName = `archive/${dest}`; // Make parent folder configurable #TODO
   const fileExists = await fsa.exists(fileName);
-  console.log(`      - src: ${src}`);
+  // console.log(`      - src: ${src}`);
   if (fileExists === false) {
     // Should we pass a User-Agent string? #TODO
     // ... and a Referrer. As if we downloaded it from a UA?
     const recv = await fetch(src);
     if (recv.ok === true) {
-      console.log(`        dest: ${fileName}`);
+      // console.log(`        dest: ${fileName}`);
       const dest = await fsa.createWriteStream(fileName);
       recv.body.pipe(dest);
-      console.log(`        status: OK`);
+      // console.log(`        status: OK`);
     } else {
       console.log(`        status: ERR, could not download.`);
     }
@@ -304,7 +250,7 @@ function downloadError(errorObj) {
 
 async function main(sourceList) {
   for (const source of sourceList) {
-    console.log(`  ----`);
+    // console.log(`  ----`);
     try {
       const cachedFilePath = `archive/${source.slug}`; // Make parent folder configurable #TODO
       const cachedFileName = `${cachedFilePath}/cache.html`;
@@ -312,10 +258,9 @@ async function main(sourceList) {
       const matches = await extractAssets(cached);
       const assets = await handleAssets(matches, source);
       const links = await extractLinks(cached, source);
-      const words = await extractWords(cached, source);
-      const cacheJsonRepresentation = {source, assets, links, words};
+      const cacheJsonRepresentation = {source, assets, links};
       // cacheJsonRepresentation.matches = matches; // DEBUG
-      const cacheJsonFile = `${cachedFilePath}/cache.json`;
+      const cacheJsonFile = `${cachedFilePath}/assets.json`;
       if ((await fsa.exists(cacheJsonFile)) === false) {
         await fsa.writeTextFile(cacheJsonFile, JSON.stringify(cacheJsonRepresentation), 'utf8');
       }
@@ -326,7 +271,7 @@ async function main(sourceList) {
       // Hacky. For now. I'll fix this soon.
       const markdownifiedFile = `${cachedFilePath}/index.md`;
       if ((await fsa.exists(markdownifiedFile)) === false) {
-        console.log(`  ... markdownifying\n\n`);
+        // console.log(`  ... markdownifying\n\n`);
         let markdownified = `---\nurl: ${source.url}\n`;
         // This is heavy. Let's not do it unless we really want.
         // Not sure we NEVER want to overwrite. Make this configurable?
@@ -334,7 +279,7 @@ async function main(sourceList) {
         markdownified += await markdownify(reworked, source);
         await fsa.writeTextFile(markdownifiedFile, markdownified, 'utf8');
       } else {
-        console.log(`  Already in Markdown!\n\n`);
+        // console.log(`  Already in Markdown!\n\n`);
       }
     } catch (err) {
       // Not finished here, need better error handling #TODO

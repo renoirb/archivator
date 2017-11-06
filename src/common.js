@@ -2,6 +2,7 @@
 
 import fs from 'fs';
 import pathutil from 'path';
+import cheerio from 'cheerio';
 import * as fsa from 'async-file';
 import lines from 'gen-readlines';
 import slugifier from './normalizer/slugs';
@@ -75,10 +76,35 @@ function readCachedError(errorObj) {
   }
 }
 
+// Make possible to do extractLinks, markdownify, ... in parallel TODO
+async function cheerioLoad(recv, configObj = {}) {
+  return new Promise(resolve => resolve(cheerio.load(recv, configObj)));
+}
+
+/**
+ * Given every row in source file .csv
+ * http://example.org/a/b.html;selector;truncate
+ *
+ * selector is the CSS selector where the main content is
+ * truncate is a list of CSS selectors to strip off
+ */
+function figureOutTruncateAndSelector(sourceArgument) {
+  // If we know exactly where the main content is, otherwise grab the whole
+  // document body.
+  const selector = (sourceArgument.selector.length === 0) ? 'body' : `${sourceArgument.selector}`;
+  // Truncate is to strip off any patterns we do not want
+  // as part of our archived article.
+  let truncate = (sourceArgument.truncate.length === 0) ? '' : `${sourceArgument.truncate},`;
+  truncate += 'script,style,noscript';
+  return {selector, truncate};
+}
+
 export {
   readCached,
   readLines,
   coroutine,
   parseCsvLine,
-  handleIndexSourceErrors
+  handleIndexSourceErrors,
+  figureOutTruncateAndSelector,
+  cheerioLoad
 };
