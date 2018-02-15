@@ -9,14 +9,19 @@
   "bugs": {
     "url": "https://github.com/renoirb/archivator/issues"
   },
+  "bin": {
+    "archivator-archive": "./src/archive.js",
+    "archivator-analyze": "./src/analyze.js"
+  },
   "scripts": {
-    "dist": "babel src/ --minified -d dist/ -s",
+    "dist": "node_modules/.bin/babel src/ --minified -d dist/ -s",
     "test": "node_modules/.bin/mocha --compilers js:babel-core/register",
     "lint": "node_modules/.bin/xo",
-    "watch": "babel src/ -d dist/ -w -s",
-    "archive": "babel-node src/archive.js",
-    "analyze": "babel-node src/analyze.js",
-    "fix": "node_modules/.bin/xo --fix"
+    "dev": "node_modules/.bin/babel src/ -d dist/ -w -s",
+    "archive": "node_modules/.bin/babel-node src/archive.js",
+    "analyze": "node_modules/.bin/babel-node src/analyze.js",
+    "markdownify": "node_modules/.bin/babel-node src/markdownify.js",
+    "lint:fix": "node_modules/.bin/xo --fix"
   },
   "author": "Renoir Boulanger <hello@renoirboulanger.com> (http://renoirb.com/)",
   "license": "MIT",

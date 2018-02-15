@@ -1,12 +1,19 @@
 
-.PHONY: lint
+.PHONY: dev
+dev:
+	yarn dev
 
+.PHONY: lint
 lint:
-	npm run-script lint
+	yarn lint
+
+.PHONY: fix
+fix:
+	yarn lint:fix
 
 .PHONY: test
 test:
-	npm test
+	yarn test
 
 .PHONY: archive
 archive:
@@ -17,7 +24,7 @@ analyze:
 	yarn analyze
 
 dist:
-	babel src/ --minified -d dist/ -s
+	yarn dist
 
 
 

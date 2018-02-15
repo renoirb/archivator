@@ -9,8 +9,6 @@
 // cheerio, or https://github.com/lapwinglabs/x-ray
 // http://noodlejs.com/#Overview
 import {URL} from 'url';
-import cheerio from 'cheerio';
-import htmlmd from 'html-md-2';
 
 import fetch from 'node-fetch';
 import * as fsa from 'async-file';
@@ -41,85 +39,9 @@ async function extractLinks(recv, source) {
   });
 }
 
-async function markdownify(recv, source) {
-  const loaded = cheerioLoad(recv);
-  return loaded.then(shard => {
-    const {selector, truncate} = figureOutTruncateAndSelector(source);
-    const title = shard('title').text();
-    shard(truncate).remove();
-    const body = shard(selector).html();
-    const frontMatter = {title};
-    return {meta: frontMatter, body};
-  })
-    .then(simplified => {
-      const dto = [];
-      const meta = simplified.meta;
-      for (const key in meta) {
-        if (Object.prototype.hasOwnProperty.call(meta, key)) {
-          dto.push(`${key}: "${meta[key]}"`);
-        }
-      }
-      const top = dto.join(`\n`);
-      const bottom = htmlmd(simplified.body);
-      return `${top}\n\n---\n\n${bottom}\n`;
-    });
-}
-
-async function reworkAssetReference(recv, assets) {
+async function extractAssets(recv) {
   const loaded = cheerioLoad(recv, cheerioConfig);
   return loaded.then(shard => {
-    /**
-     * Each references dictionary should look like this;
-     * ```
-     * { 'http://example.org/a.png': '6c65613db26a19d838c0359989f941c303c04474.png',
-     *   'http://example.org/a.webm': '5c737acd98c723bbed666bbfb3d14a8e0d34266b.webm' }
-     * ```
-     */
-    const references = {};
-    assets.forEach(ref => {
-      references[ref.match] = ref.name;
-    });
-    return {references, shard};
-  })
-    .then(({references, shard}) => {
-      shard('img[src]').each((_, element) => {
-        /**
-         * What we receive looks like this;
-         * ```
-         * { '_': 0,
-         *   'element':
-         *    { type: 'tag',
-         *      name: 'img',
-         *      attribs:
-         *       { src: 'http://example.org/a.png',
-         *         alt: 'A Image Alt text',
-         *         class: 'example img class-name list' },
-         *      children: [],
-         *      next: null,
-         *      prev: {},
-         *      parent: {} } }
-         * ```
-         */
-        shard(element).attr('class', null);
-        const src = shard(element).attr('src');
-        /**
-         * Assuming our references object (see above) has a key
-         * (e.g. http://example.org/a.png) with a matching
-         * value (e.g. 6c65613db26a19d838c0359989f941c303c04474.png)
-         * we replace the img[src] value with it.
-         * That way, our Markdownified file will refer to archived
-         * assets beside it instead of ones from source origin.
-         */
-        const newSrc = (typeof references[src] === 'string') ? references[src] : src + '?err=CouldNotFind';
-        shard(element).attr('src', newSrc);
-      });
-      return shard.html();
-    });
-}
-
-async function extractAssets(recv) {
-  const p = new Promise(resolve => resolve(cheerio.load(recv, cheerioConfig)));
-  return p.then(shard => {
     // We do not need duplicates
     const assets = new Set();
     /**
@@ -266,21 +188,7 @@ async function main(sourceList) {
       }
       console.log(`  - source: ${source.url}`);
       console.log(`    path:   ${cachedFilePath}/`);
-      // console.log(JSON.stringify(cacheJsonRepresentation));
       await downloadAssets(assets);
-      // Hacky. For now. I'll fix this soon.
-      const markdownifiedFile = `${cachedFilePath}/index.md`;
-      if ((await fsa.exists(markdownifiedFile)) === false) {
-        // console.log(`  ... markdownifying\n\n`);
-        let markdownified = `---\nurl: ${source.url}\n`;
-        // This is heavy. Let's not do it unless we really want.
-        // Not sure we NEVER want to overwrite. Make this configurable?
-        const reworked = await reworkAssetReference(cached, assets);
-        markdownified += await markdownify(reworked, source);
-        await fsa.writeTextFile(markdownifiedFile, markdownified, 'utf8');
-      } else {
-        // console.log(`  Already in Markdown!\n\n`);
-      }
     } catch (err) {
       // Not finished here, need better error handling #TODO
       console.error(err);
