@@ -3,37 +3,33 @@
 import * as fsa from 'async-file';
 
 import {
-  readLines,
-  handleIndexSourceErrors,
-  readCached,
-  figureOutTruncateAndSelector,
+  readFileWithErrorHandling,
   cheerioLoad
 } from './common';
+
+import dictionary from './lists/stopwords.en';
 
 /**
  * https://www.ranks.nl/stopwords
  * http://xpo6.com/list-of-english-stop-words/
  */
-const stopWords = new Set(require('./stopwords'));
+const stopWords = new Set(dictionary);
 
-const URL_LIST = 'archive/index.csv';
-const OVERWRITE = true;
-
-function transformText(input) {
+function normalize(input) {
   const dto = String(input) || '';
   return dto.replace(/[^\w\s]|_/g, '').toLowerCase();
 }
 
-async function extractWords(recv, source) {
+async function extractWords(recv, archivable) {
   const loaded = cheerioLoad(recv);
   return loaded.then(shard => {
-    const {_, truncate} = figureOutTruncateAndSelector(source);
+    const truncate = archivable.truncate;
     shard(truncate).remove();
     const text = shard.text().split(' ');
     const words = Object.create(null);
     const foundOnce = new Set();
     for (let i = 0; i < text.length; i++) {
-      const word = transformText(text[i]);
+      const word = normalize(text[i]);
       const withinCharRange = /^[a-zA-ZÀ-ÖØ-öø-ÿ]+$/.test(word);
       const isNotStopWord = stopWords.has(word) === false;
       const hasAtLeastTwo = word.length > 1;
@@ -51,20 +47,18 @@ async function extractWords(recv, source) {
   });
 }
 
-async function read(source) {
-  const path = `archive/${source.slug}`;
-  const cacheFile = `${path}/cache.html`;
-  const targetFileName = `${path}/analyze.json`;
+async function analyze(cacheFile, archivable) {
   const cacheExists = await fsa.exists(cacheFile);
   const data = Object.create(null);
   if (cacheExists === true) {
-    const cacheData = await readCached(cacheFile);
-    const words = await extractWords(cacheData, source);
-    data.words = words;
+    const cacheData = await readFileWithErrorHandling(cacheFile);
+    const words = await extractWords(cacheData, archivable);
+    const {sorted, keywords} = await sortedAndKeywords(words);
+    data.words = Object.assign({}, sorted);
+    data.keywords = Object.assign({}, keywords);
   }
 
-  console.log(`\nProcessing ${path}`);
-  return {file: targetFileName, data};
+  return data;
 }
 
 function sort(subject = {}) {
@@ -82,52 +76,50 @@ function sort(subject = {}) {
   return sortable; // array in format [ [ key1, val1 ], [ key2, val2 ], ... ]
 }
 
-async function analyze(recv) {
-  const words = recv.data.words || {};
+async function sortedAndKeywords(words = {}) {
   const keywords = Object.create(null);
-  const sorted = sort(words);
+  const sorted = Object.create(null);
+  const sorting = sort(words);
   const max = 10;
   let iter = 0;
-  for (const popular of sorted) {
+  for (const popular of sorting) {
     const used = popular[1]; // word has been used n times
     const word = popular[0];
     if (iter <= max && used > 3) {
       keywords[word] = used;
     }
+    sorted[word] = used;
     iter++;
   }
 
   const wordCount = Object.keys(words).length;
-  const paddedCounter = String(wordCount).padStart('5', ' ');
-  let logLine = paddedCounter + ' words found';
+  let logLine = '  analysis:';
+  console.log(logLine);
+  logLine = '    words: ' + wordCount;
   console.log(logLine);
   const firstThreeKeywords = Object.keys(keywords).slice(0, 3).join(', ');
-  logLine = '      Top keywords: ' + firstThreeKeywords;
+  logLine = '    keywords: ' + firstThreeKeywords;
   console.log(logLine);
 
-  recv.data.keywords = keywords;
-
-  return recv;
+  return {sorted, keywords};
 }
 
-async function write({file, data = {}}, boolOverwrite = false) {
+async function write(file, data = {}, boolOverwrite = true) {
   const destExists = await fsa.exists(file);
+  const contents = JSON.stringify(data);
   if (destExists === false || (destExists === true && boolOverwrite)) {
-    await fsa.writeTextFile(file, JSON.stringify(data), 'utf8');
+    await fsa.writeTextFile(file, contents, 'utf8');
   }
 
-  return {file, data};
+  return {file, contents};
 }
 
-/**
- * Something is going somewhat as an anti-pattern here.
- * We want Promise.all(...) at each step, and it's not how
- * it is as of now. Needs rework here. TODO
- */
-for (const url of readLines(URL_LIST)) {
-  Promise.resolve(url)
-    .then(u => read(u))
-    .then(descriptor => analyze(descriptor))
-    .then(descriptor => write(descriptor, OVERWRITE))
-    .catch(handleIndexSourceErrors);
-}
+export default async archivable => {
+  const slug = archivable.slug;
+  const path = `archive/${slug}`;
+  const cacheFile = `${path}/document.html`;
+  const file = `${path}/analyze.json`;
+  return Promise.resolve(cacheFile)
+    .then(cacheFile => analyze(cacheFile, archivable))
+    .then(analyzed => write(file, analyzed));
+};

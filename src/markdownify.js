@@ -4,10 +4,9 @@ import * as fsa from 'async-file';
 import htmlmd from 'html-md-2';
 
 import {
-  readLines,
-  handleIndexSourceErrors,
-  readCached,
-  figureOutTruncateAndSelector,
+  readFileWithErrorHandling,
+  iterateIntoArchivable,
+  catcher,
   cheerioLoad
 } from './common';
 
@@ -71,7 +70,7 @@ async function markdownify(descriptor) {
             return shard;
           })
           .then(shard => {
-            const {selector, truncate} = figureOutTruncateAndSelector(source);
+            const {selector, truncate} = source.figureOutTruncateAndSelector();
             const title = shard('title').text();
             shard(truncate).remove();
             const body = shard(selector).html();
@@ -95,7 +94,7 @@ async function markdownify(descriptor) {
 }
 
 async function handle(descriptor) {
-  const fileName = descriptor.file.name;
+  const file = descriptor.file.name;
   if (
     (descriptor.file.exists === false) ||
     (descriptor.file.exists === true && descriptor.file.overwrite === true)
@@ -110,17 +109,10 @@ async function handle(descriptor) {
     const markdownified = await markdownify(descriptor);
     contents += markdownified;
     return {
-      fileName,
+      file,
       contents
     };
   }
-}
-
-async function writeTextFile({
-    fileName,
-    contents
-}) {
-  await fsa.writeTextFile(fileName, contents, 'utf8');
 }
 
 async function read(source, overwriteOption) {
@@ -130,18 +122,18 @@ async function read(source, overwriteOption) {
   const cacheFile = `${path}/cache.html`;
   const cacheExists = await fsa.exists(cacheFile);
   if (cacheExists) {
-    data.cache = await readCached(cacheFile);
+    data.cache = await readFileWithErrorHandling(cacheFile);
   }
   const assetsFile = `${path}/assets.json`;
   const assetsExists = await fsa.exists(assetsFile);
   if (assetsExists) {
-    const assetsFileContents = await readCached(assetsFile);
+    const assetsFileContents = await readFileWithErrorHandling(assetsFile);
     data.assets = JSON.parse(assetsFileContents);
   }
   const analyzeFile = `${path}/analyze.json`;
   const analyzeExists = await fsa.exists(analyzeFile);
   if (analyzeExists) {
-    const analyzeFileContents = await readCached(analyzeFile);
+    const analyzeFileContents = await readFileWithErrorHandling(analyzeFile);
     data.analyze = JSON.parse(analyzeFileContents);
   }
   const targetFileName = `${path}/index.md`;
@@ -153,16 +145,24 @@ async function read(source, overwriteOption) {
   return data;
 }
 
+async function write({file, contents}, boolOverwrite = false) {
+  const destExists = await fsa.exists(file);
+  if (destExists === false || (destExists === true && boolOverwrite)) {
+    await fsa.writeTextFile(file, contents, 'utf8');
+  }
+
+  return {file, contents};
+}
+
 /**
  * Something is going somewhat as an anti-pattern here.
  * We want Promise.all(...) at each step, and it's not how
  * it is as of now. Needs rework here. TODO
  */
-for (const url of readLines(URL_LIST)) {
+for (const url of iterateIntoArchivable(URL_LIST)) {
   Promise.resolve(url)
     .then(u => read(u, OVERWRITE))
     .then(descriptor => handle(descriptor))
-    .then(descriptor => handle(descriptor))
-    .then(handled => writeTextFile(handled))
-    .catch(handleIndexSourceErrors);
+    .then(descriptor => write(descriptor, OVERWRITE))
+    .catch(catcher);
 }

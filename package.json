@@ -4,7 +4,7 @@
   "description": "Fetch and stream body contents for URLs",
   "repository": {
     "type": "git",
-    "url": "git@github.com:renoirb/archivator.git"
+    "url": "https://github.com/renoirb/archivator.git"
   },
   "bugs": {
     "url": "https://github.com/renoirb/archivator/issues"
@@ -13,6 +13,8 @@
     "archivator-archive": "./src/archive.js",
     "archivator-analyze": "./src/analyze.js"
   },
+  "main": "index.js",
+  "module": "module.js",
   "scripts": {
     "dist": "node_modules/.bin/babel src/ --minified -d dist/ -s",
     "test": "node_modules/.bin/mocha --compilers js:babel-core/register",
@@ -30,6 +32,7 @@
     "babel-polyfill": "^6.23.0",
     "cheerio": "^0.22.0",
     "elasticsearch": "^12.1.3",
+    "esm": "^3.0.81",
     "gen-readlines": "^0.1.3",
     "html-md-2": "^3.0.0",
     "node-fetch": "^1.6.3",

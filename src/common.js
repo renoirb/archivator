@@ -2,44 +2,25 @@
 
 import fs from 'fs';
 import pathutil from 'path';
+import {URL} from 'url';
 import cheerio from 'cheerio';
 import * as fsa from 'async-file';
 import lines from 'gen-readlines';
-import slugifier from './normalizer/slugs';
 
-/**
- * Co Routine - A Generator factory helper
- *
- * Pass a Generator closure and Immediately Invoke that helper
- * so that we can iterate using generators as async handlers.
- *
- * This pattern is used so we can use generators as async consumers
- * or as async handlers.
- */
-function coroutine(gen) {
-  return function coroutineHandler(...args) {
-    const g = gen(...args);
-    g.next();
-    return g;
-  };
-}
+import blacklist from './lists/domains-blacklist';
+import Archivable from './archivable';
 
-function * readLines(path) {
+function * iterateIntoArchivable(path) {
   const fd = fs.openSync(path, 'r');
   const stats = fs.fstatSync(fd);
   for (const line of lines(fd, stats.size)) {
-    yield parseCsvLine(line.toString());
+    const csvLineString = line.toString();
+    yield Archivable.fromLine(csvLineString);
   }
   fs.closeSync(fd);
 }
 
-function parseCsvLine(line) {
-  const [url, selector = '', truncate = ''] = line.split(';');
-  const slug = slugifier(url);
-  return {url, slug, selector, truncate};
-}
-
-function handleIndexSourceErrors(errorObj) {
+function catcher(errorObj) {
   if (errorObj.code === 'ENOENT' && Boolean(errorObj.path)) {
     const dirName = pathutil.dirname(errorObj.path);
     fs.createDirectory(dirName);
@@ -50,10 +31,10 @@ function handleIndexSourceErrors(errorObj) {
   }
   // Handle error codes below #TODO
   // if (errorObj.code === 'ENOTFOUND')
-  console.error('handleIndexSourceErrors', errorObj);
+  console.error('catcher', errorObj);
 }
 
-async function readCached(file) {
+async function readFileWithErrorHandling(file) {
   try {
     const data = await fsa.readFile(file, 'utf8');
     return data;
@@ -81,30 +62,17 @@ async function cheerioLoad(recv, configObj = {}) {
   return new Promise(resolve => resolve(cheerio.load(recv, configObj)));
 }
 
-/**
- * Given every row in source file .csv
- * http://example.org/a/b.html;selector;truncate
- *
- * selector is the CSS selector where the main content is
- * truncate is a list of CSS selectors to strip off
- */
-function figureOutTruncateAndSelector(sourceArgument) {
-  // If we know exactly where the main content is, otherwise grab the whole
-  // document body.
-  const selector = (sourceArgument.selector.length === 0) ? 'body' : `${sourceArgument.selector}`;
-  // Truncate is to strip off any patterns we do not want
-  // as part of our archived article.
-  let truncate = (sourceArgument.truncate.length === 0) ? '' : `${sourceArgument.truncate},`;
-  truncate += 'script,style,noscript';
-  return {selector, truncate};
-}
+const urlNotInBlacklist = u => {
+  const assetUrlObj = new URL(u);
+  const hostname = assetUrlObj.hostname;
+  const includes = blacklist.includes(hostname);
 
+  return includes === false;
+};
 export {
-  readCached,
-  readLines,
-  coroutine,
-  parseCsvLine,
-  handleIndexSourceErrors,
-  figureOutTruncateAndSelector,
-  cheerioLoad
+  readFileWithErrorHandling,
+  iterateIntoArchivable,
+  catcher,
+  cheerioLoad,
+  urlNotInBlacklist
 };

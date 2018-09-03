@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+Function=Function//; node -r esm "$0" "$@"; exit
+
+/**
+ * Leverage Require ESM Node.js CLI option.
+ *
+ * Source https://github.com/nodejs/modules/issues/152#issuecomment-405657530
+ */
+
+// import path from 'path';
+
+const [
+  handler,
+  fileName,
+  ...args
+] = process.argv
+
+// const srcDir = path.resolve('../src')
+// module.paths.push(srcDir)
+
+import './archivator-archive'
