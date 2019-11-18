@@ -39,6 +39,7 @@ async function download(src, dest) {
     // Should we pass a User-Agent string? #TODO
     // ... and a Referrer. As if we downloaded it from a UA?
     const recv = await fetch(src);
+    console.log('download', {src, dest, fileName, fileExists, recv: {ok: recv.ok}});
     if (recv.ok === true) {
       // console.log(`        dest: ${fileName}`);
       const dest = await fsa.createWriteStream(fileName);

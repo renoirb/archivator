@@ -7,13 +7,8 @@ import {
   cheerioLoad
 } from './common';
 
-import dictionary from './lists/stopwords.en';
-
-/**
- * https://www.ranks.nl/stopwords
- * http://xpo6.com/list-of-english-stop-words/
- */
-const stopWords = new Set(dictionary);
+import dictionary from './lists/stopwords.fr';
+import dictionaryEn from './lists/stopwords.en';
 
 function normalize(input) {
   const dto = String(input) || '';
@@ -21,8 +16,13 @@ function normalize(input) {
 }
 
 async function extractWords(recv, archivable) {
-  const loaded = cheerioLoad(recv);
-  return loaded.then(shard => {
+  /**
+   * https://www.ranks.nl/stopwords
+   * http://xpo6.com/list-of-english-stop-words/
+   */
+  const stopWordsSet = new Set([...dictionary, ...dictionaryEn]);
+
+  return cheerioLoad(recv).then(shard => {
     const truncate = archivable.truncate;
     shard(truncate).remove();
     const text = shard.text().split(' ');
@@ -31,7 +31,7 @@ async function extractWords(recv, archivable) {
     for (let i = 0; i < text.length; i++) {
       const word = normalize(text[i]);
       const withinCharRange = /^[a-zA-ZÀ-ÖØ-öø-ÿ]+$/.test(word);
-      const isNotStopWord = stopWords.has(word) === false;
+      const isNotStopWord = stopWordsSet.has(word) === false;
       const hasAtLeastTwo = word.length > 1;
       if (withinCharRange && isNotStopWord && hasAtLeastTwo) {
         if (foundOnce.has(word) === false) {
@@ -117,7 +117,7 @@ async function write(file, data = {}, boolOverwrite = true) {
 export default async archivable => {
   const slug = archivable.slug;
   const path = `archive/${slug}`;
-  const cacheFile = `${path}/document.html`;
+  const cacheFile = `${path}/cache.html`;
   const file = `${path}/analyze.json`;
   return Promise.resolve(cacheFile)
     .then(cacheFile => analyze(cacheFile, archivable))

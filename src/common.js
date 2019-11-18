@@ -58,8 +58,10 @@ function readCachedError(errorObj) {
 }
 
 // Make possible to do extractLinks, markdownify, ... in parallel TODO
-async function cheerioLoad(recv, configObj = {}) {
-  return new Promise(resolve => resolve(cheerio.load(recv, configObj)));
+function cheerioLoad(recv, configObj = {}) {
+  // console.log('async cheerioLoad', { recv, configObj })
+  const loading = cheerio.load(recv, configObj);
+  return Promise.resolve(loading);
 }
 
 const urlNotInBlacklist = u => {

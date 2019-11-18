@@ -2,37 +2,51 @@
   "name": "archivator",
   "version": "1.0.0",
   "description": "Fetch and stream body contents for URLs",
+  "bugs": {
+    "url": "https://github.com/renoirb/archivator/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/renoirb/archivator.git"
   },
-  "bugs": {
-    "url": "https://github.com/renoirb/archivator/issues"
-  },
-  "bin": {
-    "archivator-archive": "./src/archive.js",
-    "archivator-analyze": "./src/analyze.js"
-  },
+  "license": "MIT",
+  "author": "Renoir Boulanger <hello@renoirboulanger.com> (http://renoirb.com/)",
   "main": "index.js",
   "module": "module.js",
-  "scripts": {
-    "dist": "node_modules/.bin/babel src/ --minified -d dist/ -s",
-    "test": "node_modules/.bin/mocha --compilers js:babel-core/register",
-    "lint": "node_modules/.bin/xo",
-    "dev": "node_modules/.bin/babel src/ -d dist/ -w -s",
-    "archive": "node_modules/.bin/babel-node src/archive.js",
-    "analyze": "node_modules/.bin/babel-node src/analyze.js",
-    "markdownify": "node_modules/.bin/babel-node src/markdownify.js",
-    "lint:fix": "node_modules/.bin/xo --fix"
+  "bin": {
+    "archivator-analyze": "./dist/analyze.js",
+    "archivator-archive": "./dist/archive.js"
   },
-  "author": "Renoir Boulanger <hello@renoirboulanger.com> (http://renoirb.com/)",
-  "license": "MIT",
+  "scripts": {
+    "analyze": "node_modules/.bin/babel-node src/analyze.js",
+    "archive": "node_modules/.bin/babel-node src/archive.js",
+    "dev": "node_modules/.bin/babel src/ -d dist/ -w -s",
+    "dist": "node_modules/.bin/babel src/ --minified -d dist/ -s",
+    "lint": "node_modules/.bin/xo",
+    "lint:fix": "node_modules/.bin/xo --fix",
+    "markdownify": "node_modules/.bin/babel-node src/markdownify.js",
+    "test": "node_modules/.bin/mocha --compilers js:babel-core/register"
+  },
+  "xo": {
+    "esnext": true,
+    "ignores": [
+      "dist/**",
+      "example.js"
+    ],
+    "plugins": [
+      "unicorn"
+    ],
+    "rules": {
+      "func-names": 0
+    },
+    "space": 2
+  },
   "dependencies": {
     "async-file": "^2.0.2",
     "babel-polyfill": "^6.23.0",
     "cheerio": "^0.22.0",
     "elasticsearch": "^12.1.3",
-    "esm": "^3.0.81",
+    "esm": "^3.2.25",
     "gen-readlines": "^0.1.3",
     "html-md-2": "^3.0.0",
     "node-fetch": "^1.6.3",
@@ -52,19 +66,5 @@
     "eslint-plugin-unicorn": "^1.0.0",
     "mocha": "^3.2.0",
     "xo": "^0.17.1"
-  },
-  "xo": {
-    "esnext": true,
-    "space": 2,
-    "plugins": [
-      "unicorn"
-    ],
-    "ignores": [
-      "dist/**",
-      "example.js"
-    ],
-    "rules": {
-      "func-names": 0
-    }
   }
 }

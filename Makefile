@@ -17,11 +17,14 @@ test:
 
 .PHONY: archive
 archive:
-	yarn archive
+	bin/archivator archive
 
 .PHONY: analyze
 analyze:
-	yarn analyze
+	bin/archivator analyze
+
+markdownify:
+	yarn markdownify
 
 dist:
 	yarn dist
