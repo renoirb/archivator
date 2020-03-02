@@ -1,0 +1,54 @@
+// DO NOT ADD COMMENTS IN THIS FILE.  They will be lost when the Rush tool resaves it.
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/approved-packages.schema.json",
+  "packages": [
+    {
+      "name": "@microsoft/node-core-library",
+      "allowedCategories": [ "packages" ]
+    },
+    {
+      "name": "@microsoft/node-library-build",
+      "allowedCategories": [ "packages" ]
+    },
+    {
+      "name": "@microsoft/rush-stack-compiler-3.7",
+      "allowedCategories": [ "packages" ]
+    },
+    {
+      "name": "@renoirb/conventions-use-bili",
+      "allowedCategories": [ "packages" ]
+    },
+    {
+      "name": "@renoirb/conventions-use-jest",
+      "allowedCategories": [ "packages" ]
+    },
+    {
+      "name": "@renoirb/conventions-use-prettier",
+      "allowedCategories": [ "packages" ]
+    },
+    {
+      "name": "@renoirb/tools-bundling-helpers",
+      "allowedCategories": [ "packages" ]
+    },
+    {
+      "name": "@rushstack/eslint-config",
+      "allowedCategories": [ "packages" ]
+    },
+    {
+      "name": "eslint",
+      "allowedCategories": [ "packages" ]
+    },
+    {
+      "name": "gulp",
+      "allowedCategories": [ "packages" ]
+    },
+    {
+      "name": "jest",
+      "allowedCategories": [ "packages" ]
+    },
+    {
+      "name": "typescript",
+      "allowedCategories": [ "packages" ]
+    }
+  ]
+}
