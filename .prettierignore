@@ -1,0 +1,90 @@
+##
+## Ignore Code formatting from Prettier.
+##
+## Keep in sync with https://github.com/renoirb/experiments-201908-rush-typescript-just-bili-monorepo.git
+## in .gitignore
+##
+
+# Coverage reports
+coverage
+.nyc_output
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+*.pid
+*.seed
+*.pid.lock
+
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+
+# Common toolchain intermediate files
+lib
+lib-amd
+lib-es6
+lib-commonjs
+dist
+temp
+*.scss.ts
+*.sass.ts
+
+# OS X
+.DS_Store
+
+# Build cache
+.rpt2_cache/
+*.tsbuildinfo
+
+# Demo
+public/dist/
+
+##
+## ####################################################################
+## SPECIFIC TO .gitignore
+##
+
+# Rush files
+browser-approved-packages.json
+nonbrowser-approved-packages.json
+/common/temp/
+/common/scripts/install-run-rush.js
+/common/scripts/install-run-rushx.js
+/common/scripts/install-run.js
+
+# Shrinkwraps
+npm-shrinkwrap.json
+shrinkwrap.yaml
+pnpm-lock.yaml
+package-deps.json
+yarn.lock
+
+# Brain dumps, copy-pasta for possible future-use
+# No need to lint or test
+.brain-dump/

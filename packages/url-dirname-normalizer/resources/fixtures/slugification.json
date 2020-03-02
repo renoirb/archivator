@@ -1,0 +1,134 @@
+[
+  ["http://example.org", "example.org", "Strips off protocol"],
+  ["https://example.org", "example.org", "Strips off protocol, even HTTPS"],
+  ["http://www.example.org/", "example.org", "Strips off www from host name"],
+  [
+    "http://username:password@example.org/a/b",
+    "example.org/a/b",
+    "HTTP Basic Auth URLs, slugify without username password pair"
+  ],
+  ["http://example.org/", "example.org", "Strips off trailing slash"],
+  ["http://example.org/a//b", "example.org/a/b", "Strips off doubly slash"],
+  ["http://example.org/foo/bar/", "example.org/foo/bar", "Keeps path as-is"],
+  [
+    "http://example.org/Foo/bAr/",
+    "example.org/foo/bar",
+    "Makes everything lowercase"
+  ],
+  [
+    "http://example.org/foo.html/",
+    "example.org/foo",
+    "Removes .html extension"
+  ],
+  [
+    "http://example.org/foo.shtml",
+    "example.org/foo",
+    "Removes .shtml extension"
+  ],
+  ["http://example.org/foo.asp/", "example.org/foo", "Removes .asp extension"],
+  [
+    "http://example.org/foo.aspx/",
+    "example.org/foo",
+    "Removes .aspx extension"
+  ],
+  [
+    "http://example.org/foo.action?bar=bazz",
+    "example.org/foo/bar/bazz",
+    "Removes .action from path name"
+  ],
+  [
+    "http://example.org/foo.fcgi?bar=bazz",
+    "example.org/foo/bar/bazz",
+    "Removes .fcgi from path name"
+  ],
+  [
+    "http://example.org/a/b/foo.do?bar=bazz",
+    "example.org/a/b/foo/bar/bazz",
+    "Removes .do from path name"
+  ],
+  [
+    "http://example.org/user/john%40doe.org",
+    "example.org/user/john_at_doe.org",
+    "Replaces URL encoded %40 with _at_"
+  ],
+  [
+    "http://example.org/foo?page=abc",
+    "example.org/foo/page/abc",
+    "Makes ?page query string parameter as a path name"
+  ],
+  [
+    "http://example.org/foo?pageId=def",
+    "example.org/foo/page/def",
+    "Makes ?pageId query string parameter as page path name"
+  ],
+  [
+    "http://example.org/foo?pageId=ghi&foo",
+    "example.org/foo/page/ghi",
+    "Makes ?pageId query string parameter as page path name and strips off empty argument"
+  ],
+  [
+    "http://example.org/css/functions/matrix()",
+    "example.org/css/functions/matrix",
+    "Strips off parenthesis from path name"
+  ],
+  [
+    "http://example.org/wiki/Category:Topics",
+    "example.org/wiki/category/topics",
+    "Replaces column (:) into slash (/) from path name"
+  ],
+  [
+    "http://example.org/wiki/css/selectors/pseudo-classes/:required",
+    "example.org/wiki/css/selectors/pseudo-classes/required",
+    "Removes column (:) from the URL when not used as separator"
+  ],
+  [
+    "http://example.org/wiki/html/elements/!DOCTYPE/ja",
+    "example.org/wiki/html/elements/doctype/ja",
+    "Puts URL into lowercase, and removes non ASCII exclamation (!)"
+  ],
+  [
+    "http://example.org/wiki/css/selectors/pseudo-classes/:nth-of-type(n)",
+    "example.org/wiki/css/selectors/pseudo-classes/nth-of-typen",
+    "Removes column (:) and parenthesis in path name, even when parenthesis has something in them"
+  ],
+  [
+    "http://example.org/wiki/html/attributes/border_(frameSet,_iframe)",
+    "example.org/wiki/html/attributes/border_frameset_iframe",
+    "Removes comas from path name and parenthesis"
+  ],
+  [
+    "http://example.org/bogus//double/slash",
+    "example.org/bogus/double/slash",
+    "Removes duplicate slashes"
+  ],
+  [
+    "http://example.org/foo/?a=1&b=2",
+    "example.org/foo/a/1/b/2",
+    "Rewrites search parameters as if they were a path"
+  ],
+  [
+    "http://example.org/foo/?b=2&a=1",
+    "example.org/foo/a/1/b/2",
+    "Rewrites search parameters as if they were a path, in alphebatical order"
+  ],
+  [
+    "http://example.org/foo/?b=2&c=&a=1",
+    "example.org/foo/a/1/b/2",
+    "Filter out empty search query string members"
+  ],
+  [
+    "http://example.org/foo/?b=2&a=1&c",
+    "example.org/foo/a/1/b/2",
+    "Filter out empty search query string members, even without equal sign"
+  ],
+  [
+    "http://example.org/foo?b=2&a=1&c",
+    "example.org/foo/a/1/b/2",
+    "Supports path name with or without trailing slash when with a query string"
+  ],
+  [
+    "http://example.org/@ausername/some-lengthy-string-ending-with-a-hash-1a2d8a61510",
+    "example.org/ausername/some-lengthy-string-ending-with-a-hash",
+    "Remove at sign (@) and random appended hash from URL path name"
+  ]
+]

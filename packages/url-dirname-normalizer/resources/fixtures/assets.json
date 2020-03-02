@@ -1,0 +1,242 @@
+[
+  [
+    "http://example.org/",
+    "A.PNG",
+    "http://example.org/A.PNG",
+    "Case sensitive"
+  ],
+  [
+    "http://example.org/",
+    "a.png",
+    "http://example.org/a.png",
+    "Relative path when at root"
+  ],
+  [
+    "https://example.org/",
+    "a.png",
+    "https://example.org/a.png",
+    "Maintains protocol"
+  ],
+  [
+    "http://example.org/",
+    "a/b",
+    "http://example.org/a/b",
+    "Do not affect if no file extension"
+  ],
+  [
+    "http://example.org/",
+    "a.png?foo=BAR",
+    "http://example.org/a.png?foo=BAR",
+    "Does not remove search query string"
+  ],
+  [
+    "http://example.org/",
+    "a.png?foo=BAR&BaZ=Bizz",
+    "http://example.org/a.png?foo=BAR&BaZ=Bizz",
+    "Does not remove search query string with amperstands"
+  ],
+  [
+    "http://example.org",
+    "a.png",
+    "http://example.org/a.png",
+    "Relative path when at root, without trailing slash"
+  ],
+  [
+    "http://example.org/",
+    "./a.png",
+    "http://example.org/a.png",
+    "Explicit parent from current context root"
+  ],
+  [
+    "http://example.org",
+    "./a.png",
+    "http://example.org/a.png",
+    "Explicit parent from current context root, without trailing slash"
+  ],
+  [
+    "http://example.org/a",
+    "./b.png",
+    "http://example.org/a/b.png",
+    "Explicit parent from current context root in sub folder, without trailing slash"
+  ],
+  [
+    "http://example.org/a/",
+    "./b.png",
+    "http://example.org/a/b.png",
+    "Explicit parent from current context root"
+  ],
+  [
+    "http://example.org/a/",
+    "b.png",
+    "http://example.org/a/b.png",
+    "Relative path from a sub folder"
+  ],
+  [
+    "http://example.org/a",
+    "b.png",
+    "http://example.org/a/b.png",
+    "Relative path from a sub folder, without trailing slash"
+  ],
+  [
+    "http://example.org/a",
+    "B.pnG",
+    "http://example.org/a/B.pnG",
+    "Case sensitive, relative path from a sub folder, without trailing slash"
+  ],
+  [
+    "http://example.org/a.html",
+    "b.png",
+    "http://example.org/b.png",
+    "Relative path when using file name with .html at top directory"
+  ],
+  [
+    "http://example.org/a/c.html",
+    "b.png",
+    "http://example.org/a/b.png",
+    "Relative path when using file name with .html"
+  ],
+  [
+    "http://example.org/b/c.html",
+    "/a.png",
+    "http://example.org/a.png",
+    "Document is one folder deep and file with .html extension, asset is referring at the root"
+  ],
+  [
+    "http://example.org/b/c.do",
+    "/a.png",
+    "http://example.org/a.png",
+    "Document is one folder deep and file with .do extension, asset is referring at the root"
+  ],
+  [
+    "http://example.org/a/c.do",
+    "b.png",
+    "http://example.org/a/b.png",
+    "Document is one folder deep and file with .do extension, asset relative to same directory where file is"
+  ],
+  [
+    "http://example.org/a/c/",
+    "../b.png",
+    "http://example.org/a/b.png",
+    "Relative path going into 1 parent up"
+  ],
+  [
+    "http://example.org/a/c",
+    "../b.png",
+    "http://example.org/a/b.png",
+    "Relative path going into 1 parent up, without trailing slash"
+  ],
+  [
+    "http://example.org/b/c",
+    "../../../a.png",
+    "http://example.org/a.png",
+    "Asset is relative and goes beyond root directory"
+  ],
+  [
+    "http://example.org/b/c.html",
+    "../../../../../a.png",
+    "http://example.org/a.png",
+    "File is HTML document, not a directory and asset is relative and goes beyond root directory. Force at root."
+  ],
+  [
+    "http://example.org/b/c.html",
+    "../a.png",
+    "http://example.org/a.png",
+    "Document is one folder deep with .do file extension, asset refers to 1 parent directory up"
+  ],
+  [
+    "http://example.org/ignored/also_ignored/",
+    "../../a.jpg",
+    "http://example.org/a.jpg",
+    "Relative path going into 2 parents up"
+  ],
+  [
+    "http://example.org/ignored/also_ignored/and_too",
+    "../../../a.jpg",
+    "http://example.org/a.jpg",
+    "Relative path going into 3 parents up, without trailing slash"
+  ],
+  [
+    "http://example.org/a/",
+    "b/c.png",
+    "http://example.org/a/b/c.png",
+    "Deeper relative path"
+  ],
+  [
+    "http://example.org/a",
+    "b/c.png",
+    "http://example.org/a/b/c.png",
+    "Deeper relative path, without trailing slash"
+  ],
+  [
+    "http://example.org/bogus/",
+    "/a.png",
+    "http://example.org/a.png",
+    "Absolute path, without trailing slash, ignoring sub folder from hostname"
+  ],
+  [
+    "http://example.org/bogus",
+    "/a.png",
+    "http://example.org/a.png",
+    "Absolute path, ignoring sub folder from hostname"
+  ],
+  [
+    "http://example.org/bogus/deep/path",
+    "/a.png",
+    "http://example.org/a.png",
+    "Absolute path, without trailing slash, ignoring sub folder from hostname"
+  ],
+  [
+    "http://example.org/a",
+    "Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg",
+    "http://example.org/a/Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg",
+    "Do not touch spaces and case"
+  ],
+  [
+    "http://example.org/a",
+    "b(WTH).png",
+    "http://example.org/a/b(WTH).png",
+    "Parens are not valid, but some uses them, must support them"
+  ],
+  [
+    "http://example.org/foo",
+    "1*23.png",
+    "http://example.org/foo/1*23.png",
+    "Star is not typical in path, must support them"
+  ],
+  [
+    "http://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path",
+    "http://example.org/a/b.png",
+    "http://example.org/a/b.png",
+    "Ignore document origin if resource has full URL"
+  ],
+  [
+    "https://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path",
+    "http://example.org/a/b.png",
+    "http://example.org/a/b.png",
+    "Ignore document origin if resource has full URL, even over TLS, we shall take asset resource URL as-is"
+  ],
+  [
+    "http://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path",
+    "//example.org/a/b.png",
+    "http://example.org/a/b.png",
+    "Ignore document origin if resource has full URL, protocol relative, non TLS"
+  ],
+  [
+    "https://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path-tls",
+    "//example.org/a/b.png",
+    "https://example.org/a/b.png",
+    "Ignore document origin if resource has full URL, protocol relative, over TLS"
+  ],
+  [
+    "https://elsewhere.org/a/b",
+    "//example.org/foo/bar.jpg",
+    "https://example.org/foo/bar.jpg",
+    "Refering document is over TLS, but referenced document is over protocol relative. Enforce same protocol"
+  ],
+  [
+    "http://elsewhere.org/a/b",
+    "//example.org/foo/bar.jpg",
+    "http://example.org/foo/bar.jpg",
+    "Refering document is NOT over TLS, but referenced document is over protocol relative. Enforce same protocol"
+  ]
+]

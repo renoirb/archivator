@@ -1,0 +1,724 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NormalizedAsset http://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path:
+	hash:				RSA-MD4
+	src:				//example.org/a/b.png
+	expected:		http://example.org/a/b.png
+	reason:			Ignore document origin if resource has full URL, protocol relative, non TLS
+	duration:		 1`] = `
+Object {
+  "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "match": "//example.org/a/b.png",
+  "reference": "b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path:
+	hash:				RSA-MD4
+	src:				http://example.org/a/b.png
+	expected:		http://example.org/a/b.png
+	reason:			Ignore document origin if resource has full URL
+	duration:		 1`] = `
+Object {
+  "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "match": "http://example.org/a/b.png",
+  "reference": "b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://elsewhere.org/a/b:
+	hash:				RSA-MD4
+	src:				//example.org/foo/bar.jpg
+	expected:		http://example.org/foo/bar.jpg
+	reason:			Refering document is NOT over TLS, but referenced document is over protocol relative. Enforce same protocol
+	duration:		 1`] = `
+Object {
+  "dest": "elsewhere.org/a/b/850abafc38d05857010462a94542d928.jpg",
+  "match": "//example.org/foo/bar.jpg",
+  "reference": "850abafc38d05857010462a94542d928.jpg",
+  "src": "http://example.org/foo/bar.jpg",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/:
+	hash:				RSA-MD4
+	src:				./a.png
+	expected:		http://example.org/a.png
+	reason:			Explicit parent from current context root
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/6a5e292471099d5c880d8c549d3ed11a.png",
+  "match": "./a.png",
+  "reference": "6a5e292471099d5c880d8c549d3ed11a.png",
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/:
+	hash:				RSA-MD4
+	src:				A.PNG
+	expected:		http://example.org/A.PNG
+	reason:			Case sensitive
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/5f27746268f7b449989301318a2b4ff5.png",
+  "match": "A.PNG",
+  "reference": "5f27746268f7b449989301318a2b4ff5.png",
+  "src": "http://example.org/A.PNG",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/:
+	hash:				RSA-MD4
+	src:				a.png
+	expected:		http://example.org/a.png
+	reason:			Relative path when at root
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/6a5e292471099d5c880d8c549d3ed11a.png",
+  "match": "a.png",
+  "reference": "6a5e292471099d5c880d8c549d3ed11a.png",
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/:
+	hash:				RSA-MD4
+	src:				a.png?foo=BAR
+	expected:		http://example.org/a.png?foo=BAR
+	reason:			Does not remove search query string
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/337bd53fe4d82b912c1a250ccb4e2b9c.png",
+  "match": "a.png?foo=BAR",
+  "reference": "337bd53fe4d82b912c1a250ccb4e2b9c.png",
+  "src": "http://example.org/a.png?foo=BAR",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/:
+	hash:				RSA-MD4
+	src:				a.png?foo=BAR&BaZ=Bizz
+	expected:		http://example.org/a.png?foo=BAR&BaZ=Bizz
+	reason:			Does not remove search query string with amperstands
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/36bf6750b3692d0316f38f65344611e5.png",
+  "match": "a.png?foo=BAR&BaZ=Bizz",
+  "reference": "36bf6750b3692d0316f38f65344611e5.png",
+  "src": "http://example.org/a.png?foo=BAR&BaZ=Bizz",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/:
+	hash:				RSA-MD4
+	src:				a/b
+	expected:		http://example.org/a/b
+	reason:			Do not affect if no file extension
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/898ff59334d16cbc87bc231b1749c0bb",
+  "match": "a/b",
+  "reference": "898ff59334d16cbc87bc231b1749c0bb",
+  "src": "http://example.org/a/b",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a.html:
+	hash:				RSA-MD4
+	src:				b.png
+	expected:		http://example.org/b.png
+	reason:			Relative path when using file name with .html at top directory
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/a/4b935fcbaed14ee1580c5d033fbbd4ab.png",
+  "match": "b.png",
+  "reference": "4b935fcbaed14ee1580c5d033fbbd4ab.png",
+  "src": "http://example.org/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a/:
+	hash:				RSA-MD4
+	src:				./b.png
+	expected:		http://example.org/a/b.png
+	reason:			Explicit parent from current context root
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/a/b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "match": "./b.png",
+  "reference": "b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a/:
+	hash:				RSA-MD4
+	src:				b.png
+	expected:		http://example.org/a/b.png
+	reason:			Relative path from a sub folder
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/a/b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "match": "b.png",
+  "reference": "b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a/:
+	hash:				RSA-MD4
+	src:				b/c.png
+	expected:		http://example.org/a/b/c.png
+	reason:			Deeper relative path
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/a/2f111ca4bd3763e2b59d4e4abd4ee7f3.png",
+  "match": "b/c.png",
+  "reference": "2f111ca4bd3763e2b59d4e4abd4ee7f3.png",
+  "src": "http://example.org/a/b/c.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-MD4 1`] = `"b681c8e6a24db0d9ab038b0d57c5a1a8"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-MD5 1`] = `"25171245d73364b1e64fbcb1d0cc9735"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-MDC2 1`] = `"b6e5a39bfb09ed57b1d4024ad3716b99"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-RIPEMD160 1`] = `"393d33d33edf4d9149026b54f28bf1a96d69a0d5"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-SHA1 1`] = `"e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-SHA1-2 1`] = `"e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-SHA3-224 1`] = `"1ef3305299099be82652e255fa314200d3fa8d333930a8a9007f5179"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-SHA3-256 1`] = `"9b43482da7f4be63f9782bad810fa89e486eab1f344653b31883925e8787e27a"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-SHA3-384 1`] = `"d4d8ead8feb4c3568bd1d26dc24b7ab4f5952f08a5647849fd8a87a1ec2a5699ff3e11937191ae5bffdd0c351e0dce64"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-SHA3-512 1`] = `"a21f265337962a67bc52ebcd7157c02c28653c5ad9218d113c442e280bf55fe8df8572bd646427345898a672ee118f8bf07a8a109b1a7bc640e6ad8145c941b7"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-SHA224 1`] = `"8c0ec40fb2cd22e57a2aed7ac0b7c5e5438d56ea75cac0bb4d1b0b94"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-SHA256 1`] = `"6977dde10b84e741b72b745d1ccd1a2ef88c413d6d258c17e911bf50e28343f0"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-SHA384 1`] = `"4083387c93021faa15a9ec30e5100fd165da5a9730a11fae590f59278c28534d49d699c762da0eee6243c1a35cc0c7e3"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-SHA512 1`] = `"16c2b77240a5fee4d06e1782260f1fa46d9a7f6170b876fca72d9ac69ee6ebee4b64a2dee7c97b4249aa649c075e6179985b9cf22d64eaff81891675b670240c"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-SHA512/224 1`] = `"b814a760a777241ef2ade62dfc719456964bcc201375d90c2fcf4e14"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-SHA512/256 1`] = `"1d0f8a2c1aeb5ddda65086773247adc8bdf01ff88afe162d5d97708bafa888e0"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in RSA-SM3 1`] = `"0dcee001a14383bf42b14cbcfcb983bf3c3b17ab94ae6ff16a1ca1528b295080"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in blake2b512 1`] = `"eb4c34d4c86208725e785c5a9392a7aeb606ac3c656cd66798705b4c268ca4a05137e782af3a050273b7f6fd3509528c99080025541734ddbbf1bec87cda8880"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in blake2s256 1`] = `"92c27044432da227c4c1f889c0775fca59713877d2f4d3156c7b928d4c5b1a52"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in id-rsassa-pkcs1-v1_5-with-sha3-224 1`] = `"1ef3305299099be82652e255fa314200d3fa8d333930a8a9007f5179"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in id-rsassa-pkcs1-v1_5-with-sha3-256 1`] = `"9b43482da7f4be63f9782bad810fa89e486eab1f344653b31883925e8787e27a"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in id-rsassa-pkcs1-v1_5-with-sha3-384 1`] = `"d4d8ead8feb4c3568bd1d26dc24b7ab4f5952f08a5647849fd8a87a1ec2a5699ff3e11937191ae5bffdd0c351e0dce64"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in id-rsassa-pkcs1-v1_5-with-sha3-512 1`] = `"a21f265337962a67bc52ebcd7157c02c28653c5ad9218d113c442e280bf55fe8df8572bd646427345898a672ee118f8bf07a8a109b1a7bc640e6ad8145c941b7"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in md4 1`] = `"b681c8e6a24db0d9ab038b0d57c5a1a8"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in md4WithRSAEncryption 1`] = `"b681c8e6a24db0d9ab038b0d57c5a1a8"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in md5 1`] = `"25171245d73364b1e64fbcb1d0cc9735"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in md5-sha1 1`] = `"25171245d73364b1e64fbcb1d0cc9735e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in md5WithRSAEncryption 1`] = `"25171245d73364b1e64fbcb1d0cc9735"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in mdc2 1`] = `"b6e5a39bfb09ed57b1d4024ad3716b99"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in mdc2WithRSA 1`] = `"b6e5a39bfb09ed57b1d4024ad3716b99"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in ripemd 1`] = `"393d33d33edf4d9149026b54f28bf1a96d69a0d5"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in ripemd160 1`] = `"393d33d33edf4d9149026b54f28bf1a96d69a0d5"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in ripemd160WithRSA 1`] = `"393d33d33edf4d9149026b54f28bf1a96d69a0d5"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in rmd160 1`] = `"393d33d33edf4d9149026b54f28bf1a96d69a0d5"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha1 1`] = `"e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha1WithRSAEncryption 1`] = `"e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha3-224 1`] = `"1ef3305299099be82652e255fa314200d3fa8d333930a8a9007f5179"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha3-256 1`] = `"9b43482da7f4be63f9782bad810fa89e486eab1f344653b31883925e8787e27a"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha3-384 1`] = `"d4d8ead8feb4c3568bd1d26dc24b7ab4f5952f08a5647849fd8a87a1ec2a5699ff3e11937191ae5bffdd0c351e0dce64"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha3-512 1`] = `"a21f265337962a67bc52ebcd7157c02c28653c5ad9218d113c442e280bf55fe8df8572bd646427345898a672ee118f8bf07a8a109b1a7bc640e6ad8145c941b7"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha224 1`] = `"8c0ec40fb2cd22e57a2aed7ac0b7c5e5438d56ea75cac0bb4d1b0b94"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha224WithRSAEncryption 1`] = `"8c0ec40fb2cd22e57a2aed7ac0b7c5e5438d56ea75cac0bb4d1b0b94"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha256 1`] = `"6977dde10b84e741b72b745d1ccd1a2ef88c413d6d258c17e911bf50e28343f0"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha256WithRSAEncryption 1`] = `"6977dde10b84e741b72b745d1ccd1a2ef88c413d6d258c17e911bf50e28343f0"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha384 1`] = `"4083387c93021faa15a9ec30e5100fd165da5a9730a11fae590f59278c28534d49d699c762da0eee6243c1a35cc0c7e3"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha384WithRSAEncryption 1`] = `"4083387c93021faa15a9ec30e5100fd165da5a9730a11fae590f59278c28534d49d699c762da0eee6243c1a35cc0c7e3"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha512 1`] = `"16c2b77240a5fee4d06e1782260f1fa46d9a7f6170b876fca72d9ac69ee6ebee4b64a2dee7c97b4249aa649c075e6179985b9cf22d64eaff81891675b670240c"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha512-224 1`] = `"b814a760a777241ef2ade62dfc719456964bcc201375d90c2fcf4e14"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha512-224WithRSAEncryption 1`] = `"b814a760a777241ef2ade62dfc719456964bcc201375d90c2fcf4e14"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha512-256 1`] = `"1d0f8a2c1aeb5ddda65086773247adc8bdf01ff88afe162d5d97708bafa888e0"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha512-256WithRSAEncryption 1`] = `"1d0f8a2c1aeb5ddda65086773247adc8bdf01ff88afe162d5d97708bafa888e0"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sha512WithRSAEncryption 1`] = `"16c2b77240a5fee4d06e1782260f1fa46d9a7f6170b876fca72d9ac69ee6ebee4b64a2dee7c97b4249aa649c075e6179985b9cf22d64eaff81891675b670240c"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in shake128 1`] = `"0f297e52272561e95116e9f4699afbc9"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in shake256 1`] = `"809fb0ae4cb87f6ae93055a837bd415ce90f7a9fb813cf5705dd6706b69e6415"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sm3 1`] = `"0dcee001a14383bf42b14cbcfcb983bf3c3b17ab94ae6ff16a1ca1528b295080"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in sm3WithRSAEncryption 1`] = `"0dcee001a14383bf42b14cbcfcb983bf3c3b17ab94ae6ff16a1ca1528b295080"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in ssl3-md5 1`] = `"25171245d73364b1e64fbcb1d0cc9735"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in ssl3-sha1 1`] = `"e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6"`;
+
+exports[`NormalizedAsset http://example.org/a/b.png hashed in whirlpool 1`] = `"7c26c5e81f1d118828e977b7cb175d3c243fd814d41a773e38f72b0374224091d1c3993406da58a43c782044f11049f09414a1a3c4c0a1a170fbe6f852f87717"`;
+
+exports[`NormalizedAsset http://example.org/a/c.do:
+	hash:				RSA-MD4
+	src:				b.png
+	expected:		http://example.org/a/b.png
+	reason:			Document is one folder deep and file with .do extension, asset relative to same directory where file is
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/a/c/b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "match": "b.png",
+  "reference": "b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a/c.html:
+	hash:				RSA-MD4
+	src:				b.png
+	expected:		http://example.org/a/b.png
+	reason:			Relative path when using file name with .html
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/a/c/b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "match": "b.png",
+  "reference": "b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a/c/:
+	hash:				RSA-MD4
+	src:				../b.png
+	expected:		http://example.org/a/b.png
+	reason:			Relative path going into 1 parent up
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/a/c/b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "match": "../b.png",
+  "reference": "b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a/c:
+	hash:				RSA-MD4
+	src:				../b.png
+	expected:		http://example.org/a/b.png
+	reason:			Relative path going into 1 parent up, without trailing slash
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/a/c/b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "match": "../b.png",
+  "reference": "b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a:
+	hash:				RSA-MD4
+	src:				./b.png
+	expected:		http://example.org/a/b.png
+	reason:			Explicit parent from current context root in sub folder, without trailing slash
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/a/b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "match": "./b.png",
+  "reference": "b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a:
+	hash:				RSA-MD4
+	src:				B.pnG
+	expected:		http://example.org/a/B.pnG
+	reason:			Case sensitive, relative path from a sub folder, without trailing slash
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/a/df229c43eb77cd5d67ec499daf527988.png",
+  "match": "B.pnG",
+  "reference": "df229c43eb77cd5d67ec499daf527988.png",
+  "src": "http://example.org/a/B.pnG",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a:
+	hash:				RSA-MD4
+	src:				Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg
+	expected:		http://example.org/a/Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg
+	reason:			Do not touch spaces and case
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/a/58c96ee3c5511b59afbcedb8ae6da70c.jpg",
+  "match": "Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg",
+  "reference": "58c96ee3c5511b59afbcedb8ae6da70c.jpg",
+  "src": "http://example.org/a/Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a:
+	hash:				RSA-MD4
+	src:				b(WTH).png
+	expected:		http://example.org/a/b(WTH).png
+	reason:			Parens are not valid, but some uses them, must support them
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/a/7ee50609f2ff190d26f1848659acff57.png",
+  "match": "b(WTH).png",
+  "reference": "7ee50609f2ff190d26f1848659acff57.png",
+  "src": "http://example.org/a/b(WTH).png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a:
+	hash:				RSA-MD4
+	src:				b.png
+	expected:		http://example.org/a/b.png
+	reason:			Relative path from a sub folder, without trailing slash
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/a/b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "match": "b.png",
+  "reference": "b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a:
+	hash:				RSA-MD4
+	src:				b/c.png
+	expected:		http://example.org/a/b/c.png
+	reason:			Deeper relative path, without trailing slash
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/a/2f111ca4bd3763e2b59d4e4abd4ee7f3.png",
+  "match": "b/c.png",
+  "reference": "2f111ca4bd3763e2b59d4e4abd4ee7f3.png",
+  "src": "http://example.org/a/b/c.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/b/c.do:
+	hash:				RSA-MD4
+	src:				/a.png
+	expected:		http://example.org/a.png
+	reason:			Document is one folder deep and file with .do extension, asset is referring at the root
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/b/c/6a5e292471099d5c880d8c549d3ed11a.png",
+  "match": "/a.png",
+  "reference": "6a5e292471099d5c880d8c549d3ed11a.png",
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/b/c.html:
+	hash:				RSA-MD4
+	src:				../../../../../a.png
+	expected:		http://example.org/a.png
+	reason:			File is HTML document, not a directory and asset is relative and goes beyond root directory. Force at root.
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/b/c/6a5e292471099d5c880d8c549d3ed11a.png",
+  "match": "../../../../../a.png",
+  "reference": "6a5e292471099d5c880d8c549d3ed11a.png",
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/b/c.html:
+	hash:				RSA-MD4
+	src:				../a.png
+	expected:		http://example.org/a.png
+	reason:			Document is one folder deep with .do file extension, asset refers to 1 parent directory up
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/b/c/6a5e292471099d5c880d8c549d3ed11a.png",
+  "match": "../a.png",
+  "reference": "6a5e292471099d5c880d8c549d3ed11a.png",
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/b/c.html:
+	hash:				RSA-MD4
+	src:				/a.png
+	expected:		http://example.org/a.png
+	reason:			Document is one folder deep and file with .html extension, asset is referring at the root
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/b/c/6a5e292471099d5c880d8c549d3ed11a.png",
+  "match": "/a.png",
+  "reference": "6a5e292471099d5c880d8c549d3ed11a.png",
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/b/c:
+	hash:				RSA-MD4
+	src:				../../../a.png
+	expected:		http://example.org/a.png
+	reason:			Asset is relative and goes beyond root directory
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/b/c/6a5e292471099d5c880d8c549d3ed11a.png",
+  "match": "../../../a.png",
+  "reference": "6a5e292471099d5c880d8c549d3ed11a.png",
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/bogus/:
+	hash:				RSA-MD4
+	src:				/a.png
+	expected:		http://example.org/a.png
+	reason:			Absolute path, without trailing slash, ignoring sub folder from hostname
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/bogus/6a5e292471099d5c880d8c549d3ed11a.png",
+  "match": "/a.png",
+  "reference": "6a5e292471099d5c880d8c549d3ed11a.png",
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/bogus/deep/path:
+	hash:				RSA-MD4
+	src:				/a.png
+	expected:		http://example.org/a.png
+	reason:			Absolute path, without trailing slash, ignoring sub folder from hostname
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/bogus/deep/path/6a5e292471099d5c880d8c549d3ed11a.png",
+  "match": "/a.png",
+  "reference": "6a5e292471099d5c880d8c549d3ed11a.png",
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/bogus:
+	hash:				RSA-MD4
+	src:				/a.png
+	expected:		http://example.org/a.png
+	reason:			Absolute path, ignoring sub folder from hostname
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/bogus/6a5e292471099d5c880d8c549d3ed11a.png",
+  "match": "/a.png",
+  "reference": "6a5e292471099d5c880d8c549d3ed11a.png",
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/foo:
+	hash:				RSA-MD4
+	src:				1*23.png
+	expected:		http://example.org/foo/1*23.png
+	reason:			Star is not typical in path, must support them
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/foo/672aad1104b03f49fbf34d348c46a120.png",
+  "match": "1*23.png",
+  "reference": "672aad1104b03f49fbf34d348c46a120.png",
+  "src": "http://example.org/foo/1*23.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/ignored/also_ignored/:
+	hash:				RSA-MD4
+	src:				../../a.jpg
+	expected:		http://example.org/a.jpg
+	reason:			Relative path going into 2 parents up
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/ignored/also_ignored/37da3323b57914fc7c8420e5f46ee59e.jpg",
+  "match": "../../a.jpg",
+  "reference": "37da3323b57914fc7c8420e5f46ee59e.jpg",
+  "src": "http://example.org/a.jpg",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/ignored/also_ignored/and_too:
+	hash:				RSA-MD4
+	src:				../../../a.jpg
+	expected:		http://example.org/a.jpg
+	reason:			Relative path going into 3 parents up, without trailing slash
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/ignored/also_ignored/and_too/37da3323b57914fc7c8420e5f46ee59e.jpg",
+  "match": "../../../a.jpg",
+  "reference": "37da3323b57914fc7c8420e5f46ee59e.jpg",
+  "src": "http://example.org/a.jpg",
+}
+`;
+
+exports[`NormalizedAsset http://example.org:
+	hash:				RSA-MD4
+	src:				./a.png
+	expected:		http://example.org/a.png
+	reason:			Explicit parent from current context root, without trailing slash
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/6a5e292471099d5c880d8c549d3ed11a.png",
+  "match": "./a.png",
+  "reference": "6a5e292471099d5c880d8c549d3ed11a.png",
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org:
+	hash:				RSA-MD4
+	src:				a.png
+	expected:		http://example.org/a.png
+	reason:			Relative path when at root, without trailing slash
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/6a5e292471099d5c880d8c549d3ed11a.png",
+  "match": "a.png",
+  "reference": "6a5e292471099d5c880d8c549d3ed11a.png",
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset https://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path:
+	hash:				RSA-MD4
+	src:				http://example.org/a/b.png
+	expected:		http://example.org/a/b.png
+	reason:			Ignore document origin if resource has full URL, even over TLS, we shall take asset resource URL as-is
+	duration:		 1`] = `
+Object {
+  "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "match": "http://example.org/a/b.png",
+  "reference": "b681c8e6a24db0d9ab038b0d57c5a1a8.png",
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset https://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path-tls:
+	hash:				RSA-MD4
+	src:				//example.org/a/b.png
+	expected:		https://example.org/a/b.png
+	reason:			Ignore document origin if resource has full URL, protocol relative, over TLS
+	duration:		 1`] = `
+Object {
+  "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path-tls/42def55120394a0a979b02055a364c6e.png",
+  "match": "//example.org/a/b.png",
+  "reference": "42def55120394a0a979b02055a364c6e.png",
+  "src": "https://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset https://elsewhere.org/a/b:
+	hash:				RSA-MD4
+	src:				//example.org/foo/bar.jpg
+	expected:		https://example.org/foo/bar.jpg
+	reason:			Refering document is over TLS, but referenced document is over protocol relative. Enforce same protocol
+	duration:		 1`] = `
+Object {
+  "dest": "elsewhere.org/a/b/86721ddf9c9f8d9843c08781a8edffa4.jpg",
+  "match": "//example.org/foo/bar.jpg",
+  "reference": "86721ddf9c9f8d9843c08781a8edffa4.jpg",
+  "src": "https://example.org/foo/bar.jpg",
+}
+`;
+
+exports[`NormalizedAsset https://example.org/:
+	hash:				RSA-MD4
+	src:				a.png
+	expected:		https://example.org/a.png
+	reason:			Maintains protocol
+	duration:		 1`] = `
+Object {
+  "dest": "example.org/90cce52e547783f72b6b11a6168b2b0c.png",
+  "match": "a.png",
+  "reference": "90cce52e547783f72b6b11a6168b2b0c.png",
+  "src": "https://example.org/a.png",
+}
+`;
+
+exports[`assetCollectionNormalizer Happy-Path 1`] = `
+Object {
+  "dest": "renoirboulanger.com/page/3/430e2156af17010e0d8ffcd726a95595fa71a4fd.jpg",
+  "match": "http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg",
+  "reference": "430e2156af17010e0d8ffcd726a95595fa71a4fd.jpg",
+  "src": "http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg",
+}
+`;
+
+exports[`assetCollectionNormalizer Happy-Path 2`] = `
+Object {
+  "dest": "renoirboulanger.com/page/3/b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png",
+  "match": "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png",
+  "reference": "b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png",
+  "src": "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png",
+}
+`;
+
+exports[`assetCollectionNormalizer Happy-Path 3`] = `
+Object {
+  "dest": "renoirboulanger.com/page/3/b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png",
+  "match": "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png",
+  "reference": "b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png",
+  "src": "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png",
+}
+`;
+
+exports[`assetCollectionNormalizer Happy-Path 4`] = `
+Object {
+  "dest": "renoirboulanger.com/page/3/63dc122dfd3c702e12714fbe4ba744e463c49edb",
+  "match": "//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500",
+  "reference": "63dc122dfd3c702e12714fbe4ba744e463c49edb",
+  "src": "http://www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500",
+}
+`;
+
+exports[`assetCollectionNormalizer Happy-Path 5`] = `
+Object {
+  "dest": "renoirboulanger.com/page/3/840257d7de220958ca4cc05a3c0ee337e2b0401d.jpg",
+  "match": "/wp-content/themes/renoirb/assets/img/zce_logo.jpg",
+  "reference": "840257d7de220958ca4cc05a3c0ee337e2b0401d.jpg",
+  "src": "http://renoirboulanger.com/wp-content/themes/renoirb/assets/img/zce_logo.jpg",
+}
+`;
