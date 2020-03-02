@@ -59,7 +59,8 @@
     "@types/node": "10.17.13",
     "eslint": "^6.0.0",
     "gulp": "~4.0.2",
-    "jest": "~23.6.0"
+    "jest": "~23.6.0",
+    "typescript": "^3.7.0"
   },
   "engines": {
     "node": ">=10"
