@@ -1,5 +1,5 @@
 import { URL } from '../url'
-import { createHashFunction } from '../hashing'
+import { createHashFunction, CryptoCommonHashingFunctions } from '../hashing'
 
 /**
  * Asset URL asset file name hasher.
@@ -11,12 +11,12 @@ import { createHashFunction } from '../hashing'
  */
 export const assetUrlHasher = (
   resourceUrl: URL,
-  hash: string = 'sha256',
+  hash: CryptoCommonHashingFunctions = 'sha1',
 ): string => {
   const pathname = resourceUrl.pathname
   // svg, png, jpg, webm
-  let extension: string = ''
-  let matches = pathname.match(/(\.[a-z]{2,})$/i)
+  let extension = ''
+  const matches = pathname.match(/(\.[a-z]{2,})$/i)
   if (matches !== null && Array.isArray(matches) && matches[0]) {
     extension = matches[0]
   }

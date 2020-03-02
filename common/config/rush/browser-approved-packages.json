@@ -19,6 +19,10 @@
       "allowedCategories": [ "packages" ]
     },
     {
+      "name": "@renoirb/conventions-use-eslint",
+      "allowedCategories": [ "packages" ]
+    },
+    {
       "name": "@renoirb/conventions-use-jest",
       "allowedCategories": [ "packages" ]
     },
@@ -32,6 +36,10 @@
     },
     {
       "name": "@rushstack/eslint-config",
+      "allowedCategories": [ "packages" ]
+    },
+    {
+      "name": "bili",
       "allowedCategories": [ "packages" ]
     },
     {

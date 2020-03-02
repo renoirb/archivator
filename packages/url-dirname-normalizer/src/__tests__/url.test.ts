@@ -1,4 +1,4 @@
-import { toUrl } from '../internal'
+import { toUrl } from '../url'
 
 describe('toUrl', () => {
   test('Happy-Path', () => {

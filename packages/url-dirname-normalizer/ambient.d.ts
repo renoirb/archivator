@@ -6,7 +6,7 @@
  * when we import that library.
  */
 declare global {
-  var URL: typeof globalThis extends {
+  const URL: typeof globalThis extends {
     Document: new () => { querySelectorAll: any }
     URL: infer URLCtor
   }

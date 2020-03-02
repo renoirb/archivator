@@ -2,5 +2,6 @@
   "extends": "./node_modules/@microsoft/rush-stack-compiler-3.7/includes/tsconfig-node.json",
   "compilerOptions": {
     "types": ["jest", "node"]
-  }
+  },
+  "exclude": ["__tests__"]
 }

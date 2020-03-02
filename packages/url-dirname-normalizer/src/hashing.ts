@@ -1,5 +1,14 @@
 import { createHash, getHashes, HexBase64Latin1Encoding } from 'crypto'
 
+export type CryptoCommonHashingFunctions =
+  | 'sha1'
+  | 'sha256'
+  | 'md5'
+  | 'md5-sha1'
+  | string
+
+export { HexBase64Latin1Encoding }
+
 /**
  * Calculate the sha256 digest of a string.
  *
@@ -18,9 +27,9 @@ import { createHash, getHashes, HexBase64Latin1Encoding } from 'crypto'
  * @param {string} [encoding=hex] - Output digest encoding format: hex, base64
  */
 export const createHashFunction = (
-  hash: string = 'sha256',
+  hash: CryptoCommonHashingFunctions = 'sha256',
   encoding: HexBase64Latin1Encoding = 'hex',
-) => {
+): ((message: string) => string) => {
   // TypeScript does not necessarily transpile type checks for runtime.
   // type HexBase64Latin1Encoding from 'crypto' module.
   const encodings: HexBase64Latin1Encoding[] = ['latin1', 'hex', 'base64']

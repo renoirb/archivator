@@ -1,13 +1,37 @@
-import {
-  assetUrlHasher,
-  assetUrlNormalizer,
-  directoryNameNormalizer,
-} from './normalizer'
+import { assetUrlNormalizer, directoryNameNormalizer } from './normalizer'
+import { createHashFunction, CryptoCommonHashingFunctions } from './hashing'
+import { URL } from './url'
+
+/**
+ * Asset URL asset file name hasher.
+ *
+ * For any given Rewrite a file name based on an URL they were downloaded from.
+ */
+export const assetReferenceHash = (
+  resourceUrl: URL,
+  hashWith: CryptoCommonHashingFunctions = 'sha1',
+): string => {
+  const pathname = resourceUrl.pathname
+  // svg, png, jpg, webm
+  let extension = ''
+  const matches = pathname.match(/(\.[a-z]{2,})$/i)
+  if (matches !== null && Array.isArray(matches) && matches[0]) {
+    extension = matches[0]
+  }
+
+  const hashed = createHashFunction(hashWith, 'hex')(String(resourceUrl))
+  return hashed + extension.toLowerCase()
+}
 
 /**
  * Normalized Asset reference.
  *
- * See {@link createAssetReference}
+ * For any "match" (i.e. initial value), where ("src") to download the asset in relation to the
+ * source document. When saving downloaded assets, save into "dest", and eventually, refactor
+ * source document's HTML source to a new "reference" name.
+ *
+ * @public
+ * @author Renoir Boulanger <contribs@renoirboulanger.com>
  */
 export interface NormalizedAssetInterface {
   /**
@@ -45,10 +69,7 @@ export interface NormalizedAssetInterface {
 }
 
 /**
- * Create a normalized {asset, normalized, hash} entry for iteration.
- *
- * @public
- * @author Renoir Boulanger <contribs@renoirboulanger.com>
+ * {@link NormalizedAssetInterface}
  */
 export class NormalizedAsset implements NormalizedAssetInterface {
   readonly dest: string
@@ -69,20 +90,20 @@ export class NormalizedAsset implements NormalizedAssetInterface {
   constructor(
     sourceDocument: string,
     match: string,
-    hashWith: string = 'sha1',
+    hashWith: CryptoCommonHashingFunctions = 'sha1',
   ) {
     this.match = match
 
     const basePath = directoryNameNormalizer(sourceDocument)
     const urlObj = assetUrlNormalizer(sourceDocument, match)
 
-    const reference = assetUrlHasher(urlObj, hashWith)
+    const reference = assetReferenceHash(urlObj, hashWith)
     this.src = String(urlObj)
     this.reference = reference
     this.dest = `${basePath}/${reference}`
   }
 
-  toJSON(): Readonly<NormalizedAssetInterface> {
+  toJSON(): NormalizedAssetInterface {
     const out: NormalizedAssetInterface = {
       dest: this.dest,
       match: this.match,
@@ -90,7 +111,7 @@ export class NormalizedAsset implements NormalizedAssetInterface {
       src: this.src,
     }
 
-    return Object.freeze(out)
+    return out
   }
 }
 
@@ -103,19 +124,17 @@ export class NormalizedAsset implements NormalizedAssetInterface {
  * - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L20
  * - https://github.com/renoirb/archivator/blob/29aff30c/src/normalizer/assets.js#L32
  *
- *
  * ---
  *
  * Input is a list of resources in many possible format;
  *
  * ```js
- * sourceDocument = "http://renoirboulanger.com/page/3/"
+ * const sourceDocument = 'http://renoirboulanger.com/page/3/'
  * const matches = [
- *   "http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg",
- *   "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png",
- *   "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png",
- *   "//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500",
- *   "/wp-content/themes/renoirb/assets/img/zce_logo.jpg",
+ *   'http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg',
+ *   'https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png',
+ *   '//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500',
+ *   '/wp-content/themes/renoirb/assets/img/zce_logo.jpg',
  * ]
  * ```
  *
@@ -162,8 +181,8 @@ export class NormalizedAsset implements NormalizedAssetInterface {
 export function* assetCollectionNormalizer(
   sourceDocument: string,
   assets: string[],
-  hashWith?: string
-) {
+  hashWith?: CryptoCommonHashingFunctions,
+): IterableIterator<NormalizedAssetInterface> {
   for (const asset of assets) {
     const normalized = new NormalizedAsset(sourceDocument, asset, hashWith)
     yield normalized

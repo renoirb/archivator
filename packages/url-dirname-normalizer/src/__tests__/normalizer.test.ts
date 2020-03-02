@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+
 import { fixtures } from '.'
-import { directoryNameNormalizer } from '../internal'
+import { directoryNameNormalizer } from '..'
 
 describe('directoryNameNormalizer', () => {
   test('Happy-Path', () => {
@@ -15,9 +17,10 @@ describe('directoryNameNormalizer', () => {
   })
 
   const slugification = fixtures.load('slugification.json')
+  // @ts-ignore
   test.each(slugification)(
     '%s:\n\tout:\t\t%s\n\treason:\t\t%s\n\tduration:\t',
-    (input, expected, _) => {
+    (input, expected) => {
       const output = directoryNameNormalizer(input)
       // console.log('run', {output, input, expected, reason: _})
       expect(output).toBe(expected)

@@ -1,4 +1,5 @@
-import { searchParamsNormalizer, pathNameNormalizer } from '.'
+import { searchParamsNormalizer } from './search-params'
+import { pathNameNormalizer } from './path-name'
 import { toUrl, URL } from '../url'
 
 /**
@@ -10,8 +11,8 @@ import { toUrl, URL } from '../url'
  * @public
  * @author Renoir Boulanger <contribs@renoirboulanger.com>
  */
-export const directoryNameNormalizer = (url: string): string => {
-  const urlObj: URL = toUrl(url)
+export const directoryNameNormalizer = (resourceUrl: string): string => {
+  const urlObj: URL = toUrl(resourceUrl)
   const search = searchParamsNormalizer(urlObj)
   const pathname = pathNameNormalizer(urlObj)
   return String(`${urlObj.hostname}${pathname}${search}`)

@@ -1,18 +1,22 @@
+import { directoryNameNormalizer } from './normalizer'
+
 import {
   assetCollectionNormalizer,
-  assetUrlHasher,
-  directoryNameNormalizer,
   NormalizedAsset,
-  NormalizedAssetFactory,
   NormalizedAssetInterface,
-} from './internal'
+} from './asset'
+
+import {
+  CryptoCommonHashingFunctions,
+  HexBase64Latin1Encoding,
+} from './hashing'
 
 export {
   assetCollectionNormalizer,
-  assetUrlHasher,
+  CryptoCommonHashingFunctions,
   directoryNameNormalizer,
+  HexBase64Latin1Encoding,
   NormalizedAsset,
-  NormalizedAssetFactory,
   NormalizedAssetInterface,
 }
 

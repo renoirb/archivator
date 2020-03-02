@@ -7,11 +7,11 @@ import { URL } from '../url'
  * But it's easier to debug like that if we need
  * to review the pass rules.
  */
-export const searchParamsNormalizer = (url: URL): string => {
+export const searchParamsNormalizer = (resourceUrl: URL): string => {
   // Explode at &, and sort search params order for consistent results
   // ?b=2&a=1&c=  -> [a=1, b=2, c=]
   // ?a=1&c=&b=2  -> [a=1, b=2, c=]
-  const search = String(url.search)
+  const search = String(resourceUrl.search)
     .replace(/^\?/, '')
     .split('&')
     .sort()
