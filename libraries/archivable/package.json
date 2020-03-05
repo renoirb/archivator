@@ -18,7 +18,7 @@
     "email": "contribs@renoirboulanger.com"
   },
   "exports": {
-    ".": "dist/index.js"
+    ".": "dist/index.esm.js"
   },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -36,9 +36,6 @@
     "prepublishOnly": "use-run-all clean build",
     "test": "use-jest --detectOpenHandles",
     "test:snapshots": "use-jest --detectOpenHandles -u"
-  },
-  "dependencies": {
-    "url-dirname-normalizer": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",

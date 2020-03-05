@@ -21,7 +21,7 @@ describe('parseArchivableCsvLine() and Archivable#fromLine() error handling', ()
     'invalid-url—string!!#?why%not',
     [],
     () => ({}),
-    Number.POSITIVE_INFINITY
+    Number.POSITIVE_INFINITY,
   ])('%s', line => {
     // @ts-ignore
     // We do not validate CSS selectors, but we do validate the URLs.
@@ -46,7 +46,10 @@ describe('Archivable', () => {
       // If empty string, we guess we want the full page body. This is deliberate.
       expect(subject).toHaveProperty('selector', parsed[1] ? parsed[1] : 'body')
       // Yes, we also truncate off non content tags too.
-      expect(subject).toHaveProperty('truncate', `${parsed[2]},script,style,noscript,template`)
+      expect(subject).toHaveProperty(
+        'truncate',
+        `${parsed[2]},script,style,noscript,template`,
+      )
     }
   })
 })

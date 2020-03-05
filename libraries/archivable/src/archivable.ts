@@ -1,4 +1,4 @@
-import { directoryNameNormalizer, toUrl } from 'url-dirname-normalizer'
+import { toUrl } from './utils'
 
 /**
  * Given every row in source file .csv
@@ -34,7 +34,7 @@ export interface ArchivableType {
   /**
    * Based on the constructor url argument, where on the filesystem to archive the web page
    */
-  archive: string
+  archive: string | null
   /**
    * CSS selector where the principal web page content is in
    */
@@ -100,7 +100,7 @@ const appendSelector = (selectorArg: string): string => {
 }
 
 export class Archivable implements ArchivableType {
-  readonly archive: string
+  readonly archive: string | null = null
   readonly selector: string
   readonly truncate: string
   readonly url: string
@@ -121,7 +121,6 @@ export class Archivable implements ArchivableType {
     try {
       // toUrl should throw
       const sourceDocument = toUrl(url)
-      this.archive = directoryNameNormalizer(url)
       this.selector = appendSelector(selector)
       this.truncate = appendTruncate(truncate)
       this.url = String(sourceDocument)
