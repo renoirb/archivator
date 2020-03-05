@@ -310,6 +310,12 @@
       "projectFolder": "packages/url-dirname-normalizer",
       "reviewCategory": "packages",
       "versionPolicyName": "standalone"
+    },
+    {
+      "packageName": "@archivator/archivable",
+      "projectFolder": "libraries/archivable",
+      "reviewCategory": "libraries",
+      "versionPolicyName": "individualVersion"
     }
   ]
 }
