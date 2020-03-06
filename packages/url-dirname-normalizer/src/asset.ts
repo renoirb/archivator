@@ -1,17 +1,62 @@
 import {
   assetUrlNormalizer,
   directoryNameNormalizer,
-  maybeAssetFileExtensionNormalizer,
+  assetFileExtensionNormalizer,
   NormalizedAssetDestType,
+  NormalizedAssetReferenceHandlerType,
   NormalizedAssetReferenceType,
   NormalizedAssetType,
+  NormalizedAssetFileExtensionExtractorType,
 } from './normalizer'
-import {
-  createHashFunction,
-  CryptoCommonHashingFunctions,
-  HashingFunctionType,
-  HexBase64Latin1Encoding,
-} from './hashing'
+import { createHashFunction, HashingFunctionType } from './hashing'
+
+/**
+ * For any reference found in initial source document, what reference
+ * to use to replace it with so that we can use local copy of asset.
+ *
+ * The following returns a Map, but if it were an Object hash-map, it
+ * would look like this:
+ *
+ * ```
+ * {
+ *   'https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png' => 'b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png',
+ *   '//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500' => '63dc122dfd3c702e12714fbe4ba744e463c49edb',
+ *   '../../avatar.jpg' => '37fd63a34f42ed3b012b9baac82e97fbe9f9c067.jpg',
+ *   '/wp-content/themes/renoirb/assets/img/zce_logo.jpg' => '840257d7de220958ca4cc05a3c0ee337e2b0401d.jpg'
+ * }
+ * ```
+ *
+ * This way, we can search and replace the initial attribute value,
+ * and rewrite with the reference (i.e. hash) of the file we've downloaded.
+ *
+ * ----
+ *
+ * See earlier implementation:
+ *   On master branch:
+ *     - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L70-L83
+ *     - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L85-L114
+ *
+ * ----
+ *
+ * @public
+ */
+export const createNormalizedAssetReferenceMap = (
+  assets: DocumentAssets,
+): Map<string, string> => {
+  const out = new Map<string, string>()
+  for (const normalized of assets) {
+    if (normalized.reference) {
+      out.set(normalized.match, normalized.reference)
+    } else {
+      const message = `Missing asset reference for ${JSON.stringify(
+        normalized,
+      )}`
+      throw new Error(message)
+    }
+  }
+
+  return out
+}
 
 /**
  * Return missing properties for normalized asset entity: The file hash (a.k.a. reference).
@@ -25,24 +70,23 @@ import {
  *
  * @public
  * @author Renoir Boulanger <contribs@renoirboulanger.com>
- *
- * @param asset {NormalizedAssetType} — The asset entity
- * @param hasher {HashingFunctionType} — Hashing function type
  */
-export const extractNormalizedAssetReference = (
-  asset: NormalizedAssetType,
-  hasher: HashingFunctionType,
-): NormalizedAssetReferenceType => {
-  const extension = maybeAssetFileExtensionNormalizer(asset.src)
-  const hasExtension = extension !== ''
-  const reference = hasher.apply(null, [asset.src]) + extension
+export const assetReferenceHandlerFactory = (
+  hashingHandler: HashingFunctionType,
+  extensionHandler: NormalizedAssetFileExtensionExtractorType,
+): NormalizedAssetReferenceHandlerType => {
+  return (asset: NormalizedAssetType) => {
+    const extension = extensionHandler.apply(null, [asset.src])
+    const hasExtension = extension !== ''
+    const reference = hashingHandler.apply(null, [asset.src]) + extension
 
-  const out: NormalizedAssetReferenceType = {
-    reference,
-    hasExtension,
+    const out: NormalizedAssetReferenceType = {
+      reference,
+      hasExtension,
+    }
+
+    return out
   }
-
-  return out
 }
 
 /**
@@ -57,7 +101,7 @@ export const extractNormalizedAssetDest = (
 ): NormalizedAssetDestType => {
   const { reference } = asset
   if (typeof reference !== 'string') {
-    const message = `Missing asset reference, make sure you’ve used extractNormalizedAssetReference before using extractNormalizedAssetDest.`
+    const message = `Missing asset reference, make sure you’ve used assetReferenceHandlerFactory before using extractNormalizedAssetDest.`
     throw new Error(message)
   }
   const basePath = directoryNameNormalizer(sourceDocument)
@@ -89,7 +133,7 @@ export class NormalizedAsset implements NormalizedAssetType {
 
   /**
    * {@see NormalizedAssetType#reference}
-   * {@link extractNormalizedAssetReference}
+   * {@link assetReferenceHandlerFactory}
    */
   reference: string | null = null
 
@@ -180,32 +224,31 @@ export class NormalizedAsset implements NormalizedAssetType {
  * ----
  *
  * See earlier implementation:
- * - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L186
- * - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L192
- * - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L20
- * - https://github.com/renoirb/archivator/blob/29aff30c/src/normalizer/assets.js#L32
+ *   On master branch:
+ *     - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L186
+ *     - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L192
+ *     - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L20
+ *     - https://github.com/renoirb/archivator/blob/29aff30c/src/normalizer/assets.js#L32
+ *
+ * ----
  *
  * @public
  * @author Renoir Boulanger <contribs@renoirboulanger.com>
  */
 export class DocumentAssets implements Iterable<NormalizedAssetType> {
   private iterator: Iterator<string>
-  private hasher?: HashingFunctionType
+  private referenceHandler?: NormalizedAssetReferenceHandlerType
   constructor(
     public readonly sourceDocument: string,
     readonly assets: string[] = [],
   ) {
     this.iterator = assets[Symbol.iterator]()
-    this.setHasherParams()
   }
   [Symbol.iterator]() {
     return this
   }
-  setHasherParams(
-    hash: CryptoCommonHashingFunctions = 'sha1',
-    encoding: HexBase64Latin1Encoding = 'hex',
-  ): void {
-    this.hasher = createHashFunction(hash, encoding) as HashingFunctionType
+  setReferenceHandler(handler: NormalizedAssetReferenceHandlerType): void {
+    this.referenceHandler = handler.bind(this)
   }
   /**
    * Anything done here allows us to build full-blown objects only at iteration time.
@@ -218,16 +261,26 @@ export class DocumentAssets implements Iterable<NormalizedAssetType> {
    * - https://codeburst.io/a-simple-guide-to-es6-iterators-in-javascript-with-examples-189d052c3d8e
    */
   next(): IteratorResult<Readonly<NormalizedAssetType>> {
+    if (!this.referenceHandler) {
+      // If not set after constructor, let’s setup defaults
+      const hashingHandler = createHashFunction(
+        'sha1',
+        'hex',
+      ) as HashingFunctionType
+      const referenceHandler = assetReferenceHandlerFactory(
+        hashingHandler,
+        assetFileExtensionNormalizer,
+      )
+      this.setReferenceHandler(referenceHandler)
+    }
     const { done, value } = this.iterator.next()
     const sourceDocument = this.sourceDocument
+    const referenceHandler = this.referenceHandler
     const maybeAssetUrlString = typeof value === 'string' ? value : false
     if (!done && maybeAssetUrlString) {
       const asset = new NormalizedAsset(sourceDocument, maybeAssetUrlString)
-      if (this.hasher) {
-        const { reference } = extractNormalizedAssetReference(
-          asset,
-          this.hasher,
-        )
+      if (referenceHandler) {
+        const { reference } = referenceHandler(asset)
         Object.assign(asset, { reference })
         const { dest } = extractNormalizedAssetDest(asset, sourceDocument)
         Object.assign(asset, { dest })

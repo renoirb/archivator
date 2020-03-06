@@ -41,7 +41,7 @@ NormalizedAsset contains:
 - `src`: is where we should attempt downloading the asset from
 
 ````js
-import { DocumentAssets, NormalizedAsset } from 'url-dirname-normalizer'
+import { DocumentAssets, NormalizedAsset, assetFileExtensionNormalizer, createHashFunction } from 'url-dirname-normalizer'
 
 // HTML Source document URL from where the asset is embedded
 // Ignore document origin if resource has full URL, protocol relative, non TLS
@@ -61,7 +61,7 @@ const assetUrl = '//example.org/a/b.png'
  *   "dest": null,
  *   "match": "//example.org/a/b.png",
  *   "reference": null,
- *   "src": "http://example.org/a/b.png",
+ *   "src": "http://www.example.org/a/b/c.png",
  * }
  * ```
  *
@@ -88,12 +88,15 @@ for (const normalized of collection) {
   /**
    * `normalized` is an instance of `NormalizedAssetType`, and should look like this
    *
+   * Notice "4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97" is sha1 of "http://www.example.org/a/b/c.png".
+   * It is configurable, see below.
+   *
    * ```json
    * {
-   *   "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-   *   "match": "//example.org/a/b.png",
-   *   "reference": "e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-   *   "src": "http://example.org/a/b.png",
+   *   "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
+   *   "match": "//www.example.org/a/b/c.png",
+   *   "reference": "4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
+   *   "src": "http://www.example.org/a/b/c.png",
    * }
    * ```
    */
@@ -104,22 +107,25 @@ for (const normalized of collection) {
 If you want to change hashing function type, you can do by using `DocumentAssets.setHasherParams(hash,endoding)`
 
 ```js
-collection.setHasherParams('sha512', 'hex')
+collection.setReferenceHandler(assetReferenceHandlerFactory(
+  createHashFunction('md5', 'hex'),
+  assetFileExtensionNormalizer,
+))
 ```
 
-The above example's sha512 for 'http://example.org/a/b.png' would then be
+The above example's md5 for 'http://www.example.org/a/b/c.png' would then be
 
-> 16c2b77240a5fee4d06e1782260f1fa46d9a7f6170b876fca72d9ac69ee6ebee4b64a2dee7c97b4249aa649c075e6179985b9cf22d64eaff81891675b670240c
+> 6a324cd1a0e4e480c4db3e0558360527
 
 Iterating over the same `collection` would look like this
 
 ```json
 [
   {
-    "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/16c2b77240a5fee4d06e1782260f1fa46d9a7f6170b876fca72d9ac69ee6ebee4b64a2dee7c97b4249aa649c075e6179985b9cf22d64eaff81891675b670240c.png",
+    "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/6a324cd1a0e4e480c4db3e0558360527.png",
     "match": "//example.org/a/b.png",
-    "reference": "16c2b77240a5fee4d06e1782260f1fa46d9a7f6170b876fca72d9ac69ee6ebee4b64a2dee7c97b4249aa649c075e6179985b9cf22d64eaff81891675b670240c.png",
-    "src": "http://example.org/a/b.png"
+    "reference": "6a324cd1a0e4e480c4db3e0558360527.png",
+    "src": "http://www.example.org/a/b/c.png"
   }
 ]
 ```

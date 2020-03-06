@@ -3,10 +3,10 @@
 exports[`DocumentAssets Documentation examples 1`] = `
 Array [
   Object {
-    "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/16c2b77240a5fee4d06e1782260f1fa46d9a7f6170b876fca72d9ac69ee6ebee4b64a2dee7c97b4249aa649c075e6179985b9cf22d64eaff81891675b670240c.png",
-    "match": "//example.org/a/b.png",
-    "reference": "16c2b77240a5fee4d06e1782260f1fa46d9a7f6170b876fca72d9ac69ee6ebee4b64a2dee7c97b4249aa649c075e6179985b9cf22d64eaff81891675b670240c.png",
-    "src": "http://example.org/a/b.png",
+    "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
+    "match": "//www.example.org/a/b/c.png",
+    "reference": "4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
+    "src": "http://www.example.org/a/b/c.png",
   },
 ]
 `;
@@ -44,6 +44,33 @@ Array [
     "src": "http://renoirboulanger.com/avatar.jpg",
   },
 ]
+`;
+
+exports[`DocumentAssets setReferenceHandler 1`] = `
+Array [
+  Object {
+    "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/6a324cd1a0e4e480c4db3e0558360527.png",
+    "match": "//www.example.org/a/b/c.png",
+    "reference": "6a324cd1a0e4e480c4db3e0558360527.png",
+    "src": "http://www.example.org/a/b/c.png",
+  },
+]
+`;
+
+exports[`NormalizedAsset Happy-Path 1`] = `
+Object {
+  "dest": null,
+  "match": "b/c.png",
+  "reference": null,
+  "src": "http://www.example.org/a/b/c.png",
+}
+`;
+
+exports[`NormalizedAsset Happy-Path 2`] = `
+Object {
+  "hasExtension": true,
+  "reference": "6a324cd1a0e4e480c4db3e0558360527.png",
+}
 `;
 
 exports[`NormalizedAsset http://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path:
@@ -603,5 +630,15 @@ Object {
   "match": "a.png",
   "reference": null,
   "src": "https://example.org/a.png",
+}
+`;
+
+exports[`createNormalizedAssetReferenceMap Happy-Path 1`] = `
+Map {
+  "http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg" => "430e2156af17010e0d8ffcd726a95595fa71a4fd.jpg",
+  "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" => "b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png",
+  "//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500" => "63dc122dfd3c702e12714fbe4ba744e463c49edb",
+  "/wp-content/themes/renoirb/assets/img/zce_logo.jpg" => "840257d7de220958ca4cc05a3c0ee337e2b0401d.jpg",
+  "../../avatar.jpg" => "37fd63a34f42ed3b012b9baac82e97fbe9f9c067.jpg",
 }
 `;

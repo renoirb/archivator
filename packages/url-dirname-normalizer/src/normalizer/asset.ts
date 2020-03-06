@@ -1,4 +1,5 @@
 import { URL, toUrl } from '../url'
+import { HashingFunctionType } from '../hashing'
 
 /**
  * The file hash (a.k.a. reference) for NormalizedAssetType.
@@ -7,6 +8,15 @@ export interface NormalizedAssetReferenceType {
   reference: string
   hasExtension: boolean
 }
+
+export type NormalizedAssetReferenceHandlerType = (
+  asset: NormalizedAssetType,
+) => NormalizedAssetReferenceType
+
+export type NormalizedAssetReferenceHandlerFactoryType = (
+  hashingHandler: HashingFunctionType,
+  extensionHandler: NormalizedAssetFileExtensionExtractorType,
+) => NormalizedAssetReferenceHandlerType
 
 /**
  * The file destination (a.k.a. dest) for NormalizedAssetType.
@@ -302,8 +312,19 @@ export const assetUrlNormalizer = (
  * Asset URL asset file name hasher.
  *
  * For any given Rewrite a file name based on an URL they were downloaded from.
+ *
+ * @public
+ * @param assetUrl {string} — The asset’s URL, may not contain the file extension
+ * @return {string} — File extension (e.g. `.png`), or empty string.
  */
-export const maybeAssetFileExtensionNormalizer = (assetUrl: string): string => {
+export type NormalizedAssetFileExtensionExtractorType = (
+  assetUrl: string,
+) => string
+
+/**
+ * {@link NormalizedAssetFileExtensionExtractorType}
+ */
+export const assetFileExtensionNormalizer: NormalizedAssetFileExtensionExtractorType = assetUrl => {
   const url: URL = toUrl(assetUrl)
   // svg, png, jpg, webm
   let extension = ''
