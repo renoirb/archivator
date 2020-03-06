@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 
-import { getHashes } from 'crypto'
-
-import { fixtures } from '.'
-import { createHashFunction } from '../hashing'
+import {
+  createHashFunction,
+  getHashes,
+  CryptoCommonHashingFunctions,
+} from '../crypto'
 import {
   assetReferenceHandlerFactory,
   createNormalizedAssetReferenceMap,
@@ -13,14 +14,24 @@ import {
   NormalizedAsset,
 } from '..'
 
-// "http://www.example.org/a/b/c.png" encoded in Hexadecimal, hashing as...
-type ExampleSameReferenceHashes = 'sha1' | 'mdc2' | 'md5' | 'sha512' | 'sha224'
+import { fixtures } from '.'
+
+/**
+ * The string "http://www.example.org/a/b/c.png" encoded in Hexadecimal, hashing as...
+ *
+ * {@link CryptoCommonHashingFunctions}
+ */
+type ExampleSameReferenceHashes = Extract<
+  'sha1' | 'mdc2' | 'md5' | 'sha512' | 'sha224',
+  CryptoCommonHashingFunctions
+>
 const sameReferenceDifferentHash: Record<ExampleSameReferenceHashes, string> = {
-  'sha1': '4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png',
-  'mdc2': '0c6a93f9d825332c4a9a74e31730690c.png',
-  'md5': '6a324cd1a0e4e480c4db3e0558360527.png',
-  'sha512': '038cfb9ef4324be8ef490dc2fb3b1807f775afff693202bf7823e842aa5168612a441132bac051f90f6fcb59942324826d5885370e4dbe8465baa915aa1b6382.png',
-  'sha224': '6291f0c9dac71cbbb9ebbfe09a560c204aff4e9cbdd913eda3dfef21.png'
+  sha1: '4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png',
+  mdc2: '0c6a93f9d825332c4a9a74e31730690c.png',
+  md5: '6a324cd1a0e4e480c4db3e0558360527.png',
+  sha512:
+    '038cfb9ef4324be8ef490dc2fb3b1807f775afff693202bf7823e842aa5168612a441132bac051f90f6fcb59942324826d5885370e4dbe8465baa915aa1b6382.png',
+  sha224: '6291f0c9dac71cbbb9ebbfe09a560c204aff4e9cbdd913eda3dfef21.png',
 }
 
 describe('NormalizedAsset', () => {
@@ -68,8 +79,14 @@ describe('NormalizedAsset', () => {
      * from NormalizedAsset and what should be the reference and dest value.
      * We’re merging it manually here.
      */
-    const manuallyMergedSubject = Object.assign({}, { ...subject, ...extractedAssetReference })
-    expect(manuallyMergedSubject).toHaveProperty('reference', sameReferenceDifferentHash[localTestHashName])
+    const manuallyMergedSubject = Object.assign(
+      {},
+      { ...subject, ...extractedAssetReference },
+    )
+    expect(manuallyMergedSubject).toHaveProperty(
+      'reference',
+      sameReferenceDifferentHash[localTestHashName],
+    )
 
     const extractedAssetDest = extractNormalizedAssetDest(
       manuallyMergedSubject,
@@ -88,10 +105,8 @@ describe('NormalizedAsset', () => {
     // })
   })
 
-  const assetsNormalizationFixtures = fixtures.load('assets.json')
   const hash = 'sha1'
-  // @ts-ignore
-  test.each(assetsNormalizationFixtures)(
+  test.each(fixtures.loadNormalizedAssetAlphaJsonFixture())(
     `%s:\n\thash:\t\t\t${hash}\n\tsrc:\t\t\t%s\n\texpected:\t\t%s\n\treason:\t\t\t%s\n\tduration:\t\t`,
     (sourceDocument, src, expected) => {
       const subject = new NormalizedAsset(sourceDocument, src)
@@ -144,7 +159,10 @@ describe('DocumentAssets', () => {
     const arrayified = [...subject]
     expect(arrayified).toMatchSnapshot()
     // Just sanity-check, since we **DO NOT CALL** DocumentAssets.setReferenceHandler(), it should default sha1 in hex
-    expect(arrayified[0]).toHaveProperty('reference', sameReferenceDifferentHash.sha1)
+    expect(arrayified[0]).toHaveProperty(
+      'reference',
+      sameReferenceDifferentHash.sha1,
+    )
   })
 
   test('setReferenceHandler', () => {
@@ -165,7 +183,10 @@ describe('DocumentAssets', () => {
     const arrayified = [...subject]
     expect(arrayified).toMatchSnapshot()
     // Just sanity-check, since we **DO CALL** DocumentAssets.setReferenceHandler()
-    expect(arrayified[0]).toHaveProperty('reference', sameReferenceDifferentHash.md5)
+    expect(arrayified[0]).toHaveProperty(
+      'reference',
+      sameReferenceDifferentHash.md5,
+    )
   })
 })
 

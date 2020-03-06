@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 
-import { fixtures } from '.'
 import { directoryNameNormalizer } from '..'
+
+import { fixtures } from '.'
+
+const { loadSlugificationJsonFixture } = fixtures
 
 describe('directoryNameNormalizer', () => {
   test('Happy-Path', () => {
@@ -16,9 +19,8 @@ describe('directoryNameNormalizer', () => {
     ).toBe('example.org/ausername/some-lengthy-string-ending-with-a-hash')
   })
 
-  const slugification = fixtures.load('slugification.json')
   // @ts-ignore
-  test.each(slugification)(
+  test.each(loadSlugificationJsonFixture())(
     '%s:\n\tout:\t\t%s\n\treason:\t\t%s\n\tduration:\t',
     (input, expected) => {
       const output = directoryNameNormalizer(input)

@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 
-import { fixtures } from '.'
-
 import { parseArchivableCsvLine, Archivable } from '..'
 
-const { loadFixtureArchiveCsvContents } = fixtures
+import { fixtures } from '.'
 
 describe('parseArchivableCsvLine() and Archivable#fromLine() error handling', () => {
-  test.each(loadFixtureArchiveCsvContents())('%s', line => {
+  test.each(fixtures.loadArchiveCsvFixture())('%s', line => {
     expect(() => parseArchivableCsvLine(line)).not.toThrow()
     expect(() => Archivable.fromLine(line)).not.toThrow()
   })
@@ -33,8 +31,8 @@ describe('parseArchivableCsvLine() and Archivable#fromLine() error handling', ()
 
 describe('Archivable', () => {
   test('Idempotency', () => {
-    const fixtures = loadFixtureArchiveCsvContents()
-    for (const line of fixtures) {
+    const lines = fixtures.loadArchiveCsvFixture()
+    for (const line of lines) {
       const parsed = parseArchivableCsvLine(line)
       const subject = Archivable.fromLine(line)
       const objectified = Archivable.fromLine(line).toJSON()

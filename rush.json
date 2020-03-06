@@ -313,9 +313,9 @@
     },
     {
       "packageName": "@archivator/archivable",
-      "projectFolder": "libraries/archivable",
-      "reviewCategory": "libraries",
-      "versionPolicyName": "individualVersion"
+      "projectFolder": "packages/archivable",
+      "reviewCategory": "packages",
+      "versionPolicyName": "standalone"
     }
   ]
 }

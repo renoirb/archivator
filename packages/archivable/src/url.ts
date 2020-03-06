@@ -24,3 +24,5 @@ export const toUrl = (url: string): URL => {
 
   return out
 }
+
+export { URL }

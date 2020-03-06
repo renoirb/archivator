@@ -1,6 +1,7 @@
+import { directoryNameNormalizer } from 'url-dirname-normalizer'
+
 import {
   assetUrlNormalizer,
-  directoryNameNormalizer,
   assetFileExtensionNormalizer,
   NormalizedAssetDestType,
   NormalizedAssetReferenceHandlerType,
@@ -8,7 +9,8 @@ import {
   NormalizedAssetType,
   NormalizedAssetFileExtensionExtractorType,
 } from './normalizer'
-import { createHashFunction, HashingFunctionType } from './hashing'
+
+import { createHashFunction, HashingFunctionType } from './crypto'
 
 /**
  * For any reference found in initial source document, what reference
@@ -115,7 +117,7 @@ export const extractNormalizedAssetDest = (
 }
 
 /**
- * @description Asset we might want to keep a copy that is found on a document on the www.
+ * Asset we might want to keep a copy that is found on a document on the www.
  *
  * {@link NormalizedAssetType}
  *

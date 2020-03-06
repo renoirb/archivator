@@ -1,5 +1,5 @@
-import { URL, toUrl } from '../url'
-import { HashingFunctionType } from '../hashing'
+import { toUrl } from '../url'
+import { HashingFunctionType } from '../crypto'
 
 /**
  * The file hash (a.k.a. reference) for NormalizedAssetType.
@@ -13,6 +13,12 @@ export type NormalizedAssetReferenceHandlerType = (
   asset: NormalizedAssetType,
 ) => NormalizedAssetReferenceType
 
+/**
+ * How should we handle how to hash asset file reference
+ * and how to add file extension (or not).
+ *
+ * @public
+ */
 export type NormalizedAssetReferenceHandlerFactoryType = (
   hashingHandler: HashingFunctionType,
   extensionHandler: NormalizedAssetFileExtensionExtractorType,
@@ -20,6 +26,8 @@ export type NormalizedAssetReferenceHandlerFactoryType = (
 
 /**
  * The file destination (a.k.a. dest) for NormalizedAssetType.
+ *
+ * @public
  */
 export interface NormalizedAssetDestType {
   dest: string
@@ -111,8 +119,8 @@ export interface NormalizedAssetType {
 export const assetUrlNormalizer = (
   sourceDocument: string,
   asset: string,
-): URL => {
-  const sourceDocumentUrl: URL = toUrl(sourceDocument)
+): string => {
+  const sourceDocumentUrl = toUrl(sourceDocument)
   // console.log(`Given: ${sourceDocument}, Asset: ${asset}`); // DEBUG
 
   let targetGiven = String(sourceDocumentUrl.href).replace(
@@ -240,7 +248,7 @@ export const assetUrlNormalizer = (
   if (/\.\.\//.test(targetAsset)) {
     const goUp = targetAsset.match(/\.\.\//g)
     // console.log(`Has go up parent operator in path "${targetAsset}", found ${goUp.length} times`); // DEBUG
-    const tempTargetGivenUrlObj = new URL(targetGiven)
+    const tempTargetGivenUrlObj = toUrl(targetGiven)
     const targetGivenPathname = tempTargetGivenUrlObj.pathname
       .split('/')
       .filter(n => n)
@@ -302,10 +310,10 @@ export const assetUrlNormalizer = (
   }
 
   const newUrlString = String(`${targetGiven}${targetAsset}`)
-  const out: URL = toUrl(newUrlString)
-  // console.log('normalizer/assets', { newUrlString, url: out }); // DEBUG
+  const url = toUrl(newUrlString)
+  // console.log('normalizer/assets', { newUrlString, url }); // DEBUG
 
-  return out
+  return String(url)
 }
 
 /**
@@ -322,10 +330,16 @@ export type NormalizedAssetFileExtensionExtractorType = (
 ) => string
 
 /**
+ * Return a file extension with a dot as prefix, or an empty string.
+ *
+ * One can set their own normalizer, as long as it of type `(file: string) => string`
+ * When the output is either an empty string, or a file extension prefixed by a dot (e.g. `.png`)
+ *
+ * @public
  * {@link NormalizedAssetFileExtensionExtractorType}
  */
 export const assetFileExtensionNormalizer: NormalizedAssetFileExtensionExtractorType = assetUrl => {
-  const url: URL = toUrl(assetUrl)
+  const url = toUrl(assetUrl)
   // svg, png, jpg, webm
   let extension = ''
   const matches = url.pathname.match(/(\.[a-z]{2,})$/i)

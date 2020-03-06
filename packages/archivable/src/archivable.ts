@@ -1,4 +1,4 @@
-import { toUrl } from './utils'
+import { toUrl } from './url'
 
 /**
  * Given every row in source file .csv

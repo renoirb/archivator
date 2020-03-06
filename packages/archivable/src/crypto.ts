@@ -1,30 +1,49 @@
 import { createHash, getHashes, HexBase64Latin1Encoding } from 'crypto'
 
+/**
+ * Available Crypto Hashing Functions.
+ * Runtime might have a different list though.
+ *
+ * Also, this isn't planned to run client-side (in a Web Browser).
+ * Maybe the following list won't work.
+ *
+ * @public
+ */
 export type CryptoCommonHashingFunctions =
   | 'sha1'
   | 'sha256'
   | 'md5'
   | 'md5-sha1'
+  | 'mdc2'
+  | 'sha512'
+  | 'sha224'
   | string
 
+/**
+ * Take a message, return a hashed representation of it.
+ *
+ * @public
+ */
 export type HashingFunctionType = (message: string) => string
 
-export { HexBase64Latin1Encoding }
-
 /**
+ * Create a configured hashing function.
+ *
  * Calculate the sha256 digest of a string.
  *
- * ### Example (es imports)
- * ```js
- * const hasher = createHashFunction('sha256', 'hex')
- * hasher('test')
- * // => '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
- * ```
+ * One can set its own hash function
+ * As long as the returned createHashFunction is of type `(msg: string) => string`
  *
- * Related:
+ * Bookmarks:
  * - https://nodejs.org/api/crypto.html#crypto_class_hash
  * - https://nodejs.org/api/crypto.html#crypto_determining_if_crypto_support_is_unavailable
  *
+ * @example
+ * const hasher = createHashFunction('sha256', 'hex')
+ * hasher('test')
+ * // => '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
+ *
+ * @public
  * @param {string} [hash=sha256] - Hashing function to use against message
  * @param {string} [encoding=hex] - Output digest encoding format: hex, base64
  */
@@ -98,3 +117,5 @@ export const createHashFunction = (
     return digest
   }
 }
+
+export { HexBase64Latin1Encoding, getHashes }

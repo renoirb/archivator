@@ -4,31 +4,22 @@ import { resolve } from 'path'
 
 export type UrlsExpectedExplanationTuples = [string, string, string][]
 
-export type AssetsNormalizationUrlsExpectedExplanationTuples = [
-  string,
-  string,
-  string,
-  string,
-][]
 
-export const load = (
+export const loadJson = (
   fileName: string,
-):
-  | UrlsExpectedExplanationTuples
-  | AssetsNormalizationUrlsExpectedExplanationTuples => {
+): Readonly<UrlsExpectedExplanationTuples> => {
   const parentPath = resolve(__dirname, '..', '..', 'resources', 'fixtures')
   const normalizedFilePath = resolve(parentPath, fileName)
   if (!FileSystem.exists(normalizedFilePath)) {
     throw new Error(`Input file not found: ${fileName} in ${parentPath}`)
   }
 
-  const loaded = JsonFile.load(normalizedFilePath) as
-    | UrlsExpectedExplanationTuples
-    | AssetsNormalizationUrlsExpectedExplanationTuples
+  const loaded = JsonFile.load(normalizedFilePath) as  UrlsExpectedExplanationTuples
+  const out = Object.freeze(loaded)
 
-  return loaded
+  return out
 }
 
 export const fixtures = {
-  load,
+  loadSlugificationJsonFixture: () => loadJson('slugification.json'),
 }
