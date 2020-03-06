@@ -1,6 +1,70 @@
 import { URL, toUrl } from '../url'
 
 /**
+ * The file hash (a.k.a. reference) for NormalizedAssetType.
+ */
+export interface NormalizedAssetReferenceType {
+  reference: string
+  hasExtension: boolean
+}
+
+/**
+ * The file destination (a.k.a. dest) for NormalizedAssetType.
+ */
+export interface NormalizedAssetDestType {
+  dest: string
+}
+
+/**
+ * Normalized Asset reference.
+ *
+ * For any "match" (i.e. initial value), where ("src") to download the asset in relation to the
+ * source document. When saving downloaded assets, save into "dest", and eventually, refactor
+ * source document's HTML source to a new "reference" name.
+ *
+ * @public
+ * @author Renoir Boulanger <contribs@renoirboulanger.com>
+ */
+export interface NormalizedAssetType {
+  /**
+   * Fully qualified filesystem path where to save asset.
+   *
+   * Pretty much concatenation of `directoryNameNormalizer(sourceDocument)`
+   * and the value of NormalizedAssetType#reference.
+   *
+   * {@see NormalizedAssetDestType}
+   */
+  dest: string | null
+
+  /**
+   * Original asset found in source document.
+   *
+   * As received from constructor argument.
+   * Will be useful later on should we want to replace HTML Document's assets
+   * with a local copy, named after NormalizedAssetType#reference.
+   */
+  match: string
+
+  /**
+   * File name, as a hash and a file extension.
+   *
+   * Instead of keeping file name, we are normalizing as a hash + file extension.
+   * We can later-on replace from HTML Document's asset match with this reference instead.
+   *
+   * {@see NormalizedAssetReferenceType}
+   */
+  reference: string | null
+
+  /**
+   * URL on which to download asset from.
+   *
+   * URL to asset, should be normalized first via normalizedAssetReference
+   * Notice it isn't the same value as provided at constructor time.
+   */
+  src: string
+}
+
+/**
  * Normalize Asset Reference.
  *
  * Given we have an article URL at http://example.org/foo/bar/baz.html
@@ -104,9 +168,11 @@ export const assetUrlNormalizer = (
    *
    * Here are a few possible edge cases.
    *
-   * ```
    * ----
+   *
    * Equal number directory deep and request for going up.
+   *
+   * ```
    * [ { sourceDocument: 'http://example.org/ignored/also_ignored/and_too',
    *     targetGiven: 'http://example.org/ignored/also_ignored/and_too/' },
    *   { asset: '../../../a.jpg', targetAsset: '../../../a.jpg' },
@@ -117,7 +183,6 @@ export const assetUrlNormalizer = (
    *     newTargetGivenPathname: [],
    *     sliceUntilHowMany: 0 } ]
    *
-   * ----
    * [ { sourceDocument: 'http://example.org/ignored/also_ignored/',
    *     targetGiven: 'http://example.org/ignored/also_ignored/' },
    *   { asset: '../../a.jpg', targetAsset: '../../a.jpg' },
@@ -127,9 +192,13 @@ export const assetUrlNormalizer = (
    *     targetAssetArray: [ 'a.jpg' ],
    *     newTargetGivenPathname: [],
    *     sliceUntilHowMany: 0 } ]
+   * ```
    *
    * ----
+   *
    * File has extension, we cannot treat it as a directory.
+   *
+   * ```
    * [ { sourceDocument: 'http://example.org/b/c.html',
    *     targetGiven: 'http://example.org/b/' },
    *   { asset: '../a.png', targetAsset: '../a.png' },
@@ -139,10 +208,14 @@ export const assetUrlNormalizer = (
    *     targetAssetArray: [ 'a.png' ],
    *     newTargetGivenPathname: [],
    *     sliceUntilHowMany: 0 } ]
+   * ```
    *
    * ----
+   *
    * Here, we are asking to go beyond one directory deep.
    * Notice isTargetAssetGoUpOverflow is true.
+   *
+   * ```
    * [ { sourceDocument: 'http://example.org/b/c.html',
    *     targetGiven: 'http://example.org/' },
    *   { asset: '../../../../../a.png', targetAsset: 'a.png' },
@@ -185,7 +258,18 @@ export const assetUrlNormalizer = (
     const targetAssetArray = newTargetGivenPathname.concat(
       targetAsset.split('/').filter(n => n !== '..'),
     )
-    // console.log([{sourceDocument, targetGiven}, {asset, targetAsset}, {isTargetAssetGoUpOverflow, targetGivenPathname: targetGivenPathname.length, goUp: goUp.length, targetAssetArray, newTargetGivenPathname, sliceUntilHowMany}]);
+    // console.log([
+    //   { sourceDocument, targetGiven },
+    //   { asset, targetAsset },
+    //   {
+    //     isTargetAssetGoUpOverflow,
+    //     targetGivenPathname: targetGivenPathname.length,
+    //     // goUp: goUp.length,
+    //     targetAssetArray,
+    //     newTargetGivenPathname,
+    //     sliceUntilHowMany,
+    //   },
+    // ])
     targetGiven = String(`${sourceDocumentUrl.origin}/`)
     targetAsset = String(`${targetAssetArray.join('/')}`)
   }
@@ -212,4 +296,23 @@ export const assetUrlNormalizer = (
   // console.log('normalizer/assets', { newUrlString, url: out }); // DEBUG
 
   return out
+}
+
+/**
+ * Asset URL asset file name hasher.
+ *
+ * For any given Rewrite a file name based on an URL they were downloaded from.
+ */
+export const maybeAssetFileExtensionNormalizer = (assetUrl: string): string => {
+  const url: URL = toUrl(assetUrl)
+  // svg, png, jpg, webm
+  let extension = ''
+  const matches = url.pathname.match(/(\.[a-z]{2,})$/i)
+  if (matches !== null && Array.isArray(matches) && matches[0]) {
+    if (matches[0] !== '') {
+      extension = matches[0]
+    }
+  }
+
+  return extension.toLowerCase()
 }

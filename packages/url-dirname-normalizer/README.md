@@ -25,7 +25,7 @@ directoryNameNormalizer(sourceDocument)
 // > "example.org/ausername/some-lengthy-string-ending-with-a-hash"
 ```
 
-### NormalizedAsset
+### DocumentAssets and NormalizedAsset
 
 While archiving a web page, we might have a list of all assets the document makes references to.
 They can be embedded inside `<img src="...">` tags and other similar schemes.
@@ -41,7 +41,7 @@ NormalizedAsset contains:
 - `src`: is where we should attempt downloading the asset from
 
 ````js
-import { NormalizedAsset } from 'url-dirname-normalizer'
+import { DocumentAssets, NormalizedAsset } from 'url-dirname-normalizer'
 
 // HTML Source document URL from where the asset is embedded
 // Ignore document origin if resource has full URL, protocol relative, non TLS
@@ -51,33 +51,85 @@ const sourceDocument =
 // Image tag src attribute value, e.g. `<img src="//example.org/a/b.png" />`
 // Notice we used protocol relative URL
 // (i.e. not specify https, meaning we'll use from source document)
-const imgSrc = '//example.org/a/b.png'
+const assetUrl = '//example.org/a/b.png'
 
 /**
- * Create a reference factory so we can resolve the URL based on that document URL
- *
- * Should look like this
+ * `normalized` is an instance of `NormalizedAsset`, and should look like this
  *
  * ```json
  * {
- *   "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
+ *   "dest": null,
  *   "match": "//example.org/a/b.png",
- *   "reference": "e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
+ *   "reference": null,
  *   "src": "http://example.org/a/b.png",
  * }
  * ```
  *
- * @type {import('url-dirname-normalizer').NormalizedAsset}
+ * @type {import('url-dirname-normalizer').NormalizedAssetType}
  */
-const asset = new NormalizedAsset(sourceDocument, imgSrc)
+const normalized = new NormalizedAsset(sourceDocument, assetUrl)
+
+/**
+ * If you want more than one NormalizedAsset; Along with a dest and reference non null.
+ * Leverage DocumentAssets instead.
+ */
+const matches = [assetUrl]
+
+/**
+ * To do this, pass all assets as an array of strings (like above)
+ * Then, pass them to `DocumentAssets` as constructor arguments
+ *
+ * @type {Iterable<import('url-dirname-normalizer').NormalizedAssetType>}
+ */
+const collection = new DocumentAssets(sourceDocument, matches)
+
+// And we can iterate over the collection
+for (const normalized of collection) {
+  /**
+   * `normalized` is an instance of `NormalizedAssetType`, and should look like this
+   *
+   * ```json
+   * {
+   *   "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
+   *   "match": "//example.org/a/b.png",
+   *   "reference": "e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
+   *   "src": "http://example.org/a/b.png",
+   * }
+   * ```
+   */
+  console.log(normalized)
+}
 ````
 
-### assetCollectionNormalizer
+If you want to change hashing function type, you can do by using `DocumentAssets.setHasherParams(hash,endoding)`
+
+```js
+collection.setHasherParams('sha512', 'hex')
+```
+
+The above example's sha512 for 'http://example.org/a/b.png' would then be
+
+> 16c2b77240a5fee4d06e1782260f1fa46d9a7f6170b876fca72d9ac69ee6ebee4b64a2dee7c97b4249aa649c075e6179985b9cf22d64eaff81891675b670240c
+
+Iterating over the same `collection` would look like this
+
+```json
+[
+  {
+    "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/16c2b77240a5fee4d06e1782260f1fa46d9a7f6170b876fca72d9ac69ee6ebee4b64a2dee7c97b4249aa649c075e6179985b9cf22d64eaff81891675b670240c.png",
+    "match": "//example.org/a/b.png",
+    "reference": "16c2b77240a5fee4d06e1782260f1fa46d9a7f6170b876fca72d9ac69ee6ebee4b64a2dee7c97b4249aa649c075e6179985b9cf22d64eaff81891675b670240c.png",
+    "src": "http://example.org/a/b.png"
+  }
+]
+```
+
+### DocumentAssets
 
 When we have more than one asset to download, we might have a list of assets, and we want to get an iterable collection of NormalizedAsset
 
 ````js
-import { assetCollectionNormalizer } from 'url-dirname-normalizer'
+import { DocumentAssets } from 'url-dirname-normalizer'
 
 // HTML Source document URL from where the asset is embedded
 const sourceDocument = 'http://renoirboulanger.com/page/3/'
@@ -99,9 +151,11 @@ const matches = [
 ]
 
 /**
- * Get a normalized list
+ * Leverage ECMAScript 2015+ Iteration prototocol.
  *
- * Should look like this
+ * Pass a collection of strings, get a normalized list with iteration.
+ *
+ * Each item in collection should look like this;
  *
  * ```json
  * [
@@ -138,13 +192,13 @@ const matches = [
  * ]
  * ```
  *
- * @type {IterableIterator<import('url-dirname-normalizer').NormalizedAsset>}
+ * @type {Iterable<import('url-dirname-normalizer').NormalizedAssetType>}
  */
-const normalized = assetCollectionNormalizer(sourceDocument, matches, 'sha1')
-for (const asset of normalized) {
+const collection = new DocumentAssets(sourceDocument, matches)
+for (const normalized of collection) {
   // It is a generator function, we can iterate normalized like an array.
   // If we were in an asychronous function, we'd be able to await each step.
   // In this example, we're simply using the return of assetCollectionNormalizer like we would with an array.
-  console.log(asset)
+  console.log(normalized)
 }
 ````

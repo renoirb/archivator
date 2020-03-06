@@ -1,9 +1,15 @@
-import { directoryNameNormalizer } from './normalizer'
+import {
+  directoryNameNormalizer,
+  NormalizedAssetType,
+  NormalizedAssetDestType,
+  NormalizedAssetReferenceType,
+} from './normalizer'
 
 import {
-  assetCollectionNormalizer,
+  DocumentAssets,
+  extractNormalizedAssetDest,
+  extractNormalizedAssetReference,
   NormalizedAsset,
-  NormalizedAssetInterface,
 } from './asset'
 
 import {
@@ -12,12 +18,16 @@ import {
 } from './hashing'
 
 export {
-  assetCollectionNormalizer,
   CryptoCommonHashingFunctions,
   directoryNameNormalizer,
+  DocumentAssets,
+  extractNormalizedAssetDest,
+  extractNormalizedAssetReference,
   HexBase64Latin1Encoding,
   NormalizedAsset,
-  NormalizedAssetInterface,
+  NormalizedAssetType,
+  NormalizedAssetDestType,
+  NormalizedAssetReferenceType,
 }
 
 export default directoryNameNormalizer

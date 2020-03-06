@@ -1,566 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NormalizedAsset http://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path:
-	hash:			sha1
-	src:			//example.org/a/b.png
-	expected:		http://example.org/a/b.png
-	reason:			Ignore document origin if resource has full URL, protocol relative, non TLS
-	duration:		 1`] = `
-Object {
-  "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "match": "//example.org/a/b.png",
-  "reference": "e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "src": "http://example.org/a/b.png",
-}
+exports[`DocumentAssets Documentation examples 1`] = `
+Array [
+  Object {
+    "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/16c2b77240a5fee4d06e1782260f1fa46d9a7f6170b876fca72d9ac69ee6ebee4b64a2dee7c97b4249aa649c075e6179985b9cf22d64eaff81891675b670240c.png",
+    "match": "//example.org/a/b.png",
+    "reference": "16c2b77240a5fee4d06e1782260f1fa46d9a7f6170b876fca72d9ac69ee6ebee4b64a2dee7c97b4249aa649c075e6179985b9cf22d64eaff81891675b670240c.png",
+    "src": "http://example.org/a/b.png",
+  },
+]
 `;
 
-exports[`NormalizedAsset http://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path:
-	hash:			sha1
-	src:			http://example.org/a/b.png
-	expected:		http://example.org/a/b.png
-	reason:			Ignore document origin if resource has full URL
-	duration:		 1`] = `
-Object {
-  "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "match": "http://example.org/a/b.png",
-  "reference": "e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "src": "http://example.org/a/b.png",
-}
-`;
-
-exports[`NormalizedAsset http://elsewhere.org/a/b:
-	hash:			sha1
-	src:			//example.org/foo/bar.jpg
-	expected:		http://example.org/foo/bar.jpg
-	reason:			Refering document is NOT over TLS, but referenced document is over protocol relative. Enforce same protocol
-	duration:		 1`] = `
-Object {
-  "dest": "elsewhere.org/a/b/1c4d755f75288df538cc6bdcd93672219736dda1.jpg",
-  "match": "//example.org/foo/bar.jpg",
-  "reference": "1c4d755f75288df538cc6bdcd93672219736dda1.jpg",
-  "src": "http://example.org/foo/bar.jpg",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/:
-	hash:			sha1
-	src:			./a.png
-	expected:		http://example.org/a.png
-	reason:			Explicit parent from current context root
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/6c65613db26a19d838c0359989f941c303c04474.png",
-  "match": "./a.png",
-  "reference": "6c65613db26a19d838c0359989f941c303c04474.png",
-  "src": "http://example.org/a.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/:
-	hash:			sha1
-	src:			A.PNG
-	expected:		http://example.org/A.PNG
-	reason:			Case sensitive
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/0567e0ff65baf941da6089c0d8dd1710b948bb33.png",
-  "match": "A.PNG",
-  "reference": "0567e0ff65baf941da6089c0d8dd1710b948bb33.png",
-  "src": "http://example.org/A.PNG",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/:
-	hash:			sha1
-	src:			a.png
-	expected:		http://example.org/a.png
-	reason:			Relative path when at root
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/6c65613db26a19d838c0359989f941c303c04474.png",
-  "match": "a.png",
-  "reference": "6c65613db26a19d838c0359989f941c303c04474.png",
-  "src": "http://example.org/a.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/:
-	hash:			sha1
-	src:			a.png?foo=BAR
-	expected:		http://example.org/a.png?foo=BAR
-	reason:			Does not remove search query string
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/dc17a31094432f0c1146866820d4e273707659b9.png",
-  "match": "a.png?foo=BAR",
-  "reference": "dc17a31094432f0c1146866820d4e273707659b9.png",
-  "src": "http://example.org/a.png?foo=BAR",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/:
-	hash:			sha1
-	src:			a.png?foo=BAR&BaZ=Bizz
-	expected:		http://example.org/a.png?foo=BAR&BaZ=Bizz
-	reason:			Does not remove search query string with amperstands
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/f56af46c277965347a2ed0db7e57f60761058eb3.png",
-  "match": "a.png?foo=BAR&BaZ=Bizz",
-  "reference": "f56af46c277965347a2ed0db7e57f60761058eb3.png",
-  "src": "http://example.org/a.png?foo=BAR&BaZ=Bizz",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/:
-	hash:			sha1
-	src:			a/b
-	expected:		http://example.org/a/b
-	reason:			Do not affect if no file extension
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/a706fce3043fb0f41c863c083b9a8de1b37ecfdb",
-  "match": "a/b",
-  "reference": "a706fce3043fb0f41c863c083b9a8de1b37ecfdb",
-  "src": "http://example.org/a/b",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/a.html:
-	hash:			sha1
-	src:			b.png
-	expected:		http://example.org/b.png
-	reason:			Relative path when using file name with .html at top directory
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/a/63c7182ca606ee43b6b7145978188e900e677bcb.png",
-  "match": "b.png",
-  "reference": "63c7182ca606ee43b6b7145978188e900e677bcb.png",
-  "src": "http://example.org/b.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/a/:
-	hash:			sha1
-	src:			./b.png
-	expected:		http://example.org/a/b.png
-	reason:			Explicit parent from current context root
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/a/e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "match": "./b.png",
-  "reference": "e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "src": "http://example.org/a/b.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/a/:
-	hash:			sha1
-	src:			b.png
-	expected:		http://example.org/a/b.png
-	reason:			Relative path from a sub folder
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/a/e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "match": "b.png",
-  "reference": "e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "src": "http://example.org/a/b.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/a/:
-	hash:			sha1
-	src:			b/c.png
-	expected:		http://example.org/a/b/c.png
-	reason:			Deeper relative path
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/a/f3b7e97489351bd8c3c64958c6ebdcb2780212be.png",
-  "match": "b/c.png",
-  "reference": "f3b7e97489351bd8c3c64958c6ebdcb2780212be.png",
-  "src": "http://example.org/a/b/c.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/a/c.do:
-	hash:			sha1
-	src:			b.png
-	expected:		http://example.org/a/b.png
-	reason:			Document is one folder deep and file with .do extension, asset relative to same directory where file is
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/a/c/e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "match": "b.png",
-  "reference": "e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "src": "http://example.org/a/b.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/a/c.html:
-	hash:			sha1
-	src:			b.png
-	expected:		http://example.org/a/b.png
-	reason:			Relative path when using file name with .html
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/a/c/e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "match": "b.png",
-  "reference": "e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "src": "http://example.org/a/b.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/a/c/:
-	hash:			sha1
-	src:			../b.png
-	expected:		http://example.org/a/b.png
-	reason:			Relative path going into 1 parent up
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/a/c/e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "match": "../b.png",
-  "reference": "e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "src": "http://example.org/a/b.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/a/c:
-	hash:			sha1
-	src:			../b.png
-	expected:		http://example.org/a/b.png
-	reason:			Relative path going into 1 parent up, without trailing slash
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/a/c/e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "match": "../b.png",
-  "reference": "e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "src": "http://example.org/a/b.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/a:
-	hash:			sha1
-	src:			./b.png
-	expected:		http://example.org/a/b.png
-	reason:			Explicit parent from current context root in sub folder, without trailing slash
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/a/e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "match": "./b.png",
-  "reference": "e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "src": "http://example.org/a/b.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/a:
-	hash:			sha1
-	src:			B.pnG
-	expected:		http://example.org/a/B.pnG
-	reason:			Case sensitive, relative path from a sub folder, without trailing slash
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/a/3b77209cc2332a37ded7a5ca2b22b5cc9d9c4d17.png",
-  "match": "B.pnG",
-  "reference": "3b77209cc2332a37ded7a5ca2b22b5cc9d9c4d17.png",
-  "src": "http://example.org/a/B.pnG",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/a:
-	hash:			sha1
-	src:			Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg
-	expected:		http://example.org/a/Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg
-	reason:			Do not touch spaces and case
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/a/4441050fc06a9ceeed3630be95b7916f864856fe.jpg",
-  "match": "Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg",
-  "reference": "4441050fc06a9ceeed3630be95b7916f864856fe.jpg",
-  "src": "http://example.org/a/Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/a:
-	hash:			sha1
-	src:			b(WTH).png
-	expected:		http://example.org/a/b(WTH).png
-	reason:			Parens are not valid, but some uses them, must support them
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/a/9bac43534c9051a0ee8d3dbca604a0c61105b56d.png",
-  "match": "b(WTH).png",
-  "reference": "9bac43534c9051a0ee8d3dbca604a0c61105b56d.png",
-  "src": "http://example.org/a/b(WTH).png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/a:
-	hash:			sha1
-	src:			b.png
-	expected:		http://example.org/a/b.png
-	reason:			Relative path from a sub folder, without trailing slash
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/a/e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "match": "b.png",
-  "reference": "e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "src": "http://example.org/a/b.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/a:
-	hash:			sha1
-	src:			b/c.png
-	expected:		http://example.org/a/b/c.png
-	reason:			Deeper relative path, without trailing slash
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/a/f3b7e97489351bd8c3c64958c6ebdcb2780212be.png",
-  "match": "b/c.png",
-  "reference": "f3b7e97489351bd8c3c64958c6ebdcb2780212be.png",
-  "src": "http://example.org/a/b/c.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/b/c.do:
-	hash:			sha1
-	src:			/a.png
-	expected:		http://example.org/a.png
-	reason:			Document is one folder deep and file with .do extension, asset is referring at the root
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/b/c/6c65613db26a19d838c0359989f941c303c04474.png",
-  "match": "/a.png",
-  "reference": "6c65613db26a19d838c0359989f941c303c04474.png",
-  "src": "http://example.org/a.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/b/c.html:
-	hash:			sha1
-	src:			../../../../../a.png
-	expected:		http://example.org/a.png
-	reason:			File is HTML document, not a directory and asset is relative and goes beyond root directory. Force at root.
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/b/c/6c65613db26a19d838c0359989f941c303c04474.png",
-  "match": "../../../../../a.png",
-  "reference": "6c65613db26a19d838c0359989f941c303c04474.png",
-  "src": "http://example.org/a.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/b/c.html:
-	hash:			sha1
-	src:			../a.png
-	expected:		http://example.org/a.png
-	reason:			Document is one folder deep with .do file extension, asset refers to 1 parent directory up
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/b/c/6c65613db26a19d838c0359989f941c303c04474.png",
-  "match": "../a.png",
-  "reference": "6c65613db26a19d838c0359989f941c303c04474.png",
-  "src": "http://example.org/a.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/b/c.html:
-	hash:			sha1
-	src:			/a.png
-	expected:		http://example.org/a.png
-	reason:			Document is one folder deep and file with .html extension, asset is referring at the root
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/b/c/6c65613db26a19d838c0359989f941c303c04474.png",
-  "match": "/a.png",
-  "reference": "6c65613db26a19d838c0359989f941c303c04474.png",
-  "src": "http://example.org/a.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/b/c:
-	hash:			sha1
-	src:			../../../a.png
-	expected:		http://example.org/a.png
-	reason:			Asset is relative and goes beyond root directory
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/b/c/6c65613db26a19d838c0359989f941c303c04474.png",
-  "match": "../../../a.png",
-  "reference": "6c65613db26a19d838c0359989f941c303c04474.png",
-  "src": "http://example.org/a.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/bogus/:
-	hash:			sha1
-	src:			/a.png
-	expected:		http://example.org/a.png
-	reason:			Absolute path, without trailing slash, ignoring sub folder from hostname
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/bogus/6c65613db26a19d838c0359989f941c303c04474.png",
-  "match": "/a.png",
-  "reference": "6c65613db26a19d838c0359989f941c303c04474.png",
-  "src": "http://example.org/a.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/bogus/deep/path:
-	hash:			sha1
-	src:			/a.png
-	expected:		http://example.org/a.png
-	reason:			Absolute path, without trailing slash, ignoring sub folder from hostname
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/bogus/deep/path/6c65613db26a19d838c0359989f941c303c04474.png",
-  "match": "/a.png",
-  "reference": "6c65613db26a19d838c0359989f941c303c04474.png",
-  "src": "http://example.org/a.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/bogus:
-	hash:			sha1
-	src:			/a.png
-	expected:		http://example.org/a.png
-	reason:			Absolute path, ignoring sub folder from hostname
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/bogus/6c65613db26a19d838c0359989f941c303c04474.png",
-  "match": "/a.png",
-  "reference": "6c65613db26a19d838c0359989f941c303c04474.png",
-  "src": "http://example.org/a.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/foo:
-	hash:			sha1
-	src:			1*23.png
-	expected:		http://example.org/foo/1*23.png
-	reason:			Star is not typical in path, must support them
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/foo/c3ce9bcfe58c60d5b96df57c164e7e7cd9e4f8ab.png",
-  "match": "1*23.png",
-  "reference": "c3ce9bcfe58c60d5b96df57c164e7e7cd9e4f8ab.png",
-  "src": "http://example.org/foo/1*23.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/ignored/also_ignored/:
-	hash:			sha1
-	src:			../../a.jpg
-	expected:		http://example.org/a.jpg
-	reason:			Relative path going into 2 parents up
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/ignored/also_ignored/565a97a5a6549777660f5f83551d65ccec39051e.jpg",
-  "match": "../../a.jpg",
-  "reference": "565a97a5a6549777660f5f83551d65ccec39051e.jpg",
-  "src": "http://example.org/a.jpg",
-}
-`;
-
-exports[`NormalizedAsset http://example.org/ignored/also_ignored/and_too:
-	hash:			sha1
-	src:			../../../a.jpg
-	expected:		http://example.org/a.jpg
-	reason:			Relative path going into 3 parents up, without trailing slash
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/ignored/also_ignored/and_too/565a97a5a6549777660f5f83551d65ccec39051e.jpg",
-  "match": "../../../a.jpg",
-  "reference": "565a97a5a6549777660f5f83551d65ccec39051e.jpg",
-  "src": "http://example.org/a.jpg",
-}
-`;
-
-exports[`NormalizedAsset http://example.org:
-	hash:			sha1
-	src:			./a.png
-	expected:		http://example.org/a.png
-	reason:			Explicit parent from current context root, without trailing slash
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/6c65613db26a19d838c0359989f941c303c04474.png",
-  "match": "./a.png",
-  "reference": "6c65613db26a19d838c0359989f941c303c04474.png",
-  "src": "http://example.org/a.png",
-}
-`;
-
-exports[`NormalizedAsset http://example.org:
-	hash:			sha1
-	src:			a.png
-	expected:		http://example.org/a.png
-	reason:			Relative path when at root, without trailing slash
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/6c65613db26a19d838c0359989f941c303c04474.png",
-  "match": "a.png",
-  "reference": "6c65613db26a19d838c0359989f941c303c04474.png",
-  "src": "http://example.org/a.png",
-}
-`;
-
-exports[`NormalizedAsset https://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path:
-	hash:			sha1
-	src:			http://example.org/a/b.png
-	expected:		http://example.org/a/b.png
-	reason:			Ignore document origin if resource has full URL, even over TLS, we shall take asset resource URL as-is
-	duration:		 1`] = `
-Object {
-  "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "match": "http://example.org/a/b.png",
-  "reference": "e359b9cb7fdfc9072f27cdb1352d919c2cbbc3e6.png",
-  "src": "http://example.org/a/b.png",
-}
-`;
-
-exports[`NormalizedAsset https://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path-tls:
-	hash:			sha1
-	src:			//example.org/a/b.png
-	expected:		https://example.org/a/b.png
-	reason:			Ignore document origin if resource has full URL, protocol relative, over TLS
-	duration:		 1`] = `
-Object {
-  "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path-tls/842a3138a85488bca9118a626171ba86f8440a05.png",
-  "match": "//example.org/a/b.png",
-  "reference": "842a3138a85488bca9118a626171ba86f8440a05.png",
-  "src": "https://example.org/a/b.png",
-}
-`;
-
-exports[`NormalizedAsset https://elsewhere.org/a/b:
-	hash:			sha1
-	src:			//example.org/foo/bar.jpg
-	expected:		https://example.org/foo/bar.jpg
-	reason:			Refering document is over TLS, but referenced document is over protocol relative. Enforce same protocol
-	duration:		 1`] = `
-Object {
-  "dest": "elsewhere.org/a/b/f387494a17d28394d13e7962ad99f2e9d50cf413.jpg",
-  "match": "//example.org/foo/bar.jpg",
-  "reference": "f387494a17d28394d13e7962ad99f2e9d50cf413.jpg",
-  "src": "https://example.org/foo/bar.jpg",
-}
-`;
-
-exports[`NormalizedAsset https://example.org/:
-	hash:			sha1
-	src:			a.png
-	expected:		https://example.org/a.png
-	reason:			Maintains protocol
-	duration:		 1`] = `
-Object {
-  "dest": "example.org/1eca4fc3792a1c54d3eccf3785579b4eb98ff02a.png",
-  "match": "a.png",
-  "reference": "1eca4fc3792a1c54d3eccf3785579b4eb98ff02a.png",
-  "src": "https://example.org/a.png",
-}
-`;
-
-exports[`assetCollectionNormalizer Happy-Path 1`] = `
+exports[`DocumentAssets Happy-Path 1`] = `
 Array [
   Object {
     "dest": "renoirboulanger.com/page/3/430e2156af17010e0d8ffcd726a95595fa71a4fd.jpg",
@@ -593,4 +44,564 @@ Array [
     "src": "http://renoirboulanger.com/avatar.jpg",
   },
 ]
+`;
+
+exports[`NormalizedAsset http://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path:
+	hash:			sha1
+	src:			//example.org/a/b.png
+	expected:		http://example.org/a/b.png
+	reason:			Ignore document origin if resource has full URL, protocol relative, non TLS
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "//example.org/a/b.png",
+  "reference": null,
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path:
+	hash:			sha1
+	src:			http://example.org/a/b.png
+	expected:		http://example.org/a/b.png
+	reason:			Ignore document origin if resource has full URL
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "http://example.org/a/b.png",
+  "reference": null,
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://elsewhere.org/a/b:
+	hash:			sha1
+	src:			//example.org/foo/bar.jpg
+	expected:		http://example.org/foo/bar.jpg
+	reason:			Refering document is NOT over TLS, but referenced document is over protocol relative. Enforce same protocol
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "//example.org/foo/bar.jpg",
+  "reference": null,
+  "src": "http://example.org/foo/bar.jpg",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/:
+	hash:			sha1
+	src:			./a.png
+	expected:		http://example.org/a.png
+	reason:			Explicit parent from current context root
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "./a.png",
+  "reference": null,
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/:
+	hash:			sha1
+	src:			A.PNG
+	expected:		http://example.org/A.PNG
+	reason:			Case sensitive
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "A.PNG",
+  "reference": null,
+  "src": "http://example.org/A.PNG",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/:
+	hash:			sha1
+	src:			a.png
+	expected:		http://example.org/a.png
+	reason:			Relative path when at root
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "a.png",
+  "reference": null,
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/:
+	hash:			sha1
+	src:			a.png?foo=BAR
+	expected:		http://example.org/a.png?foo=BAR
+	reason:			Does not remove search query string
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "a.png?foo=BAR",
+  "reference": null,
+  "src": "http://example.org/a.png?foo=BAR",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/:
+	hash:			sha1
+	src:			a.png?foo=BAR&BaZ=Bizz
+	expected:		http://example.org/a.png?foo=BAR&BaZ=Bizz
+	reason:			Does not remove search query string with amperstands
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "a.png?foo=BAR&BaZ=Bizz",
+  "reference": null,
+  "src": "http://example.org/a.png?foo=BAR&BaZ=Bizz",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/:
+	hash:			sha1
+	src:			a/b
+	expected:		http://example.org/a/b
+	reason:			Do not affect if no file extension
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "a/b",
+  "reference": null,
+  "src": "http://example.org/a/b",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a.html:
+	hash:			sha1
+	src:			b.png
+	expected:		http://example.org/b.png
+	reason:			Relative path when using file name with .html at top directory
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "b.png",
+  "reference": null,
+  "src": "http://example.org/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a/:
+	hash:			sha1
+	src:			./b.png
+	expected:		http://example.org/a/b.png
+	reason:			Explicit parent from current context root
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "./b.png",
+  "reference": null,
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a/:
+	hash:			sha1
+	src:			b.png
+	expected:		http://example.org/a/b.png
+	reason:			Relative path from a sub folder
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "b.png",
+  "reference": null,
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a/:
+	hash:			sha1
+	src:			b/c.png
+	expected:		http://example.org/a/b/c.png
+	reason:			Deeper relative path
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "b/c.png",
+  "reference": null,
+  "src": "http://example.org/a/b/c.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a/c.do:
+	hash:			sha1
+	src:			b.png
+	expected:		http://example.org/a/b.png
+	reason:			Document is one folder deep and file with .do extension, asset relative to same directory where file is
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "b.png",
+  "reference": null,
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a/c.html:
+	hash:			sha1
+	src:			b.png
+	expected:		http://example.org/a/b.png
+	reason:			Relative path when using file name with .html
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "b.png",
+  "reference": null,
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a/c/:
+	hash:			sha1
+	src:			../b.png
+	expected:		http://example.org/a/b.png
+	reason:			Relative path going into 1 parent up
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "../b.png",
+  "reference": null,
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a/c:
+	hash:			sha1
+	src:			../b.png
+	expected:		http://example.org/a/b.png
+	reason:			Relative path going into 1 parent up, without trailing slash
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "../b.png",
+  "reference": null,
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a:
+	hash:			sha1
+	src:			./b.png
+	expected:		http://example.org/a/b.png
+	reason:			Explicit parent from current context root in sub folder, without trailing slash
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "./b.png",
+  "reference": null,
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a:
+	hash:			sha1
+	src:			B.pnG
+	expected:		http://example.org/a/B.pnG
+	reason:			Case sensitive, relative path from a sub folder, without trailing slash
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "B.pnG",
+  "reference": null,
+  "src": "http://example.org/a/B.pnG",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a:
+	hash:			sha1
+	src:			Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg
+	expected:		http://example.org/a/Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg
+	reason:			Do not touch spaces and case
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg",
+  "reference": null,
+  "src": "http://example.org/a/Something%20We%20Should%20Not%20Do%20But%20Yet%20Is%20Done.jpg",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a:
+	hash:			sha1
+	src:			b(WTH).png
+	expected:		http://example.org/a/b(WTH).png
+	reason:			Parens are not valid, but some uses them, must support them
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "b(WTH).png",
+  "reference": null,
+  "src": "http://example.org/a/b(WTH).png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a:
+	hash:			sha1
+	src:			b.png
+	expected:		http://example.org/a/b.png
+	reason:			Relative path from a sub folder, without trailing slash
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "b.png",
+  "reference": null,
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/a:
+	hash:			sha1
+	src:			b/c.png
+	expected:		http://example.org/a/b/c.png
+	reason:			Deeper relative path, without trailing slash
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "b/c.png",
+  "reference": null,
+  "src": "http://example.org/a/b/c.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/b/c.do:
+	hash:			sha1
+	src:			/a.png
+	expected:		http://example.org/a.png
+	reason:			Document is one folder deep and file with .do extension, asset is referring at the root
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "/a.png",
+  "reference": null,
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/b/c.html:
+	hash:			sha1
+	src:			../../../../../a.png
+	expected:		http://example.org/a.png
+	reason:			File is HTML document, not a directory and asset is relative and goes beyond root directory. Force at root.
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "../../../../../a.png",
+  "reference": null,
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/b/c.html:
+	hash:			sha1
+	src:			../a.png
+	expected:		http://example.org/a.png
+	reason:			Document is one folder deep with .do file extension, asset refers to 1 parent directory up
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "../a.png",
+  "reference": null,
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/b/c.html:
+	hash:			sha1
+	src:			/a.png
+	expected:		http://example.org/a.png
+	reason:			Document is one folder deep and file with .html extension, asset is referring at the root
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "/a.png",
+  "reference": null,
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/b/c:
+	hash:			sha1
+	src:			../../../a.png
+	expected:		http://example.org/a.png
+	reason:			Asset is relative and goes beyond root directory
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "../../../a.png",
+  "reference": null,
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/bogus/:
+	hash:			sha1
+	src:			/a.png
+	expected:		http://example.org/a.png
+	reason:			Absolute path, without trailing slash, ignoring sub folder from hostname
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "/a.png",
+  "reference": null,
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/bogus/deep/path:
+	hash:			sha1
+	src:			/a.png
+	expected:		http://example.org/a.png
+	reason:			Absolute path, without trailing slash, ignoring sub folder from hostname
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "/a.png",
+  "reference": null,
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/bogus:
+	hash:			sha1
+	src:			/a.png
+	expected:		http://example.org/a.png
+	reason:			Absolute path, ignoring sub folder from hostname
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "/a.png",
+  "reference": null,
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/foo:
+	hash:			sha1
+	src:			1*23.png
+	expected:		http://example.org/foo/1*23.png
+	reason:			Star is not typical in path, must support them
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "1*23.png",
+  "reference": null,
+  "src": "http://example.org/foo/1*23.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/ignored/also_ignored/:
+	hash:			sha1
+	src:			../../a.jpg
+	expected:		http://example.org/a.jpg
+	reason:			Relative path going into 2 parents up
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "../../a.jpg",
+  "reference": null,
+  "src": "http://example.org/a.jpg",
+}
+`;
+
+exports[`NormalizedAsset http://example.org/ignored/also_ignored/and_too:
+	hash:			sha1
+	src:			../../../a.jpg
+	expected:		http://example.org/a.jpg
+	reason:			Relative path going into 3 parents up, without trailing slash
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "../../../a.jpg",
+  "reference": null,
+  "src": "http://example.org/a.jpg",
+}
+`;
+
+exports[`NormalizedAsset http://example.org:
+	hash:			sha1
+	src:			./a.png
+	expected:		http://example.org/a.png
+	reason:			Explicit parent from current context root, without trailing slash
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "./a.png",
+  "reference": null,
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset http://example.org:
+	hash:			sha1
+	src:			a.png
+	expected:		http://example.org/a.png
+	reason:			Relative path when at root, without trailing slash
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "a.png",
+  "reference": null,
+  "src": "http://example.org/a.png",
+}
+`;
+
+exports[`NormalizedAsset https://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path:
+	hash:			sha1
+	src:			http://example.org/a/b.png
+	expected:		http://example.org/a/b.png
+	reason:			Ignore document origin if resource has full URL, even over TLS, we shall take asset resource URL as-is
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "http://example.org/a/b.png",
+  "reference": null,
+  "src": "http://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset https://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path-tls:
+	hash:			sha1
+	src:			//example.org/a/b.png
+	expected:		https://example.org/a/b.png
+	reason:			Ignore document origin if resource has full URL, protocol relative, over TLS
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "//example.org/a/b.png",
+  "reference": null,
+  "src": "https://example.org/a/b.png",
+}
+`;
+
+exports[`NormalizedAsset https://elsewhere.org/a/b:
+	hash:			sha1
+	src:			//example.org/foo/bar.jpg
+	expected:		https://example.org/foo/bar.jpg
+	reason:			Refering document is over TLS, but referenced document is over protocol relative. Enforce same protocol
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "//example.org/foo/bar.jpg",
+  "reference": null,
+  "src": "https://example.org/foo/bar.jpg",
+}
+`;
+
+exports[`NormalizedAsset https://example.org/:
+	hash:			sha1
+	src:			a.png
+	expected:		https://example.org/a.png
+	reason:			Maintains protocol
+	duration:		 1`] = `
+Object {
+  "dest": null,
+  "match": "a.png",
+  "reference": null,
+  "src": "https://example.org/a.png",
+}
 `;

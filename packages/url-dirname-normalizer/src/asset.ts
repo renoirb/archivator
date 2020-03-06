@@ -1,82 +1,97 @@
-import { assetUrlNormalizer, directoryNameNormalizer } from './normalizer'
-import { createHashFunction, CryptoCommonHashingFunctions } from './hashing'
-import { URL } from './url'
+import {
+  assetUrlNormalizer,
+  directoryNameNormalizer,
+  maybeAssetFileExtensionNormalizer,
+  NormalizedAssetDestType,
+  NormalizedAssetReferenceType,
+  NormalizedAssetType,
+} from './normalizer'
+import {
+  createHashFunction,
+  CryptoCommonHashingFunctions,
+  HashingFunctionType,
+  HexBase64Latin1Encoding,
+} from './hashing'
 
 /**
- * Asset URL asset file name hasher.
+ * Return missing properties for normalized asset entity: The file hash (a.k.a. reference).
  *
- * For any given Rewrite a file name based on an URL they were downloaded from.
+ * This is a pure function, we do not mutate the asset entry.
+ * It's done that way so we can decouple from intial iteration, for later use.
+ *
+ * For example, maybe we'll have another way to figure out the asset file extension.
+ * Possibly by using HTTP headers and reading mime-type.
+ * That would be done a second time, i.e. not at initial iteration.
+ *
+ * @public
+ * @author Renoir Boulanger <contribs@renoirboulanger.com>
+ *
+ * @param asset {NormalizedAssetType} — The asset entity
+ * @param hasher {HashingFunctionType} — Hashing function type
  */
-export const assetReferenceHash = (
-  resourceUrl: URL,
-  hashWith: CryptoCommonHashingFunctions = 'sha1',
-): string => {
-  const pathname = resourceUrl.pathname
-  // svg, png, jpg, webm
-  let extension = ''
-  const matches = pathname.match(/(\.[a-z]{2,})$/i)
-  if (matches !== null && Array.isArray(matches) && matches[0]) {
-    extension = matches[0]
+export const extractNormalizedAssetReference = (
+  asset: NormalizedAssetType,
+  hasher: HashingFunctionType,
+): NormalizedAssetReferenceType => {
+  const extension = maybeAssetFileExtensionNormalizer(asset.src)
+  const hasExtension = extension !== ''
+  const reference = hasher.apply(null, [asset.src]) + extension
+
+  const out: NormalizedAssetReferenceType = {
+    reference,
+    hasExtension,
   }
 
-  const hashed = createHashFunction(hashWith, 'hex')(String(resourceUrl))
-  return hashed + extension.toLowerCase()
+  return out
 }
 
 /**
- * Normalized Asset reference.
+ * Return missing properties for normalized asset entity: The file destination (a.k.a. dest).
  *
- * For any "match" (i.e. initial value), where ("src") to download the asset in relation to the
- * source document. When saving downloaded assets, save into "dest", and eventually, refactor
- * source document's HTML source to a new "reference" name.
+ * @param asset {NormalizedAssetType} — The asset entity
+ * @param sourceDocument {string} — The document this asset has been found in
+ */
+export const extractNormalizedAssetDest = (
+  asset: NormalizedAssetType,
+  sourceDocument: string,
+): NormalizedAssetDestType => {
+  const { reference } = asset
+  if (typeof reference !== 'string') {
+    const message = `Missing asset reference, make sure you’ve used extractNormalizedAssetReference before using extractNormalizedAssetDest.`
+    throw new Error(message)
+  }
+  const basePath = directoryNameNormalizer(sourceDocument)
+  const dest = `${basePath}/${reference}`
+
+  const out: NormalizedAssetDestType = {
+    dest,
+  }
+
+  return out
+}
+
+/**
+ * @description Asset we might want to keep a copy that is found on a document on the www.
+ *
+ * {@link NormalizedAssetType}
  *
  * @public
  * @author Renoir Boulanger <contribs@renoirboulanger.com>
  */
-export interface NormalizedAssetInterface {
+export class NormalizedAsset implements NormalizedAssetType {
   /**
-   * Fully qualified filesystem path where to save asset.
-   *
-   * Pretty much concatenation of `directoryNameNormalizer(sourceDocument)`
-   * and the value of NormalizedAssetInterface#reference.
+   * {@see NormalizedAssetType#dest}
+   * {@link extractNormalizedAssetDest}
    */
-  dest: string
-
-  /**
-   * Original asset found in source document.
-   *
-   * As received from constructor argument.
-   * Will be useful later on should we want to replace HTML Document's assets
-   * with a local copy, named after NormalizedAssetInterface#reference.
-   */
-  match: string
-
-  /**
-   * File name, as a hash and a file extension.
-   *
-   * Instead of keeping file name, we are normalizing as a hash + file extension.
-   * We can later-on replace from HTML Document's asset match with this reference instead.
-   */
-  reference: string
-
-  /**
-   * URL on which to download asset from.
-   *
-   * URL to asset, should be normalized first via normalizedAssetReference
-   * Notice it isn't the same value as provided at constructor time.
-   */
-  src: string
-}
-
-/**
- * {@link NormalizedAssetInterface}
- */
-export class NormalizedAsset implements NormalizedAssetInterface {
-  readonly dest: string
+  dest: string | null = null
 
   readonly match: string
 
-  readonly reference: string
+  /**
+   * {@see NormalizedAssetType#reference}
+   * {@link extractNormalizedAssetReference}
+   */
+  reference: string | null = null
 
   readonly src: string
 
@@ -90,41 +105,27 @@ export class NormalizedAsset implements NormalizedAssetInterface {
   constructor(
     sourceDocument: string,
     match: string,
-    hashWith: CryptoCommonHashingFunctions = 'sha1',
+    // hashWith: CryptoCommonHashingFunctions = 'sha1',
   ) {
     this.match = match
-
-    const basePath = directoryNameNormalizer(sourceDocument)
     const urlObj = assetUrlNormalizer(sourceDocument, match)
-
-    const reference = assetReferenceHash(urlObj, hashWith)
     this.src = String(urlObj)
-    this.reference = reference
-    this.dest = `${basePath}/${reference}`
   }
 
-  toJSON(): NormalizedAssetInterface {
-    const out: NormalizedAssetInterface = {
+  toJSON(): Readonly<NormalizedAssetType> {
+    const out: NormalizedAssetType = {
       dest: this.dest,
       match: this.match,
       reference: this.reference,
       src: this.src,
     }
 
-    return out
+    return Object.seal(out)
   }
 }
 
 /**
  * Rework each asset URL so we can download a copy.
- *
- * See earlier implementation:
- * - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L186
- * - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L192
- * - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L20
- * - https://github.com/renoirb/archivator/blob/29aff30c/src/normalizer/assets.js#L32
- *
- * ---
  *
  * Input is a list of resources in many possible format;
  *
@@ -136,10 +137,10 @@ export class NormalizedAsset implements NormalizedAssetInterface {
  *   '//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500',
  *   '/wp-content/themes/renoirb/assets/img/zce_logo.jpg',
  * ]
+ * const collection = new DocumentAssets(sourceDocument, matches)
  * ```
  *
- * Running assetCollectionIterator(sourceDocument, matches) gives us a cleaned up list
- * of assets where is a good guess the asset might be found
+ * Should provide us a cleaned up list of assets where is a good guess the asset might be found
  * so we can make a copy and archive them.
  *
  * Notice:
@@ -149,8 +150,9 @@ export class NormalizedAsset implements NormalizedAssetInterface {
  *
  * We should receive something similar to this;
  *
- * ```json
- * [
+ * ```js
+ * // Notice that DocumentAssets returns an iterable, we can iterate as if it looked like this;
+ * const collection = [
  *   {
  *     "dest": "renoirboulanger.com/page/3/430e2156af17010e0d8ffcd726a95595fa71a4fd.jpg",
  *     "match": "http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg",
@@ -175,16 +177,65 @@ export class NormalizedAsset implements NormalizedAssetInterface {
  * ]
  * ```
  *
+ * ----
+ *
+ * See earlier implementation:
+ * - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L186
+ * - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L192
+ * - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L20
+ * - https://github.com/renoirb/archivator/blob/29aff30c/src/normalizer/assets.js#L32
+ *
  * @public
  * @author Renoir Boulanger <contribs@renoirboulanger.com>
  */
-export function* assetCollectionNormalizer(
-  sourceDocument: string,
-  assets: string[],
-  hashWith?: CryptoCommonHashingFunctions,
-): IterableIterator<NormalizedAssetInterface> {
-  for (const asset of assets) {
-    const normalized = new NormalizedAsset(sourceDocument, asset, hashWith)
-    yield normalized
+export class DocumentAssets implements Iterable<NormalizedAssetType> {
+  private iterator: Iterator<string>
+  private hasher?: HashingFunctionType
+  constructor(
+    public readonly sourceDocument: string,
+    readonly assets: string[] = [],
+  ) {
+    this.iterator = assets[Symbol.iterator]()
+    this.setHasherParams()
+  }
+  [Symbol.iterator]() {
+    return this
+  }
+  setHasherParams(
+    hash: CryptoCommonHashingFunctions = 'sha1',
+    encoding: HexBase64Latin1Encoding = 'hex',
+  ): void {
+    this.hasher = createHashFunction(hash, encoding) as HashingFunctionType
+  }
+  /**
+   * Anything done here allows us to build full-blown objects only at iteration time.
+   * This is following ECMAScript 2015+ Iteration protocol.
+   *
+   * Bookmarks:
+   * - https://www.carloscaballero.io/design-patterns-iterator/
+   * - https://www.carloscaballero.io/understanding-iterator-pattern-in-javascript-typescript-using-symbol-iterator/
+   * - https://exploringjs.com/es6/ch_iteration.html
+   * - https://codeburst.io/a-simple-guide-to-es6-iterators-in-javascript-with-examples-189d052c3d8e
+   */
+  next(): IteratorResult<Readonly<NormalizedAssetType>> {
+    const { done, value } = this.iterator.next()
+    const sourceDocument = this.sourceDocument
+    const maybeAssetUrlString = typeof value === 'string' ? value : false
+    if (!done && maybeAssetUrlString) {
+      const asset = new NormalizedAsset(sourceDocument, maybeAssetUrlString)
+      if (this.hasher) {
+        const { reference } = extractNormalizedAssetReference(
+          asset,
+          this.hasher,
+        )
+        Object.assign(asset, { reference })
+        const { dest } = extractNormalizedAssetDest(asset, sourceDocument)
+        Object.assign(asset, { dest })
+      }
+      const value = asset.toJSON()
+      return { done: false, value }
+    } else {
+      return { done: true, value: undefined }
+    }
   }
 }

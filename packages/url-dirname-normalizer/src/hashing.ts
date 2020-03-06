@@ -7,6 +7,8 @@ export type CryptoCommonHashingFunctions =
   | 'md5-sha1'
   | string
 
+export type HashingFunctionType = (message: string) => string
+
 export { HexBase64Latin1Encoding }
 
 /**
@@ -29,7 +31,7 @@ export { HexBase64Latin1Encoding }
 export const createHashFunction = (
   hash: CryptoCommonHashingFunctions = 'sha256',
   encoding: HexBase64Latin1Encoding = 'hex',
-): ((message: string) => string) => {
+): HashingFunctionType => {
   // TypeScript does not necessarily transpile type checks for runtime.
   // type HexBase64Latin1Encoding from 'crypto' module.
   const encodings: HexBase64Latin1Encoding[] = ['latin1', 'hex', 'base64']
