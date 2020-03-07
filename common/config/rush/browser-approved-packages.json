@@ -4,58 +4,70 @@
   "packages": [
     {
       "name": "@microsoft/node-core-library",
-      "allowedCategories": [ "packages" ]
+      "allowedCategories": [ "libraries", "packages" ]
     },
     {
       "name": "@microsoft/node-library-build",
-      "allowedCategories": [ "packages" ]
+      "allowedCategories": [ "libraries", "packages" ]
     },
     {
       "name": "@microsoft/rush-stack-compiler-3.7",
-      "allowedCategories": [ "packages" ]
+      "allowedCategories": [ "libraries", "packages" ]
     },
     {
       "name": "@renoirb/conventions-use-bili",
-      "allowedCategories": [ "packages" ]
+      "allowedCategories": [ "libraries", "packages" ]
     },
     {
       "name": "@renoirb/conventions-use-eslint",
-      "allowedCategories": [ "packages" ]
+      "allowedCategories": [ "libraries", "packages" ]
     },
     {
       "name": "@renoirb/conventions-use-jest",
-      "allowedCategories": [ "packages" ]
+      "allowedCategories": [ "libraries", "packages" ]
     },
     {
       "name": "@renoirb/conventions-use-prettier",
-      "allowedCategories": [ "packages" ]
+      "allowedCategories": [ "libraries", "packages" ]
     },
     {
       "name": "@renoirb/tools-bundling-helpers",
-      "allowedCategories": [ "packages" ]
+      "allowedCategories": [ "libraries", "packages" ]
     },
     {
       "name": "@rushstack/eslint-config",
-      "allowedCategories": [ "packages" ]
+      "allowedCategories": [ "libraries", "packages" ]
     },
     {
       "name": "bili",
-      "allowedCategories": [ "packages" ]
+      "allowedCategories": [ "libraries", "packages" ]
+    },
+    {
+      "name": "co",
+      "allowedCategories": [ "libraries" ]
     },
     {
       "name": "eslint",
-      "allowedCategories": [ "packages" ]
+      "allowedCategories": [ "libraries", "packages" ]
     },
     {
       "name": "gulp",
-      "allowedCategories": [ "packages" ]
+      "allowedCategories": [ "libraries", "packages" ]
     },
     {
       "name": "jest",
-      "allowedCategories": [ "packages" ]
+      "allowedCategories": [ "libraries", "packages" ]
+    },
+    {
+      "name": "tslib",
+      "allowedCategories": [ "libraries", "packages" ]
     },
     {
       "name": "typescript",
+      "allowedCategories": [ "libraries", "packages" ]
+    },
+    {
+      "name": "url-dirname-normalizer",
       "allowedCategories": [ "packages" ]
     }
   ]

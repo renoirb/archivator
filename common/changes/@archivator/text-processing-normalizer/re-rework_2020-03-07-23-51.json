@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@archivator/text-processing-normalizer",
+      "comment": "New package, migrated from initial monolithic implementation",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@archivator/text-processing-normalizer",
+  "email": "hello@renoirboulanger.com"
+}

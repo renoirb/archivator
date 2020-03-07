@@ -323,7 +323,7 @@
       "packageName": "@archivator/text-processing-normalizer",
       "projectFolder": "libraries/text-processing-normalizer",
       "reviewCategory": "libraries",
-      "versionPolicyName": "individualVersion"
+      "versionPolicyName": "standalone"
     }
   ]
 }

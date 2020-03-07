@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@archivator/archivable",
+      "comment": "New package, migrated from initial monolithic implementation",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@archivator/archivable",
+  "email": "hello@renoirboulanger.com"
+}
