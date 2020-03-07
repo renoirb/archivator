@@ -34,9 +34,10 @@ import { createHashFunction, HashingFunctionType } from './crypto'
  * ----
  *
  * See earlier implementation:
- *   On master branch:
- *     - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L70-L83
- *     - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L85-L114
+ *   v1.0.0, initial implementation:
+ *     links:
+ *       - url: https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L70-L83
+ *       - url: https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L85-L114
  *
  * ----
  *
@@ -226,11 +227,12 @@ export class NormalizedAsset implements NormalizedAssetType {
  * ----
  *
  * See earlier implementation:
- *   On master branch:
- *     - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L186
- *     - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L192
- *     - https://github.com/renoirb/archivator/blob/29aff30c/src/transformer.js#L20
- *     - https://github.com/renoirb/archivator/blob/29aff30c/src/normalizer/assets.js#L32
+ *   v1.0.0, initial implementation:
+ *     links:
+ *       - url: https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L186
+ *       - url: https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L192
+ *       - url: https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L20
+ *       - url: https://github.com/renoirb/archivator/blob/v1.0.0/src/normalizer/assets.js#L32
  *
  * ----
  *

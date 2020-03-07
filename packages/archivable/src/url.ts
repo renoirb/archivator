@@ -12,7 +12,7 @@ import { URL } from 'url'
  *
  * TODO: See why transpiling with Bili and Rollup doesn't treeshake away all url-dirname-normalizer but toUrl
  *
- * [url-dirname-normalizer-tourl]: https://github.com/renoirb/archivator/blob/re-rework/packages/url-dirname-normalizer
+ * [url-dirname-normalizer-tourl]: https://github.com/renoirb/archivator/blob/v3.x-dev/packages/url-dirname-normalizer
  */
 export const toUrl = (url: string): URL => {
   let out: URL

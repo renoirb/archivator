@@ -4,11 +4,11 @@
 
 A _Data Transfer Object_ (or _Entity_ object) and related utilities to manipulate Web Page Metadata while archiving.
 
-[repo-url]: https://github.com/renoirb/archivator/blob/re-rework/packages/archivable 'Archivable Data Transfer Object'
+[repo-url]: https://github.com/renoirb/archivator/blob/v3.x-dev/packages/archivable 'Archivable Data Transfer Object'
 
-| Version                                                                                                                                                                | Size                                                                                                 | Dependencies                                                                                                                                                                |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [![npm](https://img.shields.io/npm/v/@archivator/archivable?style=flat-square&logo=appveyor&label=npm&logo=npm)](https://www.npmjs.com/package/@archivator/archivable) | ![npm bundle size](https://img.shields.io/bundlephobia/min/@archivator/archivable?style=flat-square) | ![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/@archivator/archivable?style=flat-square&logo=appveyor&logo=dependabot) |
+| Version                                                                                                                                                                        | Size                                                                                                     | Dependencies                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [![npm](https://img.shields.io/npm/v/%40archivator%2Farchivable?style=flat-square&logo=appveyor&label=npm&logo=npm)](https://www.npmjs.com/package/%40archivator%2Farchivable) | ![npm bundle size](https://img.shields.io/bundlephobia/min/%40archivator%2Farchivable?style=flat-square) | ![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/%40archivator%2Farchivable?style=flat-square&logo=appveyor&logo=dependabot) |
 
 ## Usage
 

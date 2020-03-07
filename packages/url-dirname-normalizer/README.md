@@ -2,7 +2,7 @@
 
 > Normalize URLs to be valid filesystem paths for archiving web pages and their assets
 
-[repo-url]: https://github.com/renoirb/archivator/blob/re-rework/packages/url-dirname-normalizer 'URL Directory Name Normalizer'
+[repo-url]: https://github.com/renoirb/archivator/blob/v3.x-dev/packages/url-dirname-normalizer 'URL Directory Name Normalizer'
 
 | Version                                                                                                                                                                | Size                                                                                                 | Dependencies                                                                                                                                                                |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

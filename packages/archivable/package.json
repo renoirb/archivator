@@ -6,6 +6,7 @@
     "archiving",
     "normalization"
   ],
+  "homepage": "https://github.com/renoirb/archivator/blob/v3.x-dev/packages/archivable",
   "repository": {
     "type": "git",
     "url": "https://github.com/renoirb/archivator.git",
@@ -61,6 +62,6 @@
     "url-dirname-normalizer": "^1.2.0"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   }
 }

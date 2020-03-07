@@ -4,7 +4,6 @@ import { resolve } from 'path'
 
 export type UrlsExpectedExplanationTuples = [string, string, string][]
 
-
 export const loadJson = (
   fileName: string,
 ): Readonly<UrlsExpectedExplanationTuples> => {
@@ -14,7 +13,9 @@ export const loadJson = (
     throw new Error(`Input file not found: ${fileName} in ${parentPath}`)
   }
 
-  const loaded = JsonFile.load(normalizedFilePath) as  UrlsExpectedExplanationTuples
+  const loaded = JsonFile.load(
+    normalizedFilePath,
+  ) as UrlsExpectedExplanationTuples
   const out = Object.freeze(loaded)
 
   return out

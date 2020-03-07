@@ -9,7 +9,7 @@
     "archiving",
     "normalization"
   ],
-  "homepage": "https://github.com/renoirb/archivator/blob/re-rework/packages/url-dirname-normalizer",
+  "homepage": "https://github.com/renoirb/archivator/blob/v3.x-dev/packages/url-dirname-normalizer",
   "repository": {
     "type": "git",
     "url": "https://github.com/renoirb/archivator.git",
@@ -65,6 +65,6 @@
     "typescript": "^3.7.0"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   }
 }
