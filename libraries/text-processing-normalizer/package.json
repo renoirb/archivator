@@ -1,0 +1,69 @@
+{
+  "name": "@archivator/text-processing-normalizer",
+  "version": "0.0.1-dev.0",
+  "private": true,
+  "description": "Process and tries to do smart things with text. As smart as can be.",
+  "keywords": [
+    "text",
+    "processing",
+    "stop",
+    "words",
+    "normalization"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/renoirb/archivator.git",
+    "directory": "libraries/text-processing-normalizer"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Renoir Boulanger",
+    "email": "contribs@renoirboulanger.com"
+  },
+  "exports": {
+    ".": "dist/index.esm.js"
+  },
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "resources"
+  ],
+  "scripts": {
+    "build": "use-run-all build:*",
+    "build:node": "use-bili --target node --format cjs --file-name index.js",
+    "build:node-esm": "use-bili --target node --format esm --file-name index.esm.js",
+    "clean": "use-rimraf .rpt2_cache dist *.*.log",
+    "fix": "use-cross-env use-prettier --write  '**/*.{ts,json,md}'",
+    "lint": "rush-eslint -c .eslintrc.js 'src/**/*.ts'",
+    "prepublishOnly": "use-run-all clean build",
+    "test": "use-jest --detectOpenHandles",
+    "test:snapshots": "use-jest --detectOpenHandles -u"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-transform-runtime": "7.5.5",
+    "@babel/preset-env": "^7.4.0",
+    "@babel/runtime-corejs3": "^7.8.0",
+    "@microsoft/node-core-library": "^3.19.0",
+    "@microsoft/node-library-build": "6.4.4",
+    "@microsoft/rush-stack-compiler-3.7": "^0.2.3",
+    "@renoirb/conventions-use-bili": "^1.0.2",
+    "@renoirb/conventions-use-eslint": "^1.0.1",
+    "@renoirb/conventions-use-jest": "^1.0.1",
+    "@renoirb/conventions-use-prettier": "^1.0.1",
+    "@renoirb/tools-bundling-helpers": "^1.0.2",
+    "@rushstack/eslint-config": "^0.5.4",
+    "@types/jest": "^24.9.0",
+    "@types/node": "10.17.13",
+    "bili": "^4.8.1",
+    "eslint": "^6.0.0",
+    "gulp": "~4.0.2",
+    "jest": "~23.6.0",
+    "tslib": "^1.11.1",
+    "typescript": "^3.7.0"
+  },
+  "engines": {
+    "node": ">=10"
+  }
+}

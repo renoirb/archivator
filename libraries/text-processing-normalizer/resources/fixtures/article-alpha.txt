@@ -1,0 +1,827 @@
+		During a work session on my salt-states for WebPlatform.org I wanted to shape be able to query the OpenStack cluster meta-data so that I can adjust more efficiently my salt configuration.
+What are grains? Grains are structured data that describes what a minion has such as which version of GNU/Linux its running, what are the network adapters, etc.
+The following is a Python script that adds data in Salt Stack’ internal database called grains.
+I have to confess that I didn’t write the script but adapted it to work within an OpenStack cluster. More precisely on DreamHost’s DreamCompute cluster. The original script came from saltstack/salt-contrib and the original file was ec2_info.py to read data from EC2.
+The original script wasn’t getting any data in the cluster. Most likely due to API changes and that EC2 API exposes dynamic meta-data that the DreamCompute/OpenStack cluster don’t.
+In the end, I edited the file to make it work on DreamCompute and also truncated some data that the grains subsystem already has.
+My original objective was to get a list of security-groups the VM was assigned. Unfortunately the API doesn’t give that information yet. Hopefully I’ll find a way to get that information some day.
+Get OpenStack instance detail using Salt
+Locally
+salt-call grains.get dreamcompute:uuid
+local:
+    10a4f390-7c55-4dd3-0000-a00000000000
+
+Or for another machine
+salt app1 grains.get dreamcompute:uuid
+app1:
+    510f5f24-217b-4fd2-0000-f00000000000
+
+What size did we create a particular VM?
+salt app1 grains.get dreamcompute:instance_type
+app1:
+    lightspeed
+
+What data you can get
+Here is a sample of the grain data that will be added to every salt minion you manage.
+You might notice that some data will be repeated such as the ‘hostname’, but the rest can be very useful if you want to use the data within your configuration management.
+dreamcompute:
+    ----------
+    availability_zone:
+        iad-1
+    block_device_mapping:
+        ----------
+        ami:
+            vda
+        ebs0:
+            /dev/vdb
+        ebs1:
+            vda
+        root:
+            /dev/vda
+    hostname:
+        salt.novalocal
+    instance_action:
+        none
+    instance_id:
+        i-00000000
+    instance_type:
+        lightspeed
+    launch_index:
+        0
+    local_ipv4:
+        10.10.10.11
+    name:
+        salt
+    network_config:
+        ----------
+        content_path:
+            /content/0000
+        name:
+            network_config
+    placement:
+        ----------
+        availability_zone:
+            iad-1
+    public_ipv4:
+        203.0.113.11
+    public_keys:
+        ----------
+        someuser:
+            ssh-rsa ...an rsa public key... someuser-comment@example.org
+    ramdisk_id:
+        None
+    reservation_id:
+        r-33333333
+    security-groups:
+        None
+    uuid:
+        10a4f390-7c55-4dd3-0000-a00000000000
+
+What does the script do?
+The script basically scrapes OpenStack meta-data service and serializes into saltstack grains system the data it gets.
+OpenStack’s meta-data service  is similar to what you’d get from AWS, but doesn’t expose exactly the same data. This is why I had to adapt the original script.
+To get data from an instance you simply (really!) need to make an HTTP call to an internal IP address that OpenStack nova answers.
+For example, from an AWS/OpenStack VM, you can know the instance hostname by doing
+curl http://169.254.169.254/latest/meta-data/hostname
+salt.novalocal
+
+To know what the script calls, you can add a line at _call_aws(url) method like so
+diff --git a/_grains/dreamcompute.py b/_grains/dreamcompute.py
+index 682235d..c3af659 100644
+--- a/_grains/dreamcompute.py
++++ b/_grains/dreamcompute.py
+@@ -25,6 +25,7 @@ def _call_aws(url):
+
+     \"\"\"
+     conn = httplib.HTTPConnection(\"169.254.169.254\", 80, timeout=1)
++    LOG.info('API call to ' + url )
+     conn.request('GET', url)
+     return conn.getresponse()
+
+When you saltutil.sync_all (i.e. refresh grains and other data), the  log will tell you which endpoints it queried.
+In my case they were:
+[INFO    ] API call to /openstack/2012-08-10/meta_data.json
+[INFO    ] API call to /latest/meta-data/
+[INFO    ] API call to /latest/meta-data/block-device-mapping/
+[INFO    ] API call to /latest/meta-data/block-device-mapping/ami
+[INFO    ] API call to /latest/meta-data/block-device-mapping/ebs0
+[INFO    ] API call to /latest/meta-data/block-device-mapping/ebs1
+[INFO    ] API call to /latest/meta-data/block-device-mapping/root
+[INFO    ] API call to /latest/meta-data/hostname
+[INFO    ] API call to /latest/meta-data/instance-action
+[INFO    ] API call to /latest/meta-data/instance-id
+[INFO    ] API call to /latest/meta-data/instance-type
+[INFO    ] API call to /latest/meta-data/local-ipv4
+[INFO    ] API call to /latest/meta-data/placement/
+[INFO    ] API call to /latest/meta-data/placement/availability-zone
+[INFO    ] API call to /latest/meta-data/public-ipv4
+[INFO    ] API call to /latest/meta-data/ramdisk-id
+[INFO    ] API call to /latest/meta-data/reservation-id
+[INFO    ] API call to /latest/meta-data/security-groups
+[INFO    ] API call to /openstack/2012-08-10/meta_data.json
+[INFO    ] API call to /latest/meta-data/
+[INFO    ] API call to /latest/meta-data/block-device-mapping/
+[INFO    ] API call to /latest/meta-data/block-device-mapping/ami
+[INFO    ] API call to /latest/meta-data/block-device-mapping/ebs0
+[INFO    ] API call to /latest/meta-data/block-device-mapping/ebs1
+[INFO    ] API call to /latest/meta-data/block-device-mapping/root
+[INFO    ] API call to /latest/meta-data/hostname
+[INFO    ] API call to /latest/meta-data/instance-action
+[INFO    ] API call to /latest/meta-data/instance-id
+[INFO    ] API call to /latest/meta-data/instance-type
+[INFO    ] API call to /latest/meta-data/local-ipv4
+[INFO    ] API call to /latest/meta-data/placement/
+[INFO    ] API call to /latest/meta-data/placement/availability-zone
+[INFO    ] API call to /latest/meta-data/public-ipv4
+[INFO    ] API call to /latest/meta-data/ramdisk-id
+[INFO    ] API call to /latest/meta-data/reservation-id
+[INFO    ] API call to /latest/meta-data/security-groups
+
+Its quite heavy.
+Hopefully the script respects HTTP headers and don’t bypass 304 Not Modified responses. Otherwise it’ll add load to nova. Maybe I should check that (note-to-self).
+Install
+You can add this feature by adding a file in your salt states repository in the _grains/ folder. The file can have any name ending by .py.
+You can grab the grain python code in this gist.
+
+
+
+
+
+
+
+
+
+
+
+
+        #!/usr/bin/env python
+
+
+
+        # -*- coding: utf-8 -*-
+
+
+
+        \"\"\"
+
+
+
+        Get some grains information that is only available in Amazon AWS
+
+
+
+
+
+
+
+        Author: Erik Günther, J C Lawrence <claw@kanga.nu>, Mark McGuire, Renoir Boulanger <renoir@w3.org>
+
+
+
+
+
+
+
+        Install:
+
+
+
+          - Add this file in your salt sates, in a folder call _grains/
+
+
+
+        \"\"\"
+
+
+
+        import logging
+
+
+
+        import httplib
+
+
+
+        import socket
+
+
+
+        import json
+
+
+
+
+
+
+
+
+        # Set up logging
+
+
+
+        LOG = logging.getLogger(__name__)
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def _call_aws(url):
+
+
+
+            \"\"\"
+
+
+
+            Call AWS via httplib. Require correct path.
+
+
+
+            Host: 169.254.169.254
+
+
+
+
+
+
+
+            \"\"\"
+
+
+
+            conn = httplib.HTTPConnection(\"169.254.169.254\", 80, timeout=1)
+
+
+
+            conn.request('GET', url)
+
+
+
+            return conn.getresponse()
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def _get_dreamcompute_hostinfo(path=\"\"):
+
+
+
+            \"\"\"
+
+
+
+            Recursive function that walks the EC2 metadata available to each minion.
+
+
+
+            :param path: URI fragment to append to /latest/meta-data/
+
+
+
+
+
+
+
+            Returns a nested dictionary containing all the EC2 metadata. All keys
+
+
+
+            are converted from dash case to snake case.
+
+
+
+
+
+
+
+            On DreamCompute/OpenStack, the following is available at /latest/meta-data/
+
+
+
+
+
+
+
+            | path                       | typical output
+
+
+
+            ------------------------------------------------
+
+
+
+            | ami-id                     |
+
+
+
+            | ami-launch-index           |
+
+
+
+            | ami-manifest-path          |
+
+
+
+            | block-device-mapping/      |
+
+
+
+            | hostname                   | salt.novalocal
+
+
+
+            | instance-action            |
+
+
+
+            | instance-id                | i-001151e3
+
+
+
+            | instance-type              | lightspeed
+
+
+
+            | kernel-id                  |
+
+
+
+            | local-hostname             |
+
+
+
+            | local-ipv4                 | 10.10.10.11
+
+
+
+            | placement/                 |
+
+
+
+            |   availability-zone        | iad-1
+
+
+
+            | public-hostname            | salt.novalocal
+
+
+
+            | public-ipv4                | 203.0.113.11
+
+
+
+            | public-keys/               |
+
+
+
+            |   0/                       | (each entry represent a a ssh key)
+
+
+
+            |   0/openssh-key            | ssh-rsa.... (the public key)
+
+
+
+            | ramdisk-id                 |
+
+
+
+            | reservation-id             |
+
+
+
+
+
+
+
+            EDIT: This function now truncates some keys that might just be not very helpful
+
+
+
+                  in the context of a salt master not managing an OpenStack cluster itself.
+
+
+
+            \"\"\"
+
+
+
+
+
+
+
+
+            keys_to_mute = ['local-hostname','public-hostname','ami-id','ami-launch-index','ami-manifest-path','kernel-id','public-keys/']
+
+
+
+            resp = _call_aws(\"/latest/meta-data/%s\" % path)
+
+
+
+            resp_data = resp.read().strip()
+
+
+
+            d = {}
+
+
+
+            for line in resp_data.split(\"\\n\"):
+
+
+
+                if line[-1] != \"/\" and line not in keys_to_mute:
+
+
+
+                    call_response = _call_aws(\"/latest/meta-data/%s\" % (path + line))
+
+
+
+                    call_response_data = call_response.read()
+
+
+
+                    # avoid setting empty grain
+
+
+
+                    if call_response_data == '':
+
+
+
+                        d[line] = None
+
+
+
+                    elif call_response_data is not None:
+
+
+
+                        line = _dash_to_snake_case(line)
+
+
+
+                        try:
+
+
+
+                            data = json.loads(call_response_data)
+
+
+
+                            if isinstance(data, dict):
+
+
+
+                                data = _snake_caseify_dict(data)
+
+
+
+                            d[line] = data
+
+
+
+                        except ValueError:
+
+
+
+                            d[line] = call_response_data
+
+
+
+                    else:
+
+
+
+                        return line
+
+
+
+                elif line in keys_to_mute:
+
+
+
+                    \"\"\"
+
+
+
+                    This should catch public-keys/ to skip the formatting rules above and
+
+
+
+                    make the public-keys part of the grains data.
+
+
+
+                    \"\"\"
+
+
+
+                else:
+
+
+
+                    d[_dash_to_snake_case(line[:-1])] = _get_dreamcompute_hostinfo(path + line)
+
+
+
+            return d
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def _camel_to_snake_case(s):
+
+
+
+            return s[0].lower() + \"\".join(((\"_\" + x.lower()) if x.isupper() else x) for x in s[1:])
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def _dash_to_snake_case(s):
+
+
+
+            return s.replace(\"-\", \"_\")
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def _snake_caseify_dict(d):
+
+
+
+            nd = {}
+
+
+
+            for k, v in d.items():
+
+
+
+                nd[_camel_to_snake_case(k)] = v
+
+
+
+            return nd
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def _get_dreamcompute_additional():
+
+
+
+            \"\"\"
+
+
+
+            Recursive call in _get_dreamcompute_hostinfo() does not retrieve some of
+
+
+
+            the hosts information like region, availability zone or
+
+
+
+            architecture.
+
+
+
+
+
+
+
+            \"\"\"
+
+
+
+            response = _call_aws(\"/openstack/2012-08-10/meta_data.json\")
+
+
+
+            # _call_aws returns None for all non '200' reponses,
+
+
+
+            # catching that here would rule out AWS resource
+
+
+
+            if response.status == 200:
+
+
+
+                response_data = response.read()
+
+
+
+                data = json.loads(response_data)
+
+
+
+                return _snake_caseify_dict(data)
+
+
+
+            else:
+
+
+
+               raise httplib.BadStatusLine(\"Could not read EC2 metadata\")
+
+
+
+
+
+
+
+
+        def dreamcompute_info():
+
+
+
+            \"\"\"
+
+
+
+            Collect all dreamcompute grains into the 'dreamcompute' key.
+
+
+
+            \"\"\"
+
+
+
+            try:
+
+
+
+                grains = _get_dreamcompute_additional()
+
+
+
+                grains.update(_get_dreamcompute_hostinfo())
+
+
+
+                return {'dreamcompute' : grains}
+
+
+
+
+
+
+
+
+            except httplib.BadStatusLine, error:
+
+
+
+                LOG.debug(error)
+
+
+
+                return {}
+
+
+
+
+
+
+
+
+            except socket.timeout, serr:
+
+
+
+                LOG.info(\"Could not read EC2 data (timeout): %s\" % (serr))
+
+
+
+                return {}
+
+
+
+
+
+
+
+
+            except socket.error, serr:
+
+
+
+                LOG.info(\"Could not read EC2 data (error): %s\" % (serr))
+
+
+
+                return {}
+
+
+
+
+
+
+
+
+            except IOError, serr:
+
+
+
+                LOG.info(\"Could not read EC2 data (IOError): %s\" % (serr))
+
+
+
+                return {}
+
+
+
+
+
+
+
+
+        if __name__ == \"__main__\":
+
+
+
+            print dreamcompute_info()
+
+
+
+
+
+
+
+
+
+
+
+        view raw
+        _grains_dreamcompute.py
+        hosted with ❤ by GitHub
+
+
+
+
+enjoy!
+
+
+			  CategoriesLogiciel libre, Projets, Snippet  TagsLinux, operations, Salt stack

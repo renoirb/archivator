@@ -316,6 +316,14 @@
       "projectFolder": "packages/archivable",
       "reviewCategory": "packages",
       "versionPolicyName": "standalone"
+    },
+
+    // Private and internal packages
+    {
+      "packageName": "@archivator/text-processing-normalizer",
+      "projectFolder": "libraries/text-processing-normalizer",
+      "reviewCategory": "libraries",
+      "versionPolicyName": "individualVersion"
     }
   ]
 }

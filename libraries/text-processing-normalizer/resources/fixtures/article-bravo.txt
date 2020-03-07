@@ -1,0 +1,3 @@
+During a work session on my salt-states for WebPlatform.org I wanted to shape be able to query the OpenStack cluster meta-data so that I can adjust more efficiently my salt configuration.
+What are grains? Grains are structured data that describes what a minion has such as which version of GNU/Linux its running, what are the network adapters, etc.
+The following is a Python script that adds data in Salt Stack&#x2019; internal database called grains.
