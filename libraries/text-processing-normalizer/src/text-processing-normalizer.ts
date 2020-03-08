@@ -4,9 +4,6 @@ export class TextProcessingNormalizer {
   private readonly stopWords: ReadonlyArray<string>
   private readonly locales: ReadonlyArray<string>
 
-  textHashMap?: Readonly<Record<string, number>>
-  text?: string
-
   constructor(
     stopWords: string[] = [],
     locales: string[] = ['en-CA', 'fr-CA'],
@@ -15,18 +12,9 @@ export class TextProcessingNormalizer {
     this.locales = Object.freeze(locales)
   }
 
-  setText(text: string): void {
-    if (this.text) {
-      const message = `Cannot re-use the same object, please create a fresh instance`
-      throw new Error(message)
-    }
-    Object.defineProperty(this, 'text', {
-      value: text,
-      writable: false,
-      configurable: false,
-    })
+  extractWords(text: string): Record<string, number> {
     const stopWords = [...this.stopWords]
     const locales = [...this.locales]
-    this.textHashMap = Object.seal(extractWords(text, stopWords, locales))
+    return extractWords(text, stopWords, locales)
   }
 }

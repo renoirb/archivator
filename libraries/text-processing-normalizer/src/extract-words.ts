@@ -1,4 +1,6 @@
 import { wordNormalizer, nonStopWordIsser } from './predicates'
+import { SortedKeywordsRecordType, RecordToMapFactoryType } from './types'
+import { sorting } from './utils'
 
 /**
  * Extract words and calculate usage frequency.
@@ -25,18 +27,25 @@ import { wordNormalizer, nonStopWordIsser } from './predicates'
  *       - name: extractWords:
  *         replacing: extractWords
  *         url: https://github.com/renoirb/archivator/blob/v2.0.0/src/analyze.js#L18-L48
- *       - name: analyze
+ *       - name: sortedAndKeywords
  *         replacing: analyze
+ *         replacedWith: summarize
  *         url: https://github.com/renoirb/archivator/blob/v2.0.0/src/analyze.js#L50-L62
  *       - name: sort
  *         replacing: sort
  *         url: https://github.com/renoirb/archivator/blob/v2.0.0/src/analyze.js#L64-L77
  */
 
+/**
+ * Extract words
+ * @param {string} body — Text content, as a single string
+ * @param {string[]} [stopWords] — Words that should be ignored
+ * @param {string[]} [locales] — Locales tags to support for {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase|String.prototype.toLocaleLowerCase}
+ */
 export const extractWords = (
   body: string,
   stopWords: string[] = [],
-  locales: string | string[] = ['en-CA', 'fr-CA'],
+  locales: string | string[] = ['en-CA'],
 ): Record<string, number> => {
   const normalizeWord = wordNormalizer(locales)
   const isNonStopWord = nonStopWordIsser(stopWords)
@@ -49,6 +58,8 @@ export const extractWords = (
     const word = normalizeWord(text[i])
     if (word && isNonStopWord(word)) {
       if (foundOnce.has(word)) {
+        // This was the former way to check, before we had Map.
+        // Leaving here for old memories’ sake.
         if (Object.prototype.hasOwnProperty.call(words, word)) {
           words[word]++
         } else {
@@ -62,40 +73,48 @@ export const extractWords = (
   return Object.seal(words)
 }
 
-// /**
-//  * Take a collection of words,
-//  * Return the same collection, sorted by usage.
-//  *
-//  * @param subject
-//  */
-// export function sort(subject) {
-//   let sortable = []
-//   for (let key in subject) {
-//     sortable.push([key, subject[key]])
-//   }
-//   // Sort from more occurences, to least
-//   sortable.sort((a, b) => {
-//     return -1 * (a[1] - b[1])
-//   })
-//
-//   return sortable // array in format [ [ key1, val1 ], [ key2, val2 ], ... ]
-// }
-//
-// export const analyze = (words) => {
-//   const keywords = new Map<string, number>()
-//   const sorted = sort(words)
-//   const max = 10
-//   let iter = 0
-//   for (let popular of sorted) {
-//     let used = popular[1] // word has been used n times
-//     let word = popular[0]
-//     if (iter <= max && used > 3) {
-//       keywords.set(word, used)
-//     }
-//     iter++
-//   }
-//
-//   recv.data.keywords = keywords
-//
-//   return recv
-// }
+/**
+ * Take a collection of words,
+ * Return the same collection, sorted by usage.
+ *
+ * @param {Object.<string, number>} textHashMap — Unique "word" where each value is its usage count
+ */
+export const extractWordsSorter: RecordToMapFactoryType<
+  string,
+  number
+> = textHashMap => {
+  const map = new Map<string, number>(Object.entries(textHashMap))
+  const out = new Map<string, number>(
+    [...map.entries()].sort(sorting.whenValuesAreNumbersFromBiggestToLowest),
+  )
+
+  return out
+}
+
+/**
+ * @param {Object.<string, number>} textHashMap — Unique "word" where each value is its usage count
+ * @param {number} [floor=3] — In keywords grouping, what is the minimum number of times to qualify
+ * @param {number} [max=10] — In keywords grouping, how many items in the top keywords
+ */
+export const summarize = (
+  textHashMap: Record<string, number>,
+  floor: number = 3,
+  max: number = 10,
+): SortedKeywordsRecordType => {
+  const zeroIndexSafeFloor = Number.isInteger(+floor) && +floor > 0 ? floor : 1
+  // const zeroIndexSafeMax = Number.isInteger(+max) && +max > 0 ? max : 1
+  const keywords: string[] = []
+  const sorted = extractWordsSorter(textHashMap)
+  let iter = 0
+  // @ts-ignore
+  for (const [word, count] of sorted.entries()) {
+    if (iter < max && count > zeroIndexSafeFloor) {
+      keywords.push(word)
+    }
+    iter++
+  }
+
+  const out: SortedKeywordsRecordType = { sorted, keywords }
+
+  return out
+}
