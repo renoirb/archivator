@@ -12,7 +12,7 @@ dependencies:
   '@renoirb/conventions-use-prettier': 1.0.1
   '@renoirb/tools-bundling-helpers': 1.0.2
   '@rush-temp/archivable': 'file:projects/archivable.tgz'
-  '@rush-temp/text-processing-normalizer': 'file:projects/text-processing-normalizer.tgz'
+  '@rush-temp/content-divinator': 'file:projects/content-divinator.tgz'
   '@rush-temp/url-dirname-normalizer': 'file:projects/url-dirname-normalizer.tgz'
   '@rushstack/eslint-config': 0.5.4_eslint@6.8.0+typescript@3.8.3
   '@types/jest': 24.9.1
@@ -2606,7 +2606,7 @@ packages:
       rollup-plugin-hashbang: 2.2.2
       rollup-plugin-json: 3.1.0
       rollup-plugin-node-resolve: 4.2.4
-      rollup-plugin-postcss: 2.3.0
+      rollup-plugin-postcss: 2.4.0
       rollup-plugin-replace: 2.2.0
       rollup-plugin-terser: 4.0.4_rollup@1.32.1
     dev: false
@@ -2696,7 +2696,7 @@ packages:
     dependencies:
       caniuse-lite: 1.0.30001032
       electron-to-chromium: 1.3.372
-      node-releases: 1.1.50
+      node-releases: 1.1.51
     dev: false
     hasBin: true
     resolution:
@@ -8155,12 +8155,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-M4UBGcs4jeOK9CjTsYwkvH6/MzuUmGCyTW+kCY7uO+1ZVr0+FHGdPdIf5CCLqAaxnRrWidyoQlNkMIIVwbKB8Q==
-  /node-releases/1.1.50:
+  /node-releases/1.1.51:
     dependencies:
       semver: 6.3.0
     dev: false
     resolution:
-      integrity: sha512-lgAmPv9eYZ0bGwUYAKlr8MG6K4CvWliWqnkcT2P8mMAgVrH3lqfBPorFlxiG1pHQnqmavJZ9vbMXUTNyMLbrgQ==
+      integrity: sha512-1eQEs6HFYY1kMXQPOLzCf7HdjReErmvn85tZESMczdCNVWP3Y7URYLBAyYynuI7yef1zj4HN5q+oB2x67QU0lw==
   /nopt/3.0.6:
     dependencies:
       abbrev: 1.0.9
@@ -9942,7 +9942,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-t/64I6l7fZ9BxqD3XlX4ZeO6+5RLKyfpwE2CiPNUKa+GocPlQhf/C208ou8y3AwtNsc6bjSk/8/6y/YAyxCIvw==
-  /rollup-plugin-postcss/2.3.0:
+  /rollup-plugin-postcss/2.4.0:
     dependencies:
       chalk: 2.4.2
       concat-with-sourcemaps: 1.1.0
@@ -9962,7 +9962,7 @@ packages:
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-XHtQ4MWz5ANukEiaZznIJ3TVcuirrOUn4JvHA5OdLC21DCJlhA51VDNyYhf2I8vVVY69A8ipqOq3GlAy8OjhQA==
+      integrity: sha512-fDdEY4C5tPZcCKAn1UeC0R/GJg1YIGfT6iSmOGrT9jb9bq0W3pp8wX8Sbb2G6lP2OkK64XJrcVAm0wXEWMkx3g==
   /rollup-plugin-replace/2.2.0:
     dependencies:
       magic-string: 0.25.7
@@ -11750,7 +11750,7 @@ packages:
       integrity: sha512-cogb5hd+o2xLD4ynxG53N4dOWfA686rxUUA+6FmevF+KVrG32RNbj11cSQaDyQGWGPyVQ35qp6uSCN1GhaW66w==
       tarball: 'file:projects/archivable.tgz'
     version: 0.0.0
-  'file:projects/text-processing-normalizer.tgz':
+  'file:projects/content-divinator.tgz':
     dependencies:
       '@babel/core': 7.8.7
       '@babel/plugin-transform-runtime': 7.5.5_@babel+core@7.8.7
@@ -11774,10 +11774,10 @@ packages:
       tslib: 1.11.1
       typescript: 3.8.3
     dev: false
-    name: '@rush-temp/text-processing-normalizer'
+    name: '@rush-temp/content-divinator'
     resolution:
-      integrity: sha512-WcnTCUQ8T7TT3RNDzkHJH1526IQDDS1lWnWbAA8h/qn6Tbhlec1amA/NFi0XN+Nl2I5DjPokxMc09aneLBvpFA==
-      tarball: 'file:projects/text-processing-normalizer.tgz'
+      integrity: sha512-+yDyXxPU0U36wnXgW3Ejtf6oDKpziL9PKlOTHhzL1si6zDracBXBfoRv8cOngEbQftDfWewd0nSkTTWQEW8R1g==
+      tarball: 'file:projects/content-divinator.tgz'
     version: 0.0.0
   'file:projects/url-dirname-normalizer.tgz':
     dependencies:
@@ -11822,7 +11822,7 @@ specifiers:
   '@renoirb/conventions-use-prettier': ^1.0.1
   '@renoirb/tools-bundling-helpers': ^1.0.2
   '@rush-temp/archivable': 'file:./projects/archivable.tgz'
-  '@rush-temp/text-processing-normalizer': 'file:./projects/text-processing-normalizer.tgz'
+  '@rush-temp/content-divinator': 'file:./projects/content-divinator.tgz'
   '@rush-temp/url-dirname-normalizer': 'file:./projects/url-dirname-normalizer.tgz'
   '@rushstack/eslint-config': ^0.5.4
   '@types/jest': ^24.9.0
