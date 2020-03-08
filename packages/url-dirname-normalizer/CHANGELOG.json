@@ -1,0 +1,53 @@
+{
+  "name": "url-dirname-normalizer",
+  "entries": [
+    {
+      "version": "1.2.0",
+      "tag": "url-dirname-normalizer_v1.2.0",
+      "date": "Sat, 29 Feb 2020 04:49:04 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "refactor NormalizedAsset to provide where to write file"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.1.1",
+      "tag": "url-dirname-normalizer_v1.1.1",
+      "date": "Fri, 28 Feb 2020 21:27:47 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fixed missing runtime dep"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.1.0",
+      "tag": "url-dirname-normalizer_v1.1.0",
+      "date": "Fri, 28 Feb 2020 21:09:47 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "migrate archivator’s asset normalization"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.0.0",
+      "tag": "url-dirname-normalizer_v1.0.0",
+      "date": "Thu, 27 Feb 2020 22:19:46 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "new standalone package"
+          }
+        ]
+      }
+    }
+  ]
+}
