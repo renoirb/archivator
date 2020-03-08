@@ -130,6 +130,14 @@
       "safeForSimultaneousRushProcesses": true,
       "enableParallelism": true,
       "ignoreMissingScript": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "clean",
+      "summary": "Run clean on all applicable packages",
+      "safeForSimultaneousRushProcesses": true,
+      "enableParallelism": true,
+      "ignoreMissingScript": true
     }
   ],
 

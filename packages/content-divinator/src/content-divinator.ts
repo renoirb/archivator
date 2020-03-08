@@ -1,6 +1,7 @@
-import { extractWords } from './extract-words'
+import { words } from './extractors'
+import { WordUsageMapType } from './types'
 
-export class TextProcessingNormalizer {
+export class ContentDivinator {
   private readonly stopWords: ReadonlyArray<string>
   private readonly locales: ReadonlyArray<string>
 
@@ -12,9 +13,9 @@ export class TextProcessingNormalizer {
     this.locales = Object.freeze(locales)
   }
 
-  extractWords(text: string): Record<string, number> {
+  words(text: string): WordUsageMapType {
     const stopWords = [...this.stopWords]
     const locales = [...this.locales]
-    return extractWords(text, stopWords, locales)
+    return words(text, stopWords, locales)
   }
 }

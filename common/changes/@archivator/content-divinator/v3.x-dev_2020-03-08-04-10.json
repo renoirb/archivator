@@ -1,11 +1,11 @@
 {
   "changes": [
     {
-      "packageName": "@archivator/text-processing-normalizer",
+      "packageName": "@archivator/content-divinator",
       "comment": "new summary and word usage",
       "type": "patch"
     }
   ],
-  "packageName": "@archivator/text-processing-normalizer",
+  "packageName": "@archivator/content-divinator",
   "email": "hello@renoirboulanger.com"
 }

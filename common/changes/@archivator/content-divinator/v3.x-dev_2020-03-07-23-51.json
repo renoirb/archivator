@@ -1,11 +1,11 @@
 {
   "changes": [
     {
-      "packageName": "@archivator/text-processing-normalizer",
+      "packageName": "@archivator/content-divinator",
       "comment": "New package, migrated from initial monolithic implementation",
       "type": "patch"
     }
   ],
-  "packageName": "@archivator/text-processing-normalizer",
+  "packageName": "@archivator/content-divinator",
   "email": "hello@renoirboulanger.com"
 }

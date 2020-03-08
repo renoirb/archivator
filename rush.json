@@ -317,12 +317,10 @@
       "reviewCategory": "packages",
       "versionPolicyName": "standalone"
     },
-
-    // Private and internal packages
     {
-      "packageName": "@archivator/text-processing-normalizer",
-      "projectFolder": "libraries/text-processing-normalizer",
-      "reviewCategory": "libraries",
+      "packageName": "@archivator/content-divinator",
+      "projectFolder": "packages/content-divinator",
+      "reviewCategory": "packages",
       "versionPolicyName": "standalone"
     }
   ]

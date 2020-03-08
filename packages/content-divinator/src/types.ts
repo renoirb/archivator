@@ -22,13 +22,12 @@ export type WordNormalizerType = (word: any) => string | void
 /**
  * What are the sorted words and the top keywords found after analysis.
  */
-export interface SortedKeywordsRecordType {
-  sorted: Map<string, number>
+export interface SummaryRecordType {
   keywords: string[]
 }
 
 /**
- * Utility Type.
+ * Convert Record<T, U> into Map<T, U> utility.
  *
  * When we want to convert a Record hash-map into an ECMAScript2015 Map.
  */
@@ -37,12 +36,11 @@ export type RecordToMapFactoryType<T = string | number, U = string | number> = (
 ) => Map<T, U>
 
 /**
- * Coroutine Generator Sink.
+ * Convert Map<T, U> to Record<T, U> utility.
  *
- * Bookmarks:
- * - https://twitter.com/renoirb/status/1236386606266953731
- * - https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/co/index.d.ts
- * - https://gist.github.com/OrionNebula/bd2d4339497a2c05e599d7d24038d290
- * - https://github.com/wowts/coroutine
+ * When we want to convert an ECMAScript2015 Map into a Record hash-map.
  */
-// export type CoroutineGeneratorSink<T> = Generator<T, symbol, T>
+export type MapToRecordHashMapFactoryType<
+  T = string | number,
+  U = string | number
+> = (input: Map<T, U>) => Record<T, U>

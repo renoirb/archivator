@@ -1,4 +1,4 @@
-import { WordNormalizerType, NonStopWordIsserType } from './types'
+import { WordNormalizerType, NonStopWordIsserType } from '../types'
 
 /**
  * Bookmarks:

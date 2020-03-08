@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-
-import { RecordToMapFactoryType } from './types'
-
 /**
  * Sorting closure.
  *
@@ -22,24 +18,11 @@ import { RecordToMapFactoryType } from './types'
  * I haven't figured it out yet.
  *
  */
-const whenValuesAreNumbersFromBiggestToLowest = (
+const whenRecordValueIsNumberOrderByDescending = (
   a: [string, number],
   b: [string, number],
 ): number => -1 * (a[1] - b[1])
 
 export const sorting = {
-  whenValuesAreNumbersFromBiggestToLowest,
-}
-
-export const convertRecordHashMapToMap: RecordToMapFactoryType<
-  string,
-  number
-> = input => {
-  const map = new Map<string, number>(Object.entries(input))
-
-  const out = new Map<string, number>(
-    [...map.entries()].sort(sorting.whenValuesAreNumbersFromBiggestToLowest),
-  )
-
-  return out
+  whenRecordValueIsNumberOrderByDescending,
 }

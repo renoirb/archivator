@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`README.md examples ContentDivinator 1`] = `
+Map {
+  "chuck" => 5,
+  "woodchuck" => 4,
+  "wood" => 4,
+}
+`;
+
+exports[`README.md examples ContentDivinator 2`] = `
+Object {
+  "keywords": Array [
+    "chuck",
+    "woodchuck",
+    "wood",
+  ],
+}
+`;
+
+exports[`README.md examples ContentDivinator 3`] = `
+Object {
+  "chuck": 5,
+  "wood": 4,
+  "woodchuck": 4,
+}
+`;

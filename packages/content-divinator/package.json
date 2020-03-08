@@ -1,8 +1,8 @@
 {
-  "name": "@archivator/text-processing-normalizer",
+  "name": "@archivator/content-divinator",
   "version": "0.0.1-dev.0",
   "private": true,
-  "description": "Process and tries to do smart things with text. As smart as can be.",
+  "description": "Attempt at guessing stuff, summarize content, based on raw text. A naïve Natural Language Processing toolkit.",
   "keywords": [
     "text",
     "processing",
@@ -13,7 +13,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/renoirb/archivator.git",
-    "directory": "libraries/text-processing-normalizer"
+    "directory": "libraries/content-divinator"
   },
   "license": "MIT",
   "author": {
