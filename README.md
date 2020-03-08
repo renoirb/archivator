@@ -17,16 +17,16 @@ See [Challenge](#challenge) below.
 
 ## Features
 
-- :white_check_mark: Cache HTML payload of source Web Pages URLs we want archived
-- :white_check_mark: Store files for each source URL at a consistent path name
-  - :white_check_mark: Extract assets, download them for archiving purposes
-  - :white_check_mark: Download images ("assets") from Web Pages
-  - :white_check_mark: Rename assets in archive and adjust archived version to use cached copies
-  - :white_check_mark: Do not download tracking images and/or ignore inline `base64` images
+- Cache HTML payload of source Web Pages URLs we want archived
+- Store files for each source URL at a consistent path name
+  - Extract assets, download them for archiving purposes
+  - Download images ("assets") from Web Pages
+  - Rename assets in archive and adjust archived version to use cached copies
+  - Do not download tracking images and/or ignore inline `base64` images
 - Read link list from different source list
-  - :white_check_mark: CSV file
-- :white_check_mark: Extract the main content for each article
-- :white_check_mark: Export into simplified excerpt document
+  - CSV file
+- Extract the main content for each article
+- Export into simplified excerpt document
 
 ## Packages
 
@@ -42,7 +42,7 @@ It is built with multiple smaller packages, leveraging Microsoft’s [RushStack]
 
 ## Contributing
 
-Refer to [CONTRIBUTING.md](./CONTRIBUTING.md)
+Refer to [.github/CONTRIBUTING.md](./.github/CONTRIBUTING.md)
 
 ## Challenge
 
