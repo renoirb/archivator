@@ -1,18 +1,30 @@
 import { words } from './extractors'
-import {
-  WordUsageMapType,
-  ContentDivinatorType,
-  AvailableStopWordResources,
-} from './types'
-import { createContentDivinatorSetup } from './factories'
+import { WordUsageMapType, AvailableStopWordResources } from './types'
+import { _createContentDivinatorSetup } from './factories'
 
 /**
- * {@link ContentDivinatorType}
+ * Attempt at guessing stuff, summarize content, based on raw text.
+ *
+ * This is the entry-point to other utilities.
+ * Instance of this class should contain contextual configuration such
+ * as the stop-words, and locales.
+ *
+ * Methods should return immutable copies of the instance’s configuration.
+ *
+ * @public
  */
-export class ContentDivinator implements ContentDivinatorType {
+export class ContentDivinator {
   private readonly stopWords: ReadonlyArray<string>
   private readonly locales: ReadonlyArray<string>
 
+  /**
+   * Create a ContentDivinator instance.
+   *
+   * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase|String.prototype.toLocaleLowerCase}
+   *
+   * @param stopWords - Words that should be ignored
+   * @param locales - Locales tags to support for toLocaleLowercase
+   */
   constructor(
     stopWords: string[] = [],
     locales: string[] = ['en-CA', 'fr-CA'],
@@ -21,6 +33,13 @@ export class ContentDivinator implements ContentDivinatorType {
     this.locales = Object.freeze(locales)
   }
 
+  /**
+   * Extract words from the following text.
+   *
+   * If special symbols are found, they will be stripped off.
+   *
+   * @param body - Contents to process, only text.
+   */
   words(text: string): WordUsageMapType {
     const stopWords = [...this.stopWords]
     const locales = [...this.locales]
@@ -30,18 +49,18 @@ export class ContentDivinator implements ContentDivinatorType {
   /**
    * Create a preconfigured ContentDivinator based on statically stored files.
    *
-   * @param {string} predefined — Load a locally available stop-word library, refer to {@link AvailableStopWordResources}
-   * @param {string[]} moarLocales — Add more locale tags, if needed
+   * @param predefined - Load a locally available stop-word library, refer to {@link AvailableStopWordResources}
+   * @param locales - Add more locale tags, if needed
    */
   static factory(
     predefined: AvailableStopWordResources,
-    moarLocales: string[] = [],
-  ): ContentDivinatorType {
-    const { locales, stopWords } = createContentDivinatorSetup(
+    locales: string[] = [],
+  ): ContentDivinator {
+    const { locales: moarLocales, stopWords } = _createContentDivinatorSetup(
       predefined,
-      moarLocales,
+      locales,
     )
 
-    return new ContentDivinator(stopWords, locales)
+    return new ContentDivinator(stopWords, moarLocales)
   }
 }

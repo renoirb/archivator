@@ -20,9 +20,9 @@ import { SummaryRecordType, WordUsageMapType } from '../types'
  *
  * @package extractors
  *
- * @param {Map<string, number>} wordsMap — Unique "word" where each value is its usage count
- * @param {number} [floor=3] — In keywords grouping, what is the minimum number of times to qualify
- * @param {number} [max=10] — In keywords grouping, how many items in the top keywords
+ * @param wordsMap - Unique "word" where each value is its usage count
+ * @param floor - In keywords grouping, what is the minimum number of times to qualify (default: 3)
+ * @param max - In keywords grouping, how many items in the top keywords (default: 10)
  */
 export const summary = (
   wordsMap: WordUsageMapType,

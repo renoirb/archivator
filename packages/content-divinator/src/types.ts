@@ -26,14 +26,18 @@ export type WordsType = ReadonlyArray<string>
 /**
  * Function Signature for checking if a word is a non-stop-word.
  *
- * @internal
+ * @public
+ *
+ * @param word - Is this word not a stop word?
  */
 export type NonStopWordIsserType = (word: string) => boolean
 
 /**
  * Function Signature for the
  *
- * @internal
+ * @public
+ *
+ * @param word - lowercased version of a Word.
  */
 export type WordNormalizerType = (word: any) => string | void
 
@@ -70,6 +74,10 @@ export interface ContentDivinatorSetupFactoryType {
  * @public
  */
 export interface SummaryRecordType {
+  /**
+   * After being processed by the {@link extractors.summary|Summary Extractor},
+   * what are the top most used words.
+   */
   keywords: string[]
 }
 
@@ -95,25 +103,3 @@ export type MapToRecordHashMapFactoryType<
   T = string | number,
   U = string | number
 > = (input: Map<T, U>) => Record<T, U>
-
-/**
- * Attempt at guessing stuff, summarize content, based on raw text.
- *
- * This is the entry-point to other utilities.
- * Instance of this class should contain contextual configuration such
- * as the stop-words, and locales.
- *
- * Methods should return immutable copies of the instance’s configuration.
- *
- * @public
- */
-export interface ContentDivinatorType {
-  /**
-   * Extract words from the following text.
-   *
-   *  If special symbols are found, they will be stripped off.
-   *
-   * @param {string} body — Contents to process, only text.
-   */
-  words(body: string): WordUsageMapType
-}

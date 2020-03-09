@@ -8,8 +8,7 @@ import { RecordToMapFactoryType, MapToRecordHashMapFactoryType } from '../types'
  *
  * @package utils
  *
- * @param {Object.<string, number>} textHashMap — Unique "word" where each value is its usage count
- * @returns {Map<string, number>}
+ * @param textHashMap - Unique "word" where each value is its usage count
  */
 export const convertRecordHashMapToMap: RecordToMapFactoryType<
   string,
@@ -30,8 +29,7 @@ export const convertRecordHashMapToMap: RecordToMapFactoryType<
  * @public
  * @package utils
  *
- * @param {Map<string, number>} textHashMap — Unique "word" where each value is its usage count
- * @returns {Object.<string, number>}
+ * @param textHashMap - Unique "word" where each value is its usage count
  */
 export const convertMapToRecordHashMap: MapToRecordHashMapFactoryType<
   string,

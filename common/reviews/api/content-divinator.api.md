@@ -7,11 +7,10 @@
 // @public
 export type AvailableStopWordResources = 'english';
 
-// @public (undocumented)
-class ContentDivinator implements ContentDivinatorType {
+// @public
+class ContentDivinator {
     constructor(stopWords?: string[], locales?: string[]);
-    static factory(predefined: AvailableStopWordResources, moarLocales?: string[]): ContentDivinatorType;
-    // (undocumented)
+    static factory(predefined: AvailableStopWordResources, locales?: string[]): ContentDivinator;
     words(text: string): WordUsageMapType;
 }
 
@@ -28,11 +27,6 @@ export interface ContentDivinatorSetupFactoryType {
 }
 
 // @public
-export interface ContentDivinatorType {
-    words(body: string): WordUsageMapType;
-}
-
-// @public
 export const extractors: {
     summary: (wordsMap: import("./types").WordUsageMapType, floor?: number, max?: number) => import("./types").SummaryRecordType;
     words: (body: string, stopWords?: string[], locales?: string | string[]) => import("./types").WordUsageMapType;
@@ -41,9 +35,7 @@ export const extractors: {
 // @public
 export type MapToRecordHashMapFactoryType<T = string | number, U = string | number> = (input: Map<T, U>) => Record<T, U>;
 
-// Warning: (ae-internal-missing-underscore) The name "NonStopWordIsserType" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export type NonStopWordIsserType = (word: string) => boolean;
 
 // @public
@@ -51,7 +43,6 @@ export type RecordToMapFactoryType<T = string | number, U = string | number> = (
 
 // @public
 export interface SummaryRecordType {
-    // (undocumented)
     keywords: string[];
 }
 
@@ -63,9 +54,7 @@ export const utils: {
     wordNormalizer: (locales?: string | string[] | undefined) => import("./types").WordNormalizerType;
 };
 
-// Warning: (ae-internal-missing-underscore) The name "WordNormalizerType" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export type WordNormalizerType = (word: any) => string | void;
 
 // @public

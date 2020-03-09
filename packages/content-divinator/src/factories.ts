@@ -12,10 +12,10 @@ import {
  *
  * @internal
  *
- * @param {string} name — resources/stop-words child directory name, a locale name in text
- * @param {string} fileName — file name to read from. Should only support JSON.
+ * @param name - resources/stop-words child directory name, a locale name in text
+ * @param fileName - file name to read from. Should only support JSON.
  */
-export const loadJson = <T>(name: string, fileName: string): T => {
+export const _loadJson = <T>(name: string, fileName: string): T => {
   const parentPath = resolve(__dirname, '..', 'resources', 'stop-words', name)
   const normalizedFilePath = resolve(parentPath, fileName)
   if (!FileSystem.exists(normalizedFilePath)) {
@@ -37,10 +37,10 @@ export const loadJson = <T>(name: string, fileName: string): T => {
  *
  * @internal
  *
- * @param {string} name — resources/stop-words child directory name, a locale name in text
- * @param {string} fileName — file name to read from. Should only support Text file.
+ * @param name - resources/stop-words child directory name, a locale name in text
+ * @param fileName - file name to read from. Should only support Text file.
  */
-export const loadText = (name: string, fileName: string): string => {
+export const _loadText = (name: string, fileName: string): string => {
   const parentPath = resolve(__dirname, '..', 'resources', 'stop-words', name)
   const normalizedFilePath = resolve(parentPath, fileName)
   if (!FileSystem.exists(normalizedFilePath)) {
@@ -55,12 +55,12 @@ export const loadText = (name: string, fileName: string): string => {
 /**
  * @internal
  */
-export const createContentDivinatorSetup = (
+export const _createContentDivinatorSetup = (
   predefined: AvailableStopWordResources,
   moarLocales: string[] = [],
 ): ContentDivinatorSetupFactoryType => {
-  const locales = loadJson<ReadonlyArray<string>>(predefined, 'locales.json')
-  const textFile = loadText(predefined, 'common.txt')
+  const locales = _loadJson<ReadonlyArray<string>>(predefined, 'locales.json')
+  const textFile = _loadText(predefined, 'common.txt')
   const stopWords = textFile
     .split('\n')
     .filter(Boolean)

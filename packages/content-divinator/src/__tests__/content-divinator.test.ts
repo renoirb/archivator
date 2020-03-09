@@ -18,4 +18,11 @@ describe('ContentDivinator', () => {
       expect(textMap.has(w)).toBe(false)
     }
   })
+
+  test('factory', () => {
+    const subject = ContentDivinator.factory('english', ['en-IN'])
+    const textContent = fixtures.loadText('article-charlie.txt')
+    const textMap = subject.words(textContent)
+    expect(textMap).toMatchSnapshot()
+  })
 })

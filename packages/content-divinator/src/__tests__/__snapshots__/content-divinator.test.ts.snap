@@ -180,3 +180,20 @@ Map {
   "stack" => 2,
 }
 `;
+
+exports[`ContentDivinator factory 1`] = `
+Map {
+  "w3c" => 4,
+  "2013" => 2,
+  "mine" => 2,
+  "webplatform" => 2,
+  "docs" => 2,
+  "project" => 2,
+  "documentation" => 2,
+  "improving" => 2,
+  "privilege" => 2,
+  "time" => 2,
+  "team" => 2,
+  "shenzhen" => 2,
+}
+`;
