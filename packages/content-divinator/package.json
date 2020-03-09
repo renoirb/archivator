@@ -30,13 +30,12 @@
     "resources"
   ],
   "scripts": {
-    "build": "use-run-all build:*",
-    "build:api-documenter": "npx @microsoft/api-documenter markdown --input ../../common/temp/api --output docs",
-    "build:api-extractor": "rush-api-extractor run --local --verbose",
-    "build:api-format": "use-run-all fix",
+    "api:api-documenter": "npx @microsoft/api-documenter markdown --input ../../common/temp/api --output docs",
+    "api:api-extractor": "rush-api-extractor run --local --verbose",
+    "build": "use-run-all build:* api:* fix",
     "build:node": "use-bili --target node --format cjs --file-name index.js",
     "build:node-esm": "use-bili --target node --format esm --file-name index.esm.js",
-    "clean": "use-rimraf .rpt2_cache dist *.*.log",
+    "clean": "use-rimraf .rpt2_cache dist *.*.log temp",
     "fix": "use-cross-env use-prettier --write  '**/*.{ts,json,md}'",
     "lint": "rush-eslint -c .eslintrc.js 'src/**/*.ts'",
     "prepublishOnly": "use-run-all clean build",

@@ -71,6 +71,13 @@ console.log(hashMap)
 
 ## Bookmarks
 
+### Stop Words libraries
+
+- [Brasilian](https://www.npmjs.com/package/brazilian-stop-words)
+- [Turkish](https://github.com/ahmetax/trstop)
+- _English_
+  - [Textlint to find filler words, buzzwords](https://github.com/sapegin/textlint-rule-stop-words)
+
 ### Refactor into coroutine?
 
 During March 5th refactor work session, [I’ve attempted in making use of coroutine][coroutine-gist].
