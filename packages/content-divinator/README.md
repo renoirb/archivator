@@ -2,12 +2,14 @@
 
 > Attempt at guessing stuff, summarize content, based on raw text. A naïve Natural Language Processing toolkit.
 
-This is —by no means— an actual attempt at Machine Learning.
+This is, by no means, an actual attempt at Machine Learning.
 It’s simply a few helpers to help automate maintenance of metadata from imported content.
 
 [repo-url]: https://github.com/renoirb/archivator/blob/v3.x-dev/libraries/content-divinator 'Content Divinator'
 
 ## Usage
+
+_See also_ [API Extractor generated docs](../../common/reviews/api/content-divinator.api.md)
 
 ### ContentDivinator
 

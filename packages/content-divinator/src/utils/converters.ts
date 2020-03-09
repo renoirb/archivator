@@ -6,6 +6,8 @@ import { RecordToMapFactoryType, MapToRecordHashMapFactoryType } from '../types'
  *
  * For sorting, refer to {@link sorting.whenRecordValueIsNumberOrderByDescending}
  *
+ * @package utils
+ *
  * @param {Object.<string, number>} textHashMap — Unique "word" where each value is its usage count
  * @returns {Map<string, number>}
  */
@@ -24,6 +26,9 @@ export const convertRecordHashMapToMap: RecordToMapFactoryType<
 
 /**
  * Convert `Map<string, number>` to `Record<string, number>` HashMap
+ *
+ * @public
+ * @package utils
  *
  * @param {Map<string, number>} textHashMap — Unique "word" where each value is its usage count
  * @returns {Object.<string, number>}

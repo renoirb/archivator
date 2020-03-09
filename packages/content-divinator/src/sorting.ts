@@ -17,6 +17,7 @@
  * There must be a way to extract `compareFn` argument type using TypeScript’s utility types.
  * I haven't figured it out yet.
  *
+ * @package sorting
  */
 const whenRecordValueIsNumberOrderByDescending = (
   a: [string, number],

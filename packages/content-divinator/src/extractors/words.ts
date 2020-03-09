@@ -36,6 +36,8 @@ import { WordUsageMapType } from '../types'
  *
  * ----
  *
+ * @package extractors
+ *
  * @param {string} body — Text content, as a single string
  * @param {string[]} [stopWords] — Words that should be ignored
  * @param {string[]} [locales] — Locales tags to support for {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase|String.prototype.toLocaleLowerCase}

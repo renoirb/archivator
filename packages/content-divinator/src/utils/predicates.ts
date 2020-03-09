@@ -1,6 +1,12 @@
 import { WordNormalizerType, NonStopWordIsserType } from '../types'
 
 /**
+ * Remove any non alpha numeric items.
+ *
+ * @package utils
+ *
+ * ----
+ *
  * Bookmarks:
  * - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase
  *
@@ -14,6 +20,12 @@ export const wordNormalizer = (
     ? word.replace(/[^\w]/g, '').toLocaleLowerCase(locales)
     : void 0
 
+/**
+ * Utility method to shave off words with no meaning.
+ *
+ * @public
+ * @package utils
+ */
 export const nonStopWordIsser = (
   stopWords: string[] = [],
 ): NonStopWordIsserType => {

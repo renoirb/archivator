@@ -15,30 +15,46 @@ export type WordUsageMapType = Map<string, number>
  */
 export type WordsType = ReadonlyArray<string>
 
+/**
+ * Function Signature for checking if a word is a non-stop-word.
+ *
+ * @internal
+ */
 export type NonStopWordIsserType = (word: string) => boolean
 
+/**
+ * Function Signature for the
+ *
+ * @internal
+ */
 export type WordNormalizerType = (word: any) => string | void
 
 /**
  * What are the sorted words and the top keywords found after analysis.
+ *
+ * @public
  */
 export interface SummaryRecordType {
   keywords: string[]
 }
 
 /**
- * Convert Record<T, U> into Map<T, U> utility.
+ * Convert `Record<T, U>` into `Map<T, U>` utility.
  *
  * When we want to convert a Record hash-map into an ECMAScript2015 Map.
+ *
+ * @public
  */
 export type RecordToMapFactoryType<T = string | number, U = string | number> = (
   input: Record<T, U>,
 ) => Map<T, U>
 
 /**
- * Convert Map<T, U> to Record<T, U> utility.
+ * Convert `Map<T, U>` to `Record<T, U>` utility.
  *
  * When we want to convert an ECMAScript2015 Map into a Record hash-map.
+ *
+ * @public
  */
 export type MapToRecordHashMapFactoryType<
   T = string | number,

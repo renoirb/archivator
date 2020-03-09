@@ -3,12 +3,12 @@
 Ever wanted to be _Archiving your own copies of articles you’ve enjoyed_?
 To be able to search through them?
 
-This is the home for various packages related to _Archivator_, See [Packages][#packages].
+This is the home for various packages related to _Archivator_, See [Packages](#packages).
 
 This project is a means to try out ECMAScript 2017 tooling and do something useful.
 See [Challenge](#challenge) below.
 
-**CURRENT STATUS**: [3rd refactor][current-tree]. ([initial][initial], [rework][rework]), you can try [initial][initial] by _trying out_ from [renoirb/archivator-demo](https://github.com/renoirb/archivator-demo).
+_CURRENT STATUS_: [3rd refactor][current-tree]. ([initial][initial], [rework][rework]), you can try [initial][initial] by cloning [renoirb/archivator-demo](https://github.com/renoirb/archivator-demo).
 
 [initial]: https://github.com/renoirb/archivator/tree/v1.0.0 'Initial prototype, frozen from Nov 2017'
 [rework]: https://github.com/renoirb/archivator/tree/v1.0.0 'Rework attempt, dropped in Sept 2018'

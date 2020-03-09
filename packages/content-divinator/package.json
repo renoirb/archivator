@@ -38,7 +38,8 @@
     "lint": "rush-eslint -c .eslintrc.js 'src/**/*.ts'",
     "prepublishOnly": "use-run-all clean build",
     "test": "use-jest --detectOpenHandles",
-    "test:snapshots": "use-jest --detectOpenHandles -u"
+    "test:snapshots": "use-jest --detectOpenHandles -u",
+    "api-extractor": "rush-api-extractor run --local --verbose"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
