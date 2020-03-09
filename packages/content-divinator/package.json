@@ -31,6 +31,9 @@
   ],
   "scripts": {
     "build": "use-run-all build:*",
+    "build:api-documenter": "npx @microsoft/api-documenter markdown --input ../../common/temp/api --output docs",
+    "build:api-extractor": "rush-api-extractor run --local --verbose",
+    "build:api-format": "use-run-all fix",
     "build:node": "use-bili --target node --format cjs --file-name index.js",
     "build:node-esm": "use-bili --target node --format esm --file-name index.esm.js",
     "clean": "use-rimraf .rpt2_cache dist *.*.log",
@@ -38,8 +41,7 @@
     "lint": "rush-eslint -c .eslintrc.js 'src/**/*.ts'",
     "prepublishOnly": "use-run-all clean build",
     "test": "use-jest --detectOpenHandles",
-    "test:snapshots": "use-jest --detectOpenHandles -u",
-    "api-extractor": "rush-api-extractor run --local --verbose"
+    "test:snapshots": "use-jest --detectOpenHandles -u"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",

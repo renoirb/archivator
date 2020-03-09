@@ -9,7 +9,10 @@ It’s simply a few helpers to help automate maintenance of metadata from import
 
 ## Usage
 
-_See also_ [API Extractor generated docs](../../common/reviews/api/content-divinator.api.md)
+_See also_:
+
+- [API Extractor code-review signature](../../common/reviews/api/content-divinator.api.md)
+- [API Documentor generated docs](./docs/index.md)
 
 ### ContentDivinator
 
