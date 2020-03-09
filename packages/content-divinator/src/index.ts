@@ -10,12 +10,9 @@
 
 import { ContentDivinator } from './content-divinator'
 
-import { factories } from './factories'
-
 // rel=#ApiExtractorImportStarAs
 import { summary, words } from './extractors'
 
-// rel=#ApiExtractorImportStarAs
 import {
   convertMapToRecordHashMap,
   convertRecordHashMapToMap,
@@ -24,9 +21,9 @@ import {
 } from './utils'
 
 /**
- * @public
+ * Content processing and extraction utilities.
  *
- * rel=#ApiExtractorImportStarAs
+ * @public
  */
 export const extractors = {
   summary,
@@ -34,9 +31,9 @@ export const extractors = {
 }
 
 /**
- * @public
+ * Converters and utilities.
  *
- * rel=#ApiExtractorImportStarAs
+ * @public
  */
 export const utils = {
   convertMapToRecordHashMap,
@@ -45,7 +42,7 @@ export const utils = {
   wordNormalizer,
 }
 
-export { ContentDivinator, factories }
+export { ContentDivinator }
 
 export default ContentDivinator
 

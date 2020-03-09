@@ -10,6 +10,7 @@ export type AvailableStopWordResources = 'english';
 // @public (undocumented)
 class ContentDivinator implements ContentDivinatorType {
     constructor(stopWords?: string[], locales?: string[]);
+    static factory(predefined: AvailableStopWordResources, moarLocales?: string[]): ContentDivinatorType;
     // (undocumented)
     words(text: string): WordUsageMapType;
 }
@@ -17,6 +18,14 @@ class ContentDivinator implements ContentDivinatorType {
 export { ContentDivinator }
 
 export default ContentDivinator;
+
+// Warning: (ae-internal-missing-underscore) The name "ContentDivinatorSetupFactoryType" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export interface ContentDivinatorSetupFactoryType {
+    locales: string[];
+    stopWords: string[];
+}
 
 // @public
 export interface ContentDivinatorType {
@@ -27,11 +36,6 @@ export interface ContentDivinatorType {
 export const extractors: {
     summary: (wordsMap: import("./types").WordUsageMapType, floor?: number, max?: number) => import("./types").SummaryRecordType;
     words: (body: string, stopWords?: string[], locales?: string | string[]) => import("./types").WordUsageMapType;
-};
-
-// @public
-export const factory: {
-    divinator: (predefined: "english", moarLocales?: string[]) => ContentDivinatorType;
 };
 
 // @public

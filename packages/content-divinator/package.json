@@ -30,9 +30,10 @@
     "resources"
   ],
   "scripts": {
-    "api:api-documenter": "npx @microsoft/api-documenter markdown --input ../../common/temp/api --output docs",
-    "api:api-extractor": "rush-api-extractor run --local --verbose",
-    "build": "use-run-all build:* api:* fix",
+    "api": "use-run-all api-extractor api-documenter fix",
+    "api-documenter": "npx @microsoft/api-documenter markdown --input ../../common/temp/api --output docs",
+    "api-extractor": "rush-api-extractor run --local --verbose",
+    "build": "use-run-all build:* api",
     "build:node": "use-bili --target node --format cjs --file-name index.js",
     "build:node-esm": "use-bili --target node --format esm --file-name index.esm.js",
     "clean": "use-rimraf .rpt2_cache dist *.*.log temp",

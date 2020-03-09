@@ -1,7 +1,9 @@
 import { FileSystem, JsonFile } from '@microsoft/node-core-library'
 import { resolve } from 'path'
-import { AvailableStopWordResources, ContentDivinatorType } from './types'
-import { ContentDivinator } from './content-divinator'
+import {
+  AvailableStopWordResources,
+  ContentDivinatorSetupFactoryType,
+} from './types'
 
 /**
  * Load resources/stop-words files specific to Divinator.
@@ -49,16 +51,14 @@ export const loadText = (name: string, fileName: string): string => {
 
   return loaded
 }
+
 /**
- * Create a preconfigured ContentDivinator based on statically stored files.
- *
- * @param {string} predefined — Load a locally available stop-word library, refer to {@link AvailableStopWordResources}
- * @param {string[]} moarLocales — Add more locale tags, if needed
+ * @internal
  */
-const divinator = (
+export const createContentDivinatorSetup = (
   predefined: AvailableStopWordResources,
   moarLocales: string[] = [],
-): ContentDivinatorType => {
+): ContentDivinatorSetupFactoryType => {
   const locales = loadJson<ReadonlyArray<string>>(predefined, 'locales.json')
   const textFile = loadText(predefined, 'common.txt')
   const stopWords = textFile
@@ -66,14 +66,10 @@ const divinator = (
     .filter(Boolean)
     .sort()
 
-  return new ContentDivinator(stopWords, [...locales, ...moarLocales])
-}
+  const out: ContentDivinatorSetupFactoryType = {
+    locales: [...locales, ...moarLocales],
+    stopWords,
+  }
 
-/**
- * Predefined factories
- *
- * @public
- */
-export const factories = {
-  divinator,
+  return out
 }

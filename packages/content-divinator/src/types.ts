@@ -38,6 +38,33 @@ export type NonStopWordIsserType = (word: string) => boolean
 export type WordNormalizerType = (word: any) => string | void
 
 /**
+ * Instantiation configuration helper
+ *
+ * @internal
+ */
+export interface ContentDivinatorSetupFactoryType {
+  /**
+   *  Stop-Words are words that carry no meaning in the context of
+   * trying to figure out a web page's textual content.
+   *
+   * Typical "filler words" in english would be: a,if,He.
+   * They're different for each language.
+   */
+  stopWords: string[]
+  /**
+   * A list of Language-country tags.
+   * They’re useful for helping consistently lowercasing text.
+   *
+   * Refer to
+   * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Locale|MDN Locale}
+   * to learn more about valid locale tags.
+   *
+   * It will, among other use-cases, be used with {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase|String.prototype.toLocaleLowerCase}.
+   */
+  locales: string[]
+}
+
+/**
  * What are the sorted words and the top keywords found after analysis.
  *
  * @public
