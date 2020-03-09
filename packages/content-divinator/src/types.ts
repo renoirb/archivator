@@ -8,6 +8,14 @@
 export type WordUsageMapType = Map<string, number>
 
 /**
+ * Which Stop-Words collection are locally available in the project's
+ * resources/stop-words folder.
+ *
+ * @public
+ */
+export type AvailableStopWordResources = 'english'
+
+/**
  * All words found on a document, one word per item.
  * May or may not have duplicates.
  *
@@ -60,3 +68,25 @@ export type MapToRecordHashMapFactoryType<
   T = string | number,
   U = string | number
 > = (input: Map<T, U>) => Record<T, U>
+
+/**
+ * Attempt at guessing stuff, summarize content, based on raw text.
+ *
+ * This is the entry-point to other utilities.
+ * Instance of this class should contain contextual configuration such
+ * as the stop-words, and locales.
+ *
+ * Methods should return immutable copies of the instance’s configuration.
+ *
+ * @public
+ */
+export interface ContentDivinatorType {
+  /**
+   * Extract words from the following text.
+   *
+   *  If special symbols are found, they will be stripped off.
+   *
+   * @param {string} body — Contents to process, only text.
+   */
+  words(body: string): WordUsageMapType
+}

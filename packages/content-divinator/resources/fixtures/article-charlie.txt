@@ -1,0 +1,18 @@
+Two years ago I announced [I was joining W3C][0] as a full-time staff to [work on the WebPlatform project][1].
+WebPlaform Docs is, among other things, a web developer centric documentation site.
+
+A detail I didn't share was that, like many [of my W3C teammates][2], we are freelancers attached to one of the W3C host sites --- mine was with [MIT][3]. Like any contract, it has an ending date and by tomorrow, mine will be over.
+
+I've spent two amazing years improving the [WebPlatform.org website][4]. It was really a dream that came true.
+
+It's been a privilege to be working on the WebPlatform Docs project. While the main project goal was not originally exclusively about documentation, it quickly been voted as a priority by the stakeholders.
+
+I've worked on many projects such as improving the server deployment strategy in which we can now basically shut down every component of the site and rebuild from scratch only using source-controlled configuration management scripts.
+
+One of the best things of being part of W3C, even though I was working most of the time not in a team, was that I had a great opportunity to work in collaboration with my wonderful colleagues, and my (now former) manager [Doug Schepers][5].
+
+It's been a pleasure and a privilege to get to work with you all, and I won't forget the great moments, the conversations, the travels, the challenges. But my time is up now, I got to hand my \[ssh\] keys.
+
+I hope our paths will cross again. ![The W3C Team taken in 2013 in Shenzhen, China.](/wp-content/uploads/6cbca04cf0d355e68cf946141f864ad36c4d503a.jpg)
+
+**Photo credits**: Taken by _Richard Ishida_, during TPAC 2013 in Shenzhen, China.

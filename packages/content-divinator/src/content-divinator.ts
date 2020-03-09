@@ -1,18 +1,10 @@
 import { words } from './extractors'
-import { WordUsageMapType } from './types'
+import { WordUsageMapType, ContentDivinatorType } from './types'
 
 /**
- * Attempt at guessing stuff, summarize content, based on raw text.
- *
- * This is the entry-point to other utilities.
- * Instance of this class should contain contextual configuration such
- * as the stop-words, and locales.
- *
- * Methods should return immutable copies of the instance’s configuration.
- *
- * @public
+ * {@link ContentDivinatorType}
  */
-export class ContentDivinator {
+export class ContentDivinator implements ContentDivinatorType {
   private readonly stopWords: ReadonlyArray<string>
   private readonly locales: ReadonlyArray<string>
 

@@ -10,6 +10,8 @@
 
 import { ContentDivinator } from './content-divinator'
 
+import { factories } from './factories'
+
 // rel=#ApiExtractorImportStarAs
 import { summary, words } from './extractors'
 
@@ -43,7 +45,8 @@ export const utils = {
   wordNormalizer,
 }
 
-export { ContentDivinator }
+export { ContentDivinator, factories }
 
 export default ContentDivinator
+
 export * from './types'

@@ -5,7 +5,10 @@
 ```ts
 
 // @public
-class ContentDivinator {
+export type AvailableStopWordResources = 'english';
+
+// @public (undocumented)
+class ContentDivinator implements ContentDivinatorType {
     constructor(stopWords?: string[], locales?: string[]);
     // (undocumented)
     words(text: string): WordUsageMapType;
@@ -16,9 +19,19 @@ export { ContentDivinator }
 export default ContentDivinator;
 
 // @public
+export interface ContentDivinatorType {
+    words(body: string): WordUsageMapType;
+}
+
+// @public
 export const extractors: {
     summary: (wordsMap: import("./types").WordUsageMapType, floor?: number, max?: number) => import("./types").SummaryRecordType;
     words: (body: string, stopWords?: string[], locales?: string | string[]) => import("./types").WordUsageMapType;
+};
+
+// @public
+export const factory: {
+    divinator: (predefined: "english", moarLocales?: string[]) => ContentDivinatorType;
 };
 
 // @public
