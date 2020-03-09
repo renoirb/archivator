@@ -68,3 +68,20 @@ const hashMap = utils.convertMapToRecordHashMap(textMap)
 console.log(hashMap)
 // > { chuck: 5, woodchuck: 4, wood: 4 }
 ```
+
+## Bookmarks
+
+### Refactor into coroutine?
+
+During March 5th refactor work session, [I’ve attempted in making use of coroutine][coroutine-gist].
+But I’ve dropped the idea when my [favourite JavaScript author said _he hasn’t seen strongly typed usage of coroutine_][renoir-axel-tweets].
+
+[renoir-axel-tweets]: https://twitter.com/renoirb/status/1236386606266953731
+[coroutine-gist]: https://gist.github.com/renoirb/e7d344cb88524800c247c6842e4eb550
+
+- https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/co/index.d.ts
+- https://gist.github.com/OrionNebula/bd2d4339497a2c05e599d7d24038d290
+- https://github.com/danoctavian/node-coroutine-utils
+- https://github.com/wowts/coroutine
+- http://calculist.org/blog/2011/12/14/why-coroutines-wont-work-on-the-web/
+- https://www.bennadel.com/blog/3264-thoughts-on-defining-coroutines-as-class-methods-in-node-js-and-typescript.htm
