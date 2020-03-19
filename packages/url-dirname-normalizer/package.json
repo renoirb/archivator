@@ -1,6 +1,6 @@
 {
   "name": "url-dirname-normalizer",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Normalize URLs to be valid filesystem paths for archiving web pages and their assets",
   "keywords": [
     "url",

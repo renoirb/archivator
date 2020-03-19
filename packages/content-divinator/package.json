@@ -1,6 +1,6 @@
 {
   "name": "@archivator/content-divinator",
-  "version": "0.0.1-dev.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Attempt at guessing stuff, summarize content, based on raw text. A naïve Natural Language Processing toolkit.",
   "keywords": [
@@ -31,8 +31,8 @@
   ],
   "scripts": {
     "api": "use-run-all api-extractor api-documenter fix",
-    "api-documenter": "npx @microsoft/api-documenter markdown --input ../../common/temp/api --output docs",
-    "api-extractor": "rush-api-extractor run --local --verbose",
+    "api-documenter": "npx @microsoft/api-documenter@7.7.12 markdown --input temp --output docs",
+    "api-extractor": "rush-api-extractor run -c config/api-extractor.json --verbose --local",
     "build": "use-run-all build:* api",
     "build:node": "use-bili --target node --format cjs --file-name index.js",
     "build:node-esm": "use-bili --target node --format esm --file-name index.esm.js",

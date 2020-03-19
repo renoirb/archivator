@@ -10,24 +10,15 @@
 | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | [ContentDivinator](./content-divinator.contentdivinator.md) | Attempt at guessing stuff, summarize content, based on raw text.<!-- -->This is the entry-point to other utilities. Instance of this class should contain contextual configuration such as the stop-words, and locales.<!-- -->Methods should return immutable copies of the instance’s configuration. |
 
-## Interfaces
-
-| Interface                                                     | Description                                                          |
-| ------------------------------------------------------------- | -------------------------------------------------------------------- |
-| [SummaryRecordType](./content-divinator.summaryrecordtype.md) | What are the sorted words and the top keywords found after analysis. |
-
 ## Variables
 
-| Variable                                        | Description                    |
-| ----------------------------------------------- | ------------------------------ |
-| [extractors](./content-divinator.extractors.md) | rel=\#ApiExtractorImportStarAs |
-| [utils](./content-divinator.utils.md)           | rel=\#ApiExtractorImportStarAs |
+| Variable                                        | Description                                  |
+| ----------------------------------------------- | -------------------------------------------- |
+| [extractors](./content-divinator.extractors.md) | Content processing and extraction utilities. |
+| [utils](./content-divinator.utils.md)           | Converters and utilities.                    |
 
 ## Type Aliases
 
-| Type Alias                                                                            | Description                                                                                                                                                     |
-| ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [MapToRecordHashMapFactoryType](./content-divinator.maptorecordhashmapfactorytype.md) | Convert <code>Map&lt;T, U&gt;</code> to <code>Record&lt;T, U&gt;</code> utility.<!-- -->When we want to convert an ECMAScript2015 Map into a Record hash-map.   |
-| [RecordToMapFactoryType](./content-divinator.recordtomapfactorytype.md)               | Convert <code>Record&lt;T, U&gt;</code> into <code>Map&lt;T, U&gt;</code> utility.<!-- -->When we want to convert a Record hash-map into an ECMAScript2015 Map. |
-| [WordsType](./content-divinator.wordstype.md)                                         | All words found on a document, one word per item. May or may not have duplicates.                                                                               |
-| [WordUsageMapType](./content-divinator.wordusagemaptype.md)                           | Word Usage Count.<!-- -->First item is the word, second item is its count.                                                                                      |
+| Type Alias                                                                      | Description                                                                                     |
+| ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| [AvailableStopWordResources](./content-divinator.availablestopwordresources.md) | Which Stop-Words collection are locally available in the project's resources/stop-words folder. |

@@ -4,7 +4,7 @@
 
 ## extractors variable
 
-rel=\#ApiExtractorImportStarAs
+Content processing and extraction utilities.
 
 <b>Signature:</b>
 

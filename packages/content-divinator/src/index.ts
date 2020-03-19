@@ -20,6 +20,18 @@ import {
   nonStopWordIsser,
 } from './utils'
 
+// rel=#ApiExtractorImportStarAs
+import {
+  AvailableStopWordResources,
+  //   MapToRecordHashMapFactoryType,
+  //   NonStopWordIsserType,
+  //   RecordToMapFactoryType,
+  //   SummaryRecordType,
+  //   WordNormalizerType,
+  //   WordsType,
+  //   WordUsageMapType,
+} from './types'
+
 /**
  * Content processing and extraction utilities.
  *
@@ -42,8 +54,16 @@ export const utils = {
   wordNormalizer,
 }
 
-export { ContentDivinator }
+export {
+  AvailableStopWordResources,
+  ContentDivinator,
+  // MapToRecordHashMapFactoryType,
+  // NonStopWordIsserType,
+  // RecordToMapFactoryType,
+  // SummaryRecordType,
+  // WordNormalizerType,
+  // WordsType,
+  // WordUsageMapType,
+}
 
 export default ContentDivinator
-
-export * from './types'

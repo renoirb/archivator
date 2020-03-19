@@ -4,7 +4,9 @@
 
 ## ContentDivinator.(constructor)
 
-Constructs a new instance of the `ContentDivinator` class
+Create a ContentDivinator instance.
+
+[String.prototype.toLocaleLowerCase](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase)
 
 <b>Signature:</b>
 
@@ -14,7 +16,7 @@ constructor(stopWords?: string[], locales?: string[]);
 
 ## Parameters
 
-| Parameter | Type                  | Description |
-| --------- | --------------------- | ----------- |
-| stopWords | <code>string[]</code> |             |
-| locales   | <code>string[]</code> |             |
+| Parameter | Type                  | Description                                   |
+| --------- | --------------------- | --------------------------------------------- |
+| stopWords | <code>string[]</code> | Words that should be ignored                  |
+| locales   | <code>string[]</code> | Locales tags to support for toLocaleLowercase |

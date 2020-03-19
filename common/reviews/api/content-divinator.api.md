@@ -11,20 +11,13 @@ export type AvailableStopWordResources = 'english';
 class ContentDivinator {
     constructor(stopWords?: string[], locales?: string[]);
     static factory(predefined: AvailableStopWordResources, locales?: string[]): ContentDivinator;
+    // Warning: (ae-forgotten-export) The symbol "WordUsageMapType" needs to be exported by the entry point index.d.ts
     words(text: string): WordUsageMapType;
 }
 
 export { ContentDivinator }
 
 export default ContentDivinator;
-
-// Warning: (ae-internal-missing-underscore) The name "ContentDivinatorSetupFactoryType" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
-export interface ContentDivinatorSetupFactoryType {
-    locales: string[];
-    stopWords: string[];
-}
 
 // @public
 export const extractors: {
@@ -33,35 +26,12 @@ export const extractors: {
 };
 
 // @public
-export type MapToRecordHashMapFactoryType<T = string | number, U = string | number> = (input: Map<T, U>) => Record<T, U>;
-
-// @public
-export type NonStopWordIsserType = (word: string) => boolean;
-
-// @public
-export type RecordToMapFactoryType<T = string | number, U = string | number> = (input: Record<T, U>) => Map<T, U>;
-
-// @public
-export interface SummaryRecordType {
-    keywords: string[];
-}
-
-// @public
 export const utils: {
     convertMapToRecordHashMap: import("./types").MapToRecordHashMapFactoryType<string, number>;
     convertRecordHashMapToMap: import("./types").RecordToMapFactoryType<string, number>;
     nonStopWordIsser: (stopWords?: string[]) => import("./types").NonStopWordIsserType;
     wordNormalizer: (locales?: string | string[] | undefined) => import("./types").WordNormalizerType;
 };
-
-// @public
-export type WordNormalizerType = (word: any) => string | void;
-
-// @public
-export type WordsType = ReadonlyArray<string>;
-
-// @public
-export type WordUsageMapType = Map<string, number>;
 
 
 // (No @packageDocumentation comment for this package)

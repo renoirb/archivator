@@ -1,6 +1,6 @@
 {
   "name": "@archivator/archivable",
-  "version": "0.0.1-dev.0",
+  "version": "0.0.1",
   "description": "Archivable Data Transfer Object and NormalizedAsset Entities for archiving web pages and their assets",
   "keywords": [
     "archiving",
@@ -59,7 +59,7 @@
     "jest": "~23.6.0",
     "tslib": "^1.11.1",
     "typescript": "^3.7.0",
-    "url-dirname-normalizer": "^1.2.0"
+    "url-dirname-normalizer": "1.2.1"
   },
   "engines": {
     "node": ">=12"

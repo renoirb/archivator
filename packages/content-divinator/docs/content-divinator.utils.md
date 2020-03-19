@@ -4,7 +4,7 @@
 
 ## utils variable
 
-rel=\#ApiExtractorImportStarAs
+Converters and utilities.
 
 <b>Signature:</b>
 

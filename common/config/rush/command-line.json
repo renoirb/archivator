@@ -138,6 +138,14 @@
       "safeForSimultaneousRushProcesses": true,
       "enableParallelism": true,
       "ignoreMissingScript": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "test",
+      "summary": "Run test on all applicable packages",
+      "safeForSimultaneousRushProcesses": true,
+      "enableParallelism": true,
+      "ignoreMissingScript": true
     }
   ],
 

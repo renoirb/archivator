@@ -3,44 +3,52 @@
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/approved-packages.schema.json",
   "packages": [
     {
+      "name": "@archivator/archivable",
+      "allowedCategories": [ "apps" ]
+    },
+    {
+      "name": "@archivator/content-divinator",
+      "allowedCategories": [ "apps" ]
+    },
+    {
       "name": "@microsoft/node-core-library",
-      "allowedCategories": [ "libraries", "packages" ]
+      "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
       "name": "@microsoft/node-library-build",
-      "allowedCategories": [ "libraries", "packages" ]
+      "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
       "name": "@microsoft/rush-stack-compiler-3.7",
-      "allowedCategories": [ "libraries", "packages" ]
+      "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
       "name": "@renoirb/conventions-use-bili",
-      "allowedCategories": [ "libraries", "packages" ]
+      "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
       "name": "@renoirb/conventions-use-eslint",
-      "allowedCategories": [ "libraries", "packages" ]
+      "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
       "name": "@renoirb/conventions-use-jest",
-      "allowedCategories": [ "libraries", "packages" ]
+      "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
       "name": "@renoirb/conventions-use-prettier",
-      "allowedCategories": [ "libraries", "packages" ]
+      "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
       "name": "@renoirb/tools-bundling-helpers",
-      "allowedCategories": [ "libraries", "packages" ]
+      "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
       "name": "@rushstack/eslint-config",
-      "allowedCategories": [ "libraries", "packages" ]
+      "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
       "name": "bili",
-      "allowedCategories": [ "libraries", "packages" ]
+      "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
       "name": "co",
@@ -48,27 +56,27 @@
     },
     {
       "name": "eslint",
-      "allowedCategories": [ "libraries", "packages" ]
+      "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
       "name": "gulp",
-      "allowedCategories": [ "libraries", "packages" ]
+      "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
       "name": "jest",
-      "allowedCategories": [ "libraries", "packages" ]
+      "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
       "name": "tslib",
-      "allowedCategories": [ "libraries", "packages" ]
+      "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
       "name": "typescript",
-      "allowedCategories": [ "libraries", "packages" ]
+      "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
       "name": "url-dirname-normalizer",
-      "allowedCategories": [ "packages" ]
+      "allowedCategories": [ "apps", "packages" ]
     }
   ]
 }

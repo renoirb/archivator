@@ -4,6 +4,10 @@
 
 ## ContentDivinator.words() method
 
+Extract words from the following text.
+
+If special symbols are found, they will be stripped off.
+
 <b>Signature:</b>
 
 ```typescript
