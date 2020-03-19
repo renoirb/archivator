@@ -12,6 +12,7 @@ dependencies:
   '@renoirb/conventions-use-prettier': 1.0.1
   '@renoirb/tools-bundling-helpers': 1.0.2
   '@rush-temp/archivable': 'file:projects/archivable.tgz'
+  '@rush-temp/archivator': 'file:projects/archivator.tgz'
   '@rush-temp/content-divinator': 'file:projects/content-divinator.tgz'
   '@rush-temp/url-dirname-normalizer': 'file:projects/url-dirname-normalizer.tgz'
   '@rushstack/eslint-config': 0.5.5_eslint@6.8.0+typescript@3.8.3
@@ -11774,6 +11775,35 @@ packages:
       integrity: sha512-X1oyMo89quBkZLGYNQRUN5LiupMmsDHBu9EET4pBE/2OGV8ovqYVy3C4dXa01sAiN9VsimJG9E6F31CuNFUvag==
       tarball: 'file:projects/archivable.tgz'
     version: 0.0.0
+  'file:projects/archivator.tgz':
+    dependencies:
+      '@babel/core': 7.8.7
+      '@babel/plugin-transform-runtime': 7.5.5_@babel+core@7.8.7
+      '@babel/preset-env': 7.8.7_@babel+core@7.8.7
+      '@babel/runtime-corejs3': 7.8.7
+      '@microsoft/node-core-library': 3.19.3
+      '@microsoft/node-library-build': 6.4.4
+      '@microsoft/rush-stack-compiler-3.7': 0.2.5
+      '@renoirb/conventions-use-bili': 1.0.2_typescript@3.8.3
+      '@renoirb/conventions-use-eslint': 1.0.1_typescript@3.8.3
+      '@renoirb/conventions-use-jest': 1.0.1
+      '@renoirb/conventions-use-prettier': 1.0.1
+      '@renoirb/tools-bundling-helpers': 1.0.2
+      '@rushstack/eslint-config': 0.5.5_eslint@6.8.0+typescript@3.8.3
+      '@types/jest': 24.9.1
+      '@types/node': 10.17.13
+      bili: 4.8.1
+      eslint: 6.8.0
+      gulp: 4.0.2
+      jest: 23.6.0
+      tslib: 1.11.1
+      typescript: 3.8.3
+    dev: false
+    name: '@rush-temp/archivator'
+    resolution:
+      integrity: sha512-1QvTnkODfv0jgw23ieNQQCitsikZEY5sft0sNqdCzySSR1Di/4mkJUyjn/2FEfXv6ioS8JRS7vsOlY8TY0FRQg==
+      tarball: 'file:projects/archivator.tgz'
+    version: 0.0.0
   'file:projects/content-divinator.tgz':
     dependencies:
       '@babel/core': 7.8.7
@@ -11832,6 +11862,7 @@ packages:
       integrity: sha512-yJeIV0MJUqAkEasx6D2/ZrTnRzEBBuO3B8VweXhcKFQs5y6/iaV1omiK21Rz4Z7YWL/S5Iz72vyVLn1yQ7pckw==
       tarball: 'file:projects/url-dirname-normalizer.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@babel/core': ^7.4.0
   '@babel/plugin-transform-runtime': 7.5.5
@@ -11846,6 +11877,7 @@ specifiers:
   '@renoirb/conventions-use-prettier': ^1.0.1
   '@renoirb/tools-bundling-helpers': ^1.0.2
   '@rush-temp/archivable': 'file:./projects/archivable.tgz'
+  '@rush-temp/archivator': 'file:./projects/archivator.tgz'
   '@rush-temp/content-divinator': 'file:./projects/content-divinator.tgz'
   '@rush-temp/url-dirname-normalizer': 'file:./projects/url-dirname-normalizer.tgz'
   '@rushstack/eslint-config': ^0.5.4

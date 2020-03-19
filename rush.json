@@ -306,6 +306,12 @@
     // }
 
     {
+      "packageName": "archivator",
+      "projectFolder": "apps/archivator",
+      "reviewCategory": "apps",
+      "versionPolicyName": "standalone"
+    },
+    {
       "packageName": "url-dirname-normalizer",
       "projectFolder": "packages/url-dirname-normalizer",
       "reviewCategory": "packages",
