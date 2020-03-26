@@ -1,9 +1,19 @@
-# Archivator
+# [Archivator][repo-url]
 
-**CURRENT STATUS**: Under **heavy** development, *but now usable* see [renoirb/archivator-demo](https://github.com/renoirb/archivator-demo).
+> Ever wanted to archive your own copy of articles you enjoyed reading
+> and to be able to search through them?
 
-Ever wanted to archive your own copy of articles you enjoyed reading
-and to be able to search through them?
+| Version                                                                                                                                                                | Size                                                                                                 | Dependencies                                                                                                                                                                |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [![npm](https://img.shields.io/npm/v/archivator?style=flat-square&logo=appveyor&label=npm&logo=npm)](https://www.npmjs.com/package/archivator) | ![npm bundle size](https://img.shields.io/bundlephobia/min/archivator?style=flat-square) | ![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/archivator?style=flat-square&logo=appveyor&logo=dependabot) |
+
+__CURRENT STATUS__: This is frozen __v1.x__ branch, [future work is under __v3.x-dev__ branch][third-rewrite], __but usable as-is__  see [renoirb/archivator-demo][archivator-demo]
+
+[repo-url]: https://github.com/renoirb/archivator
+[third-rewrite]: https://github.com/renoirb/archivator/tree/v3.x-dev#third-rewrite
+[archivator-demo]: https://github.com/renoirb/archivator-demo
+
+## Summary
 
 This project is a means to try out ECMAScript 2017 tooling and do something useful.
 See [Challenge](#challenge) below.

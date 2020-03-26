@@ -2127,10 +2127,6 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
-maybe@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/maybe/-/maybe-0.0.2.tgz#aef4f97e17074ab1cd92b492f6c52f93cf6c9c26"
-
 meow@^3.4.2:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/meow/-/meow-3.7.0.tgz#72cb668b425228290abbfa856892587308a801fb"
