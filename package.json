@@ -2,6 +2,15 @@
   "name": "archivator",
   "version": "1.0.0",
   "description": "Ever wanted to archive your own copy of articles you enjoyed reading and to be able to search through them?",
+  "keywords": [
+    "bookmark",
+    "archive",
+    "offline-copy",
+    "crawler",
+    "downloader",
+    "node-website-scraper",
+    "archiving"
+  ],
   "homepage": "https://github.com/renoirb/archivator/tree/v3.x-dev#third-rewrite",
   "repository": {
     "type": "git",
@@ -22,6 +31,7 @@
     "dist": "babel src/ --minified -d dist/ -s",
     "fix": "node_modules/.bin/xo --fix",
     "lint": "node_modules/.bin/xo",
+    "release": "npx standard-version --release-as patch",
     "test": "node_modules/.bin/mocha --compilers js:babel-core/register",
     "watch": "babel src/ -d dist/ -w -s"
   },
