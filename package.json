@@ -17,12 +17,18 @@
     "url": "https://github.com/renoirb/archivator.git"
   },
   "license": "MIT",
+  "bin": {
+    "archivator": "./archivator"
+  },
   "author": {
     "name": "Renoir Boulanger",
     "email": "contribs@renoirboulanger.com"
   },
   "files": [
     "dist",
+    "archivator",
+    "example.js",
+    "licenses.json",
     "README.md"
   ],
   "scripts": {

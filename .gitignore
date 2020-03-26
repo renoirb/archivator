@@ -2,3 +2,4 @@ node_modules/
 archive/
 .DS_Store
 yarn-error.log
+.env

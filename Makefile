@@ -8,6 +8,10 @@ lint:
 test:
 	npm test
 
+##
+## For build target below,
+## refer to dist/README.md
+##
 .PHONY: archive
 archive:
 	yarn archive

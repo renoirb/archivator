@@ -49,19 +49,19 @@ Install production only dependencies.
 
 Assuming you have `dist/` compiled (see _Build_ below), and you deleted `node_modules/`.
 
-```bash
+```console
 npm install --only=production
 ```
 
 Edit `example.js`, add more `urls` (if you want)
 
-```
+```console
 node example.js
 ```
 
 ### Run through Babel
 
-```
+```console
 yarn install
 ```
 
@@ -73,7 +73,7 @@ File is CSV, using semi-column `;` as a separator, fields are:
 2. CSS selector to main part of the content you want to keep
 3. One or many CSS selectors (i.e. coma separated, like CSS supports already) of elements you want off of archives (e.g. ads)
 
-```
+```csv
 // file archive/index.csv
 https://renoirboulanger.com/blog/2015/05/converting-dynamic-site-static-copy/;article;
 https://renoirboulanger.com/blog/2015/05/add-openstack-instance-meta-data-info-salt-grains/;article;
@@ -81,13 +81,13 @@ https://renoirboulanger.com/blog/2015/05/add-openstack-instance-meta-data-info-s
 
 Run fetcher
 
-```
+```console
 npm start
 ```
 
 You should see the following in the terminal output
 
-```
+```console
 ...
 Archived renoirboulanger.com/blog/2015/05/converting-dynamic-site-static-copy
 Archived renoirboulanger.com/blog/2015/05/add-openstack-instance-meta-data-info-salt-grains
@@ -122,28 +122,30 @@ archive/
 
 ### Run tests
 
-```
+```console
 npm test
 ```
 
 ### Run xo (coding convention linter)
 
-```
+```console
 npm run lint
 ```
 
 ### Build
 
+__IMPORTANT__ This is no longer supported and is broken, see note in [dist/README.md](./dist/README.md)
+
 Run in Node.js, as ECMASCript 5 transpiled code.
 
-```
+```console
 yarn install
 npm run build
 ```
 
 Should do the same as if we ran `npm start` with modern Node.js v6+ with Babel
 
-```
+```console
 node dist/cli.js
 ```
 
