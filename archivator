@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 try {
-  require('./dist/cli.js')
+  require('./archivator.js')
 } catch(e) {
   console.error(e.message||e);
 }
+

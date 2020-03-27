@@ -27,6 +27,7 @@
   "files": [
     "dist",
     "archivator",
+    "archivator.js",
     "example.js",
     "licenses.json",
     "README.md"
