@@ -1,4 +1,4 @@
-import { FileSystem } from '@microsoft/node-core-library'
+import { FileSystem } from '@rushstack/node-core-library'
 
 import { resolve } from 'path'
 

@@ -48,7 +48,7 @@ jspm_packages/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+.envrc
 
 # Common toolchain intermediate files
 temp

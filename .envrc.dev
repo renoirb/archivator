@@ -1,0 +1,12 @@
+#
+# https://direnv.net/
+#
+set -e
+
+# direnv supports prepending to $PATH shell env
+# https://direnv.net/#the-stdlib
+PATH_add bin
+PATH_add common/temp/node_modules/.bin
+
+export BROWSERSLIST='maintained node versions'
+

@@ -9,7 +9,7 @@
     "bookarms",
     "static-site"
   ],
-  "homepage": "https://github.com/renoirb/archivator/tree/v3.x-dev#readme",
+  "homepage": "http://archivator.site",
   "repository": {
     "type": "git",
     "url": "https://github.com/renoirb/archivator.git",
@@ -35,21 +35,21 @@
     "fix": "use-cross-env use-prettier --write  '**/*.{ts,json,md}'",
     "lint": "rush-eslint -c .eslintrc.js 'src/**/*.ts'",
     "prepublishOnly": "use-run-all clean build",
-    "test": "use-jest --detectOpenHandles",
+    "test": "",
     "test:snapshots": "use-jest --detectOpenHandles -u"
   },
   "dependencies": {
     "@archivator/archivable": "0.0.1",
-    "@microsoft/node-core-library": "^3.19.0",
     "@archivator/content-divinator": "0.0.1",
-    "url-dirname-normalizer": "1.2.1"
+    "@rushstack/node-core-library": "^3.19.0",
+    "url-dirname-normalizer": "1.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
     "@babel/plugin-transform-runtime": "7.5.5",
     "@babel/preset-env": "^7.4.0",
     "@babel/runtime-corejs3": "^7.8.0",
-    "@microsoft/node-library-build": "6.4.4",
+    "@microsoft/node-library-build": "^6.4.0",
     "@microsoft/rush-stack-compiler-3.7": "^0.2.3",
     "@renoirb/conventions-use-bili": "^1.0.2",
     "@renoirb/conventions-use-eslint": "^1.0.1",

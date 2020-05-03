@@ -1,11 +1,11 @@
 {
   "extends": "./node_modules/@microsoft/rush-stack-compiler-3.7/includes/tsconfig-node.json",
   "compilerOptions": {
-    "target": "es2018",
     "baseUrl": ".",
     "paths": {
-      "url-dirname-normalizer": ["./node_modules/url-dirname-normalizer/src"]
+      "url-dirname-normalizer": ["../../packages/url-dirname-normalizer/src"]
     },
+    "target": "ES2015",
     "types": ["jest", "node"]
   },
   "exclude": ["__tests__"]

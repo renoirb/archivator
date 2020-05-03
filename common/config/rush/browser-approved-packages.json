@@ -47,6 +47,10 @@
       "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
+      "name": "@rushstack/node-core-library",
+      "allowedCategories": [ "apps", "packages" ]
+    },
+    {
       "name": "bili",
       "allowedCategories": [ "apps", "libraries", "packages" ]
     },

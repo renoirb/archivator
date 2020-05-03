@@ -1,4 +1,4 @@
-import { FileSystem, JsonFile } from '@microsoft/node-core-library'
+import { FileSystem, JsonFile } from '@rushstack/node-core-library'
 import { resolve } from 'path'
 import {
   AvailableStopWordResources,
