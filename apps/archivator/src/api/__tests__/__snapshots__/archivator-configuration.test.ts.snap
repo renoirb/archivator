@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ArchivatorConfiguration is possible to get archive CSV lines by asking getArchiveIndex 1`] = `
+Array [
+  "\\"Web Page URL\\";\\"CSS Selectors for main content\\";\\"CSS Selectors to strip content off\\"",
+  "https://ponyfoo.com/articles/const-variables-not-immutable;;",
+  "http://omergil.blogspot.com.br/2017/02/web-cache-deception-attack.html;;",
+  "https://alistapart.com/article/application-cache-is-a-douchebag/index.html;;",
+]
+`;
+
+exports[`ArchivatorConfiguration is possible to get enumeration of archives 1`] = `
+Array [
+  Object {
+    "archiveFolder": "paleo-recipes",
+    "archiveName": "paleo-recipes",
+  },
+  Object {
+    "archiveFolder": "some/nested/folder/research-papers",
+    "archiveName": "research-papers",
+  },
+]
+`;
+
+exports[`ArchivatorConfiguration is possible to get enumeration of archives 2`] = `
+Map {
+  "paleo-recipes" => Object {
+    "archiveFolder": "paleo-recipes",
+    "archiveName": "paleo-recipes",
+  },
+  "research-papers" => Object {
+    "archiveFolder": "some/nested/folder/research-papers",
+    "archiveName": "research-papers",
+  },
+}
+`;
+
+exports[`ArchivatorConfiguration is possible to get one archive by asking getArchiveByName 1`] = `
+Object {
+  "archiveFolder": "paleo-recipes",
+  "archiveName": "paleo-recipes",
+}
+`;

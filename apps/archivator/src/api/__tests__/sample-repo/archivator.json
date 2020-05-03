@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/renoirb/archivator/v3.x-dev/apps/archivator/resources/schemas/archivator.schema.json",
+  "archives": [
+    {
+      "archiveName": "research-papers",
+      "archiveFolder": "some/nested/folder/research-papers"
+    },
+    {
+      "archiveName": "paleo-recipes",
+      "archiveFolder": "paleo-recipes"
+    }
+  ]
+}

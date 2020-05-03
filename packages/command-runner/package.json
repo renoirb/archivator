@@ -1,19 +1,11 @@
 {
-  "name": "archivator",
-  "version": "3.0.0-dev.0",
-  "description": "Ever wanted to archive your own copy of articles you enjoyed reading and to be able to search through them?",
-  "keywords": [
-    "archiving",
-    "site",
-    "search",
-    "bookarms",
-    "static-site"
-  ],
-  "homepage": "http://archivator.site",
+  "name": "@archivator/command-runner",
+  "version": "0.0.1",
+  "description": "An abstract CLI Command Runner helper, factored-out from the Excellent RushJS project",
   "repository": {
     "type": "git",
     "url": "https://github.com/renoirb/archivator.git",
-    "directory": "apps/archivator"
+    "directory": "packages/command-runner"
   },
   "license": "MIT",
   "author": {
@@ -35,16 +27,10 @@
     "fix": "use-cross-env use-prettier --write  '**/*.{ts,json,md}'",
     "lint": "rush-eslint -c .eslintrc.js 'src/**/*.ts'",
     "prepublishOnly": "use-run-all clean build",
-    "test": "use-jest --detectOpenHandles",
-    "test:snapshots": "use-jest --detectOpenHandles -u"
+    "test": ""
   },
   "dependencies": {
-    "@archivator/archivable": "0.0.1",
-    "@archivator/command-runner": "0.0.1",
-    "@archivator/content-divinator": "0.0.1",
-    "@rushstack/node-core-library": "^3.19.0",
-    "true-case-path": "~2.2.1",
-    "url-dirname-normalizer": "1.3.0"
+    "colors": "~1.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",

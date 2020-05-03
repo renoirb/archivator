@@ -7,6 +7,10 @@
       "allowedCategories": [ "apps" ]
     },
     {
+      "name": "@archivator/command-runner",
+      "allowedCategories": [ "apps" ]
+    },
+    {
       "name": "@archivator/content-divinator",
       "allowedCategories": [ "apps" ]
     },
@@ -59,6 +63,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "colors",
+      "allowedCategories": [ "apps", "libraries" ]
+    },
+    {
       "name": "eslint",
       "allowedCategories": [ "apps", "libraries", "packages" ]
     },
@@ -69,6 +77,10 @@
     {
       "name": "jest",
       "allowedCategories": [ "apps", "libraries", "packages" ]
+    },
+    {
+      "name": "true-case-path",
+      "allowedCategories": [ "apps" ]
     },
     {
       "name": "tslib",

@@ -1,12 +1,13 @@
 import { FileSystem } from '@rushstack/node-core-library'
-
 import { resolve } from 'path'
 
-export const loadCsv = (dir: string): ReadonlyArray<string> => {
+export const archiveIndexLoader = (dir: string): ReadonlyArray<string> => {
   const parentPath = resolve(__dirname, dir)
-  const normalizedFilePath = resolve(parentPath, 'archive.csv')
+  const normalizedFilePath = resolve(parentPath, 'archivator.csv')
   if (!FileSystem.exists(normalizedFilePath)) {
-    throw new Error(`Cannot find archive file at ${normalizedFilePath}`)
+    throw new Error(
+      `Cannot find archivator.csv archive file at ${normalizedFilePath}`,
+    )
   }
 
   // List all lines that aren’t empty

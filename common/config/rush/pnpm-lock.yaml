@@ -12,6 +12,7 @@ dependencies:
   '@renoirb/tools-bundling-helpers': 1.0.2
   '@rush-temp/archivable': 'file:projects/archivable.tgz'
   '@rush-temp/archivator': 'file:projects/archivator.tgz'
+  '@rush-temp/command-runner': 'file:projects/command-runner.tgz'
   '@rush-temp/content-divinator': 'file:projects/content-divinator.tgz'
   '@rush-temp/url-dirname-normalizer': 'file:projects/url-dirname-normalizer.tgz'
   '@rushstack/eslint-config': 0.5.7_eslint@6.8.0+typescript@3.8.3
@@ -19,9 +20,11 @@ dependencies:
   '@types/jest': 24.9.1
   '@types/node': 10.17.13
   bili: 4.9.4
+  colors: 1.2.5
   eslint: 6.8.0
   gulp: 4.0.2
   jest: 23.6.0
+  true-case-path: 2.2.1
   tslib: 1.11.1
   typescript: 3.8.3
 lockfileVersion: 5.1
@@ -11989,6 +11992,10 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-yy4SAwZ+DI3h9hQJS5/kVwTqYAM=
+  /true-case-path/2.2.1:
+    dev: false
+    resolution:
+      integrity: sha512-0z3j8R7MCjy10kc/g+qg7Ln3alJTodw9aDuVWZa3uiWqfuBMKeAeP2ocWcxoyM3D73yz3Jt/Pu4qPr4wHSdB/Q==
   /ts-jest/24.3.0_jest@24.9.0:
     dependencies:
       bs-logger: 0.2.6
@@ -12888,7 +12895,7 @@ packages:
     dev: false
     name: '@rush-temp/archivable'
     resolution:
-      integrity: sha512-Xdi+h7OVBLNtJEPq5An5RqCecTFzQk7RsOKrG+EVJnR2JRX3cPm97hmZGe50GyRK9bvLy32fv4dz55hV0uuOMQ==
+      integrity: sha512-V2Bvw9VwnHpIhNYtGNDM2FUuqD7fI6ESuSuWl5foPagsbM1As7SQLjWMFVBLIdcSFkJ/sTVjgHeD2qwa43+W7w==
       tarball: 'file:projects/archivable.tgz'
     version: 0.0.0
   'file:projects/archivator.tgz':
@@ -12909,16 +12916,46 @@ packages:
       '@types/jest': 24.9.1
       '@types/node': 10.17.13
       bili: 4.9.4
+      colors: 1.2.5
+      eslint: 6.8.0
+      gulp: 4.0.2
+      jest: 23.6.0
+      true-case-path: 2.2.1
+      tslib: 1.11.1
+      typescript: 3.8.3
+    dev: false
+    name: '@rush-temp/archivator'
+    resolution:
+      integrity: sha512-FXtmbxQ24sRziUSvx+9cAyYBC8mxb9Rq+ugbUGLvfSzBiE+T9HlCm+CiY694v2rmKZ4YBFa5poHxFwbi/saYCg==
+      tarball: 'file:projects/archivator.tgz'
+    version: 0.0.0
+  'file:projects/command-runner.tgz':
+    dependencies:
+      '@babel/core': 7.9.6
+      '@babel/plugin-transform-runtime': 7.5.5_@babel+core@7.9.6
+      '@babel/preset-env': 7.9.6_@babel+core@7.9.6
+      '@babel/runtime-corejs3': 7.9.6
+      '@microsoft/node-library-build': 6.4.11
+      '@microsoft/rush-stack-compiler-3.7': 0.2.9
+      '@renoirb/conventions-use-bili': 1.0.2_typescript@3.8.3
+      '@renoirb/conventions-use-eslint': 1.0.1_typescript@3.8.3
+      '@renoirb/conventions-use-jest': 1.0.1
+      '@renoirb/conventions-use-prettier': 1.0.1
+      '@renoirb/tools-bundling-helpers': 1.0.2
+      '@rushstack/eslint-config': 0.5.7_eslint@6.8.0+typescript@3.8.3
+      '@types/jest': 24.9.1
+      '@types/node': 10.17.13
+      bili: 4.9.4
       eslint: 6.8.0
       gulp: 4.0.2
       jest: 23.6.0
       tslib: 1.11.1
       typescript: 3.8.3
     dev: false
-    name: '@rush-temp/archivator'
+    name: '@rush-temp/command-runner'
     resolution:
-      integrity: sha512-aBMoiS/LnWqyMS+wDK8vg4/4Lzl2KR93uaPW9y4BoyO+SXYQNBqGHe6hjXckdHvKwz4LjmMYkM+c/LKVgRfF1A==
-      tarball: 'file:projects/archivator.tgz'
+      integrity: sha512-RGhu6h6XHs/Dc1oo9t2h3nBzjqTs9+uvouBCXIEmCRvWKfLnDhB6jcW503DQdTg2lpexDYV6o3fLkgFEk5D4vA==
+      tarball: 'file:projects/command-runner.tgz'
     version: 0.0.0
   'file:projects/content-divinator.tgz':
     dependencies:
@@ -12993,6 +13030,7 @@ specifiers:
   '@renoirb/tools-bundling-helpers': ^1.0.2
   '@rush-temp/archivable': 'file:./projects/archivable.tgz'
   '@rush-temp/archivator': 'file:./projects/archivator.tgz'
+  '@rush-temp/command-runner': 'file:./projects/command-runner.tgz'
   '@rush-temp/content-divinator': 'file:./projects/content-divinator.tgz'
   '@rush-temp/url-dirname-normalizer': 'file:./projects/url-dirname-normalizer.tgz'
   '@rushstack/eslint-config': ^0.5.4
@@ -13000,8 +13038,10 @@ specifiers:
   '@types/jest': ^24.9.0
   '@types/node': 10.17.13
   bili: ^4.8.1
+  colors: ~1.2.1
   eslint: ^6.0.0
   gulp: ~4.0.2
   jest: ~23.6.0
+  true-case-path: ~2.2.1
   tslib: ^1.11.1
   typescript: ^3.7.0

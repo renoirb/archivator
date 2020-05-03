@@ -258,6 +258,12 @@
       "shouldPublish": true
     },
     {
+      "packageName": "@archivator/command-runner",
+      "projectFolder": "packages/command-runner",
+      "reviewCategory": "libraries",
+      "shouldPublish": true
+    },
+    {
       "packageName": "@archivator/archivable",
       "projectFolder": "packages/archivable",
       "reviewCategory": "packages",
