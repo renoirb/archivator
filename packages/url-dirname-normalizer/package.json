@@ -32,8 +32,8 @@
   ],
   "scripts": {
     "build": "use-run-all build:*",
-    "build:node": "use-bili --target node --format cjs --file-name index.js",
-    "build:node-esm": "use-bili --target node --format esm --file-name index.esm.js",
+    "build:node": "use-bili --bundle-node-modules --target node --format cjs --file-name index.js",
+    "build:node-esm": "use-bili --bundle-node-modules --target node --format esm --file-name index.esm.js",
     "clean": "use-rimraf .rpt2_cache dist *.*.log",
     "fix": "use-cross-env use-prettier --write  '**/*.{ts,json,md}'",
     "lint": "rush-eslint -c .eslintrc.js 'src/**/*.ts'",
