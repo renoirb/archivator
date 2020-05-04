@@ -1,31 +1,44 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
+import { normalizer } from '..'
 
-import { directoryNameNormalizer } from '..'
-
-import { fixtures } from '.'
-
-const { loadSlugificationJsonFixture } = fixtures
-
-describe('directoryNameNormalizer', () => {
+describe('pathName', () => {
   test('Happy-Path', () => {
-    // Yes, let's ignore the protocol
-    const subject = directoryNameNormalizer('gopher://example.org/Foo/bAr/')
-    expect(subject).toBe('example.org/foo/bar')
-    // Another edge-case
-    expect(
-      directoryNameNormalizer(
-        'http://example.org/@ausername/some-lengthy-string-ending-with-a-hash-1a2d8a61510',
-      ),
-    ).toBe('example.org/ausername/some-lengthy-string-ending-with-a-hash')
+    /**
+     * Normalizing from URL http://www.example.org/fOo/Bar/bAAz.html
+     * taking "/fOo/Bar/bAAz.html" into "/foo/bar/baaz"
+     */
+    const example = 'http://www.example.org/fOo/Bar/bAAz.html'
+    const subject = normalizer.pathName(example)
+    expect(subject).toBe('/foo/bar/baaz')
+  })
+})
+
+describe('searchParams', () => {
+  test('Happy-Path', () => {
+    /**
+     * Get path '/bar/bazz/zulu/please' as consistently sorted
+     * out of free-form 'http://example.org/foo?zulu=please&bar=bazz&buzz'
+     */
+    const example = 'http://example.org/foo?zulu=please&bar=bazz&buzz'
+    const subject = normalizer.searchParams(example)
+    console.log('searchParams', { example, subject })
+    expect(subject).toBe('/bar/bazz/zulu/please')
+  })
+})
+
+describe('toUrl', () => {
+  test('Happy-Path', () => {
+    const subject = normalizer.toUrl('http://localhost/foo?bar&buzz=yes')
+    expect(subject).toMatchSnapshot()
+    expect(subject).toHaveProperty('searchParams')
+    expect(subject).toHaveProperty('host', 'localhost')
+    expect(subject).toHaveProperty('hostname', 'localhost')
+    expect(subject).toHaveProperty('pathname', '/foo')
+    expect(subject).toHaveProperty('search', '?bar&buzz=yes')
   })
 
-  // @ts-ignore
-  test.each(loadSlugificationJsonFixture())(
-    '%s:\n\tout:\t\t%s\n\treason:\t\t%s\n\tduration:\t',
-    (input, expected) => {
-      const output = directoryNameNormalizer(input)
-      // console.log('run', {output, input, expected, reason: _})
-      expect(output).toBe(expected)
-    },
-  )
+  test('Exceptions', () => {
+    expect(() => normalizer.toUrl('ლ(́◉◞౪◟◉‵ლ)')).toThrow(
+      'Invalid URL: ლ(́◉◞౪◟◉‵ლ)',
+    )
+  })
 })

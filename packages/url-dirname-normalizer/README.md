@@ -10,12 +10,12 @@
 
 ## Usage
 
-### directoryNameNormalizer
+### dirnameNormalizer
 
-There is only one exported function; `directoryNameNormalizer`.
+The default exported function is; `dirnameNormalizer`.
 
 ```js
-import directoryNameNormalizer from 'url-dirname-normalizer'
+import dirnameNormalizer from 'url-dirname-normalizer'
 
 // HTML Source document URL from where the asset is embedded
 // Ignore document origin if resource has full URL, protocol relative, non TLS
@@ -25,6 +25,23 @@ const sourceDocument =
 /**
  * Filesystem path where to write files to
  */
-directoryNameNormalizer(sourceDocument)
+dirnameNormalizer(sourceDocument)
 // > "example.org/ausername/some-lengthy-string-ending-with-a-hash"
+```
+
+### normalizer
+
+Alongside the default export, there is also a `normalizer` with a few methods.
+
+Refer to notes in [**pathName** in `normalizer/path-name.ts`](./src/normalizer/path-name.ts) and [**searchParams** in `normalizer/search-params.ts`](./src/normalizer/search-params.ts)
+
+```js
+import { normalizer } from 'url-dirname-normalizer'
+const examplePathName = 'http://www.example.org/fOo/Bar/bAAz.html'
+normalizer.pathName(examplePathName)
+// > "/foo/bar/baaz"
+
+const exampleSearchParams = 'http://example.org/foo?zulu=please&bar=bazz&buzz'
+normalizer.searchParams(exampleSearchParams)
+// > "/bar/bazz/zulu/please"
 ```

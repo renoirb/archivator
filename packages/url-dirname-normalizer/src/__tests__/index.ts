@@ -1,5 +1,4 @@
 import { FileSystem, JsonFile } from '@rushstack/node-core-library'
-
 import { resolve } from 'path'
 
 export type UrlsExpectedExplanationTuples = [string, string, string][]

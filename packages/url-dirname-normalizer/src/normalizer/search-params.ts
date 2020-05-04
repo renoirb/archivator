@@ -1,17 +1,21 @@
-import { URL } from '../url'
+import { toUrl } from './url'
 
 /**
- * Normalize URL Search Params — (e.g. bar&baz=buzz in http://example.org?bar&bazz=buzz)
+ * Normalize URL Search Params into a path representing them.
  *
- * The following could be one multi-line.
- * But it's easier to debug like that if we need
- * to review the pass rules.
+ * Get path '/bar/bazz/zulu/please' as consistently sorted
+ * out of free-form 'http://example.org/foo?zulu=please&bar=bazz&buzz'
+ *
+ * First, we pick only 'zulu=please&bar=bazz&buzz',
+ * sort it consistently.
  */
-export const searchParamsNormalizer = (resourceUrl: URL): string => {
+export const searchParams = (url: string): string => {
+  const urlObj = toUrl(url)
   // Explode at &, and sort search params order for consistent results
+  // Notice input order is b,a,c and is sorted to be a,b,c
   // ?b=2&a=1&c=  -> [a=1, b=2, c=]
   // ?a=1&c=&b=2  -> [a=1, b=2, c=]
-  const search = String(resourceUrl.search)
+  const search = String(urlObj.search)
     .replace(/^\?/, '')
     .split('&')
     .sort()

@@ -1,4 +1,4 @@
-import { URL } from '../url'
+import { toUrl } from './url'
 
 /**
  * Normalize URL PathName
@@ -6,8 +6,9 @@ import { URL } from '../url'
  * Normalizing from URL http://www.example.org/fOo/Bar/bAAz.html
  * taking "/fOo/Bar/bAAz.html" into "/foo/bar/baaz"
  */
-export const pathNameNormalizer = (resourceUrl: URL): string => {
-  let out = String(resourceUrl.pathname).toLowerCase()
+export const pathName = (url: string): string => {
+  const urlObj = toUrl(url)
+  let out = String(urlObj.pathname).toLowerCase()
   out = out.replace(/-[a-z0-9]{5,}$/, '')
   out = out.replace(/%40/, '_at_')
   out = out.replace(/\.(action|fcgi|do)/, '')
