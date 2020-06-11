@@ -16,10 +16,10 @@ words(text: string): WordUsageMapType;
 
 ## Parameters
 
-| Parameter | Type                | Description |
-| --------- | ------------------- | ----------- |
-| text      | <code>string</code> |             |
+| Parameter | Type   | Description |
+| --------- | ------ | ----------- |
+| text      | string |             |
 
 <b>Returns:</b>
 
-`WordUsageMapType`
+[WordUsageMapType](./content-divinator.wordusagemaptype.md)

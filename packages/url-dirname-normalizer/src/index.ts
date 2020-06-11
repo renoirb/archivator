@@ -1,5 +1,9 @@
-import dirnameNormalizer from './main'
+import { main } from './main'
 import { pathName, searchParams, toUrl } from './normalizer'
+
+export const dirnameNormalizer = main
+
+export default dirnameNormalizer
 
 /**
  * Normalizer helpers.
@@ -8,12 +12,4 @@ import { pathName, searchParams, toUrl } from './normalizer'
  *
  * @public
  */
-export const normalizer = {
-  pathName,
-  searchParams,
-  toUrl,
-}
-
-export { dirnameNormalizer }
-
-export default dirnameNormalizer
+export { pathName, searchParams, toUrl }

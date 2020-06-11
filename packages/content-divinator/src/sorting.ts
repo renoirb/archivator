@@ -19,11 +19,7 @@
  *
  * @package sorting
  */
-const whenRecordValueIsNumberOrderByDescending = (
+export const whenRecordValueIsNumberOrderByDescending = (
   a: [string, number],
   b: [string, number],
 ): number => -1 * (a[1] - b[1])
-
-export const sorting = {
-  whenRecordValueIsNumberOrderByDescending,
-}

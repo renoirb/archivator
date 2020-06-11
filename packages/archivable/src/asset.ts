@@ -1,4 +1,4 @@
-import { directoryNameNormalizer } from 'url-dirname-normalizer'
+import dirnameNormalizer from 'url-dirname-normalizer'
 
 import {
   assetUrlNormalizer,
@@ -107,7 +107,7 @@ export const extractNormalizedAssetDest = (
     const message = `Missing asset reference, make sure you’ve used assetReferenceHandlerFactory before using extractNormalizedAssetDest.`
     throw new Error(message)
   }
-  const basePath = directoryNameNormalizer(sourceDocument)
+  const basePath = dirnameNormalizer(sourceDocument)
   const dest = `${basePath}/${reference}`
 
   const out: NormalizedAssetDestType = {

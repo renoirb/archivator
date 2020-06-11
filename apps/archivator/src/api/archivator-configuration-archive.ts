@@ -1,8 +1,8 @@
 import { sep } from 'path'
 
 /**
- * This represents the configuration of a project that is built by Rush, based on
- * the Rush.json configuration file.
+ * This represents the configuration of a project that is built by Archivator,
+ * based on the archivator.json configuration file.
  * @public
  */
 export class ArchivatorConfigurationArchive {
@@ -24,7 +24,8 @@ export class ArchivatorConfigurationArchive {
     const isArchiveNameContainingInArchiveFolder =
       _archiveName === lastPartArchiveFolder
     if (!isArchiveNameContainingInArchiveFolder) {
-      const message = `Archive ${archiveName} and archive folder name must have matching names in path ${_archiveFolder}`
+      let message = `Archive ${archiveName} and archive folder name `
+      message += `must have matching names in path ${_archiveFolder}`
       throw new Error(message)
     }
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 
-import { ContentDivinator } from '..'
+import { ContentDivinator } from '../content-divinator'
 
 import { fixtures } from '.'
 

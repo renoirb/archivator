@@ -4,7 +4,7 @@
  * configuration file.
  * @public
  */
-export class ArchivatorConfigurationArchiveJson {
+export interface ArchivatorConfigurationArchiveJson {
   archiveName: string
   archiveFolder: string
 }
@@ -21,7 +21,7 @@ export interface ArchivatorConfigurationJsonInterface {
 }
 
 /**
- * Options for `RushConfiguration.tryFindRushJsonLocation`.
+ * Options for `ArchivatorConfiguration.tryFindArchivatorJsonLocation`.
  * @public
  */
 export interface TryFindArchivatorJsonLocationOptionsInterface {

@@ -18,7 +18,7 @@ import { searchParams, pathName, toUrl } from './normalizer'
  * @public
  * @author Renoir Boulanger <contribs@renoirboulanger.com>
  */
-export default (url: string): string => {
+export const main = (url: string): string => {
   const search = searchParams(url)
   const pathname = pathName(url)
   const urlObj = toUrl(url)

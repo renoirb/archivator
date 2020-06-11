@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 
-import { ContentDivinator, extractors, utils } from '..'
+import { ContentDivinator } from '..'
+import { summary } from '../extractors'
+import { convertMapToRecordHashMap } from '../utils'
 
 describe('README.md examples', () => {
   test('ContentDivinator', () => {
@@ -9,7 +11,7 @@ describe('README.md examples', () => {
      *
      * The following is a `Record<string, number>` representation of `Map<string, number>`.
      *
-     * Refer to {@link utils.convertMapToRecordHashMap|convertMapToRecordHashMap} for conversion algorithm.
+     * Refer to {@link convertMapToRecordHashMap|convertMapToRecordHashMap} for conversion algorithm.
      *
      * So we could be able to guess what's the main topic.
      */
@@ -30,12 +32,12 @@ describe('README.md examples', () => {
     const subject = new ContentDivinator(stopWords)
     const wordsMap = subject.words(textContent)
     expect(wordsMap).toMatchSnapshot()
-    const summarized = extractors.summary(wordsMap, 3)
+    const summarized = summary(wordsMap, 3)
     expect(summarized).toMatchSnapshot()
     expect(wordsMap.get('chuck')).toBe(5)
     expect(wordsMap.get('wood')).toBe(4)
     expect(wordsMap.get('woodchuck')).toBe(4)
-    const textHashMap = utils.convertMapToRecordHashMap(wordsMap)
+    const textHashMap = convertMapToRecordHashMap(wordsMap)
     expect(textHashMap).toMatchSnapshot()
     expect(textHashMap).toMatchObject(desiredTextHashMap)
   })

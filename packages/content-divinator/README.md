@@ -5,7 +5,7 @@
 This is, by no means, an actual attempt at Machine Learning.
 It’s simply a few helpers to help automate maintenance of metadata from imported content.
 
-[repo-url]: https://github.com/renoirb/archivator/blob/v3.x-dev/libraries/content-divinator 'Content Divinator'
+[repo-url]: https://github.com/renoirb/archivator/blob/v3.x-dev/packages/content-divinator 'Content Divinator'
 
 ## Usage
 

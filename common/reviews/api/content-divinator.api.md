@@ -5,13 +5,10 @@
 ```ts
 
 // @public
-export type AvailableStopWordResources = 'english';
-
-// @public
 class ContentDivinator {
     constructor(stopWords?: string[], locales?: string[]);
+    // Warning: (ae-forgotten-export) The symbol "AvailableStopWordResources" needs to be exported by the entry point index.d.ts
     static factory(predefined: AvailableStopWordResources, locales?: string[]): ContentDivinator;
-    // Warning: (ae-forgotten-export) The symbol "WordUsageMapType" needs to be exported by the entry point index.d.ts
     words(text: string): WordUsageMapType;
 }
 
@@ -19,19 +16,30 @@ export { ContentDivinator }
 
 export default ContentDivinator;
 
-// @public
-export const extractors: {
-    summary: (wordsMap: import("./types").WordUsageMapType, floor?: number, max?: number) => import("./types").SummaryRecordType;
-    words: (body: string, stopWords?: string[], locales?: string | string[]) => import("./types").WordUsageMapType;
-};
+// Warning: (ae-internal-missing-underscore) The name "ContentDivinatorSetupFactoryType" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export interface ContentDivinatorSetupFactoryType {
+    readonly locales: string[];
+    readonly stopWords: string[];
+}
 
 // @public
-export const utils: {
-    convertMapToRecordHashMap: import("./types").MapToRecordHashMapFactoryType<string, number>;
-    convertRecordHashMapToMap: import("./types").RecordToMapFactoryType<string, number>;
-    nonStopWordIsser: (stopWords?: string[]) => import("./types").NonStopWordIsserType;
-    wordNormalizer: (locales?: string | string[] | undefined) => import("./types").WordNormalizerType;
-};
+export type NonStopWordIsserType = (word: string) => boolean;
+
+// @public
+export interface SummaryRecordType {
+    readonly keywords: string[];
+}
+
+// @public
+export type WordNormalizerType = (word: any) => string | void;
+
+// @public
+export type WordsType = ReadonlyArray<string>;
+
+// @public
+export type WordUsageMapType = Map<string, number>;
 
 
 // (No @packageDocumentation comment for this package)

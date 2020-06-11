@@ -10,15 +10,17 @@
 | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | [ContentDivinator](./content-divinator.contentdivinator.md) | Attempt at guessing stuff, summarize content, based on raw text.<!-- -->This is the entry-point to other utilities. Instance of this class should contain contextual configuration such as the stop-words, and locales.<!-- -->Methods should return immutable copies of the instance’s configuration. |
 
-## Variables
+## Interfaces
 
-| Variable                                        | Description                                  |
-| ----------------------------------------------- | -------------------------------------------- |
-| [extractors](./content-divinator.extractors.md) | Content processing and extraction utilities. |
-| [utils](./content-divinator.utils.md)           | Converters and utilities.                    |
+| Interface                                                     | Description                                                          |
+| ------------------------------------------------------------- | -------------------------------------------------------------------- |
+| [SummaryRecordType](./content-divinator.summaryrecordtype.md) | What are the sorted words and the top keywords found after analysis. |
 
 ## Type Aliases
 
-| Type Alias                                                                      | Description                                                                                     |
-| ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| [AvailableStopWordResources](./content-divinator.availablestopwordresources.md) | Which Stop-Words collection are locally available in the project's resources/stop-words folder. |
+| Type Alias                                                          | Description                                                                       |
+| ------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| [NonStopWordIsserType](./content-divinator.nonstopwordissertype.md) | Function Signature for checking if a word is a non-stop-word.                     |
+| [WordNormalizerType](./content-divinator.wordnormalizertype.md)     | Function Signature for the                                                        |
+| [WordsType](./content-divinator.wordstype.md)                       | All words found on a document, one word per item. May or may not have duplicates. |
+| [WordUsageMapType](./content-divinator.wordusagemaptype.md)         | Word Usage Count.<!-- -->First item is the word, second item is its count.        |

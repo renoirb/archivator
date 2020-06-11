@@ -1,4 +1,4 @@
-import { toUrl } from './url'
+import { toUrl } from 'url-dirname-normalizer'
 
 /**
  * Given every row in source file .csv
@@ -12,6 +12,8 @@ import { toUrl } from './url'
  * 3. _truncate_, A list of CSS selectors to strip off (e.g. ads, orthogonal content)
  *
  * This is the shape of data input we can use for iteration.
+ *
+ * @public
  *
  * {@link parseArchivableCsvLine}
  * {@link ArchivableOrderedInputUrlTruncateTuplesFirstLine}
@@ -67,18 +69,9 @@ export interface ArchivableType {
 /**
  * Parse an Archivable CSV Line.
  *
- * ```csv
- * http://example.org/a/b.html;selector;truncate
- * ```
- *
- * 1. First item is a fully qualified source document URL (i.e. a Web Page's address)
- * 2. _selector_, A CSS selector where the main content is
- * 3. _truncate_, A list of CSS selectors to strip off (e.g. ads, orthogonal content)
- *
- * @public
- * @author Renoir Boulanger <contribs@renoirboulanger.com>
+ * Private method to handle parsing
  */
-export const parseArchivableCsvLine = (
+const parseArchivableCsvLine = (
   line: string,
 ): ArchivableOrderedInputUrlTruncateTuplesType => {
   const [url = null, selector = '', truncate = ''] = line.split(';')
@@ -94,7 +87,12 @@ export const parseArchivableCsvLine = (
   }
 
   if (typeof url === 'string') {
-    return [url, selector, truncate]
+    const out: ArchivableOrderedInputUrlTruncateTuplesType = [
+      url,
+      selector,
+      truncate,
+    ]
+    return out
   } else {
     throw new Error(errorMessage)
   }
@@ -155,7 +153,23 @@ export class Archivable implements ArchivableType {
     return Object.seal<ArchivableType>(out)
   }
 
-  static fromJSON(arg): ArchivableType {
+  static fromTuple(
+    tuple: ArchivableOrderedInputUrlTruncateTuplesType,
+  ): Archivable {
+    const [url, selector, truncate] = tuple
+    return new Archivable(url, selector, truncate)
+  }
+
+  toTuple(): Readonly<ArchivableOrderedInputUrlTruncateTuplesType> {
+    const { url, selector, truncate } = this.toJSON()
+    return Object.freeze<ArchivableOrderedInputUrlTruncateTuplesType>([
+      url,
+      selector,
+      truncate,
+    ])
+  }
+
+  static fromJSON(arg: any): ArchivableType {
     const argIsString = typeof arg === 'string'
     if (argIsString === false) {
       const message = 'Only String is supported'
@@ -167,10 +181,28 @@ export class Archivable implements ArchivableType {
   }
 
   /**
+   * Take a string, creates an Archivable based on it.
+   *
    * {@link parseArchivableCsvLine}
+   *
+   * @param {string} line — string of text that may or may not be valid CSV
    */
   static fromLine(line = 'http://localhost;;'): Archivable {
-    const [url, selector, truncate] = parseArchivableCsvLine(line) as string[]
+    const [url, selector, truncate] = parseArchivableCsvLine(line)
     return new Archivable(url, selector, truncate)
+  }
+
+  /**
+   * Extract from CSV line.
+   *
+   * {@link parseArchivableCsvLine}
+   *
+   * @param {string} line — string of text that may or may not be valid CSV
+   */
+  static parseLine(
+    line = 'http://localhost;;',
+  ): ArchivableOrderedInputUrlTruncateTuplesType {
+    const tuple = parseArchivableCsvLine(line)
+    return tuple
   }
 }

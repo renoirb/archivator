@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { fixtures } from '.'
-import dirnameNormalizer from '..'
+import { dirnameNormalizer } from '..'
 
 const { loadSlugificationJsonFixture } = fixtures
 

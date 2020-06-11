@@ -1,6 +1,6 @@
 import { words } from './extractors'
-import { WordUsageMapType, AvailableStopWordResources } from './types'
 import { _createContentDivinatorSetup } from './factories'
+import { WordUsageMapType, AvailableStopWordResources } from './types'
 
 /**
  * Attempt at guessing stuff, summarize content, based on raw text.

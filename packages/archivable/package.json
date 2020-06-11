@@ -17,10 +17,13 @@
     "name": "Renoir Boulanger",
     "email": "contribs@renoirboulanger.com"
   },
+  "type": "module",
   "exports": {
-    ".": "dist/index.esm.js"
+    "import": "dist/index.mjs",
+    "require": "dist/index.js"
   },
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
@@ -28,40 +31,43 @@
   ],
   "scripts": {
     "build": "use-run-all build:*",
-    "build:node": "use-bili --target node --format cjs --file-name index.js",
-    "build:node-esm": "use-bili --target node --format esm --file-name index.esm.js",
+    "build:node": "use-bili --bundle-node-modules --target node --format cjs --file-name index.js",
+    "build:node-esm": "use-bili  --bundle-node-modules --target node --format esm --file-name index.mjs",
     "clean": "use-rimraf .rpt2_cache dist *.*.log",
     "fix": "use-cross-env use-prettier --write  '**/*.{ts,json,md}'",
     "lint": "rush-eslint -c .eslintrc.js 'src/**/*.ts'",
     "prepublishOnly": "use-run-all clean build",
-    "test": "use-jest --detectOpenHandles",
-    "test:snapshots": "use-jest --detectOpenHandles -u"
+    "test": "jest --detectOpenHandles",
+    "test:snapshots": "jest --detectOpenHandles -u"
   },
   "dependencies": {
     "@rushstack/node-core-library": "^3.19.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.0",
-    "@babel/plugin-transform-runtime": "7.5.5",
-    "@babel/preset-env": "^7.4.0",
-    "@babel/runtime-corejs3": "^7.8.0",
+    "@babel/core": "^7.10.0",
+    "@babel/plugin-transform-runtime": "^7.10.0",
+    "@babel/preset-env": "^7.10.0",
+    "@babel/preset-typescript": "^7.10.0",
+    "@babel/runtime-corejs3": "^7.10.0",
     "@microsoft/node-library-build": "^6.4.0",
-    "@microsoft/rush-stack-compiler-3.7": "^0.2.3",
     "@renoirb/conventions-use-bili": "^1.0.2",
     "@renoirb/conventions-use-eslint": "^1.0.1",
     "@renoirb/conventions-use-jest": "^1.0.1",
     "@renoirb/conventions-use-prettier": "^1.0.1",
+    "@renoirb/conventions-use-typescript-3": "^1.0.2",
     "@renoirb/tools-bundling-helpers": "^1.0.2",
     "@rushstack/eslint-config": "^0.5.4",
-    "@types/jest": "^24.9.0",
-    "@types/node": "10.17.13",
-    "bili": "^4.8.1",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^10.17.13",
     "eslint": "^6.0.0",
     "gulp": "~4.0.2",
-    "jest": "~23.6.0",
-    "tslib": "^1.11.1",
-    "typescript": "^3.7.0",
-    "url-dirname-normalizer": "1.3.0"
+    "jest": "^25.0.0",
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.0",
+    "url-dirname-normalizer": "^1.3.2"
+  },
+  "peerDependencies": {
+    "url-dirname-normalizer": "^1.3.2"
   },
   "engines": {
     "node": ">=10"

@@ -3,6 +3,12 @@ import * as path from 'path'
 import { ArchivatorConfiguration } from '..'
 
 describe('ArchivatorConfiguration', () => {
+  const configFile: string = path.resolve(
+    __dirname,
+    'sample-repo',
+    'archivator.json',
+  )
+
   let _oldEnv: typeof process.env
 
   beforeEach(() => {
@@ -15,12 +21,6 @@ describe('ArchivatorConfiguration', () => {
   })
 
   it('can load configuration using loadFromConfigurationFile', (done: jest.DoneCallback) => {
-    const configFile: string = path.resolve(
-      __dirname,
-      'sample-repo',
-      'archivator.json',
-    )
-
     expect(() => {
       ArchivatorConfiguration.loadFromConfigurationFile(configFile)
     }).not.toThrow()
@@ -29,11 +29,6 @@ describe('ArchivatorConfiguration', () => {
   })
 
   it('is possible to get enumeration of archives', (done: jest.DoneCallback) => {
-    const configFile: string = path.resolve(
-      __dirname,
-      'sample-repo',
-      'archivator.json',
-    )
     const subject = ArchivatorConfiguration.loadFromConfigurationFile(
       configFile,
     )
@@ -47,11 +42,6 @@ describe('ArchivatorConfiguration', () => {
   })
 
   it('is possible to get one archive by asking getArchiveByName', (done: jest.DoneCallback) => {
-    const configFile: string = path.resolve(
-      __dirname,
-      'sample-repo',
-      'archivator.json',
-    )
     const subject = ArchivatorConfiguration.loadFromConfigurationFile(
       configFile,
     )
@@ -62,18 +52,14 @@ describe('ArchivatorConfiguration', () => {
     done()
   })
 
-  it('is possible to get archive CSV lines by asking getArchiveIndex', (done: jest.DoneCallback) => {
-    const configFile: string = path.resolve(
-      __dirname,
-      'sample-repo',
-      'archivator.json',
-    )
+  it('is possible to get archive CSV lines by asking createIterable', (done: jest.DoneCallback) => {
     const subject = ArchivatorConfiguration.loadFromConfigurationFile(
       configFile,
     )
 
-    const archiveIndexLines = subject.getArchiveIndex('research-papers')
-    expect(archiveIndexLines).toMatchSnapshot()
+    const archiveIndexLines = subject.createIterable('research-papers')
+    const collection = [...archiveIndexLines]
+    expect(collection).toMatchSnapshot()
 
     done()
   })

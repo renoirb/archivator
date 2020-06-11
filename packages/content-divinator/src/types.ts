@@ -10,8 +10,6 @@ export type WordUsageMapType = Map<string, number>
 /**
  * Which Stop-Words collection are locally available in the project's
  * resources/stop-words folder.
- *
- * @public
  */
 export type AvailableStopWordResources = 'english'
 
@@ -54,7 +52,7 @@ export interface ContentDivinatorSetupFactoryType {
    * Typical "filler words" in english would be: a,if,He.
    * They're different for each language.
    */
-  stopWords: string[]
+  readonly stopWords: string[]
   /**
    * A list of Language-country tags.
    * They’re useful for helping consistently lowercasing text.
@@ -65,7 +63,7 @@ export interface ContentDivinatorSetupFactoryType {
    *
    * It will, among other use-cases, be used with {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase|String.prototype.toLocaleLowerCase}.
    */
-  locales: string[]
+  readonly locales: string[]
 }
 
 /**
@@ -78,28 +76,5 @@ export interface SummaryRecordType {
    * After being processed by the {@link extractors.summary|Summary Extractor},
    * what are the top most used words.
    */
-  keywords: string[]
+  readonly keywords: string[]
 }
-
-/**
- * Convert `Record<T, U>` into `Map<T, U>` utility.
- *
- * When we want to convert a Record hash-map into an ECMAScript2015 Map.
- *
- * @public
- */
-export type RecordToMapFactoryType<T = string | number, U = string | number> = (
-  input: Record<T, U>,
-) => Map<T, U>
-
-/**
- * Convert `Map<T, U>` to `Record<T, U>` utility.
- *
- * When we want to convert an ECMAScript2015 Map into a Record hash-map.
- *
- * @public
- */
-export type MapToRecordHashMapFactoryType<
-  T = string | number,
-  U = string | number
-> = (input: Map<T, U>) => Record<T, U>

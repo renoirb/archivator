@@ -1,23 +1,21 @@
-import { sorting } from '../sorting'
-import { RecordToMapFactoryType, MapToRecordHashMapFactoryType } from '../types'
+import { whenRecordValueIsNumberOrderByDescending } from '../sorting'
 
 /**
  * Convert `Record<string, number>` HashMap to `Map<string, number>`
  *
- * For sorting, refer to {@link sorting.whenRecordValueIsNumberOrderByDescending}
+ * For sorting, refer to {@link whenRecordValueIsNumberOrderByDescending}
  *
  * @package utils
  *
  * @param textHashMap - Unique "word" where each value is its usage count
  */
-export const convertRecordHashMapToMap: RecordToMapFactoryType<
-  string,
-  number
-> = textHashMap => {
+export const convertRecordHashMapToMap = (
+  textHashMap: Record<string, number>,
+): Map<string, number> => {
   const map = new Map<string, number>(Object.entries(textHashMap))
 
   const out = new Map<string, number>(
-    [...map.entries()].sort(sorting.whenRecordValueIsNumberOrderByDescending),
+    [...map.entries()].sort(whenRecordValueIsNumberOrderByDescending),
   )
 
   return out
@@ -31,15 +29,14 @@ export const convertRecordHashMapToMap: RecordToMapFactoryType<
  *
  * @param textHashMap - Unique "word" where each value is its usage count
  */
-export const convertMapToRecordHashMap: MapToRecordHashMapFactoryType<
-  string,
-  number
-> = textMap => {
-  const textHashMap: Record<string, number> = Object.create(null)
+export const convertMapToRecordHashMap = (
+  textMap: Map<string, number>,
+): Record<string, number> => {
+  const out: Record<string, number> = Object.create(null)
 
   for (let [key, value] of textMap.entries()) {
-    Object.assign(textHashMap, { [key]: value })
+    Object.assign(out, { [key]: value })
   }
 
-  return textHashMap
+  return out
 }

@@ -1,4 +1,4 @@
-import { toUrl } from '../url'
+import { toUrl } from 'url-dirname-normalizer'
 import { HashingFunctionType } from '../crypto'
 
 /**
@@ -47,7 +47,7 @@ export interface NormalizedAssetType {
   /**
    * Fully qualified filesystem path where to save asset.
    *
-   * Pretty much concatenation of `directoryNameNormalizer(sourceDocument)`
+   * Pretty much concatenation of `dirnameNormalizer(sourceDocument)`
    * and the value of NormalizedAssetType#reference.
    *
    * {@see NormalizedAssetDestType}

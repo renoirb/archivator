@@ -1,4 +1,4 @@
-import { normalizer } from '..'
+import { searchParams, toUrl, pathName } from '..'
 
 describe('pathName', () => {
   test('Happy-Path', () => {
@@ -7,7 +7,7 @@ describe('pathName', () => {
      * taking "/fOo/Bar/bAAz.html" into "/foo/bar/baaz"
      */
     const example = 'http://www.example.org/fOo/Bar/bAAz.html'
-    const subject = normalizer.pathName(example)
+    const subject = pathName(example)
     expect(subject).toBe('/foo/bar/baaz')
   })
 })
@@ -19,15 +19,14 @@ describe('searchParams', () => {
      * out of free-form 'http://example.org/foo?zulu=please&bar=bazz&buzz'
      */
     const example = 'http://example.org/foo?zulu=please&bar=bazz&buzz'
-    const subject = normalizer.searchParams(example)
-    console.log('searchParams', { example, subject })
+    const subject = searchParams(example)
     expect(subject).toBe('/bar/bazz/zulu/please')
   })
 })
 
 describe('toUrl', () => {
   test('Happy-Path', () => {
-    const subject = normalizer.toUrl('http://localhost/foo?bar&buzz=yes')
+    const subject = toUrl('http://localhost/foo?bar&buzz=yes')
     expect(subject).toMatchSnapshot()
     expect(subject).toHaveProperty('searchParams')
     expect(subject).toHaveProperty('host', 'localhost')
@@ -37,8 +36,6 @@ describe('toUrl', () => {
   })
 
   test('Exceptions', () => {
-    expect(() => normalizer.toUrl('ლ(́◉◞౪◟◉‵ლ)')).toThrow(
-      'Invalid URL: ლ(́◉◞౪◟◉‵ლ)',
-    )
+    expect(() => toUrl('ლ(́◉◞౪◟◉‵ლ)')).toThrow('Invalid URL: ლ(́◉◞౪◟◉‵ლ)')
   })
 })

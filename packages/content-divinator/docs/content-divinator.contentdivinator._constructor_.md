@@ -16,7 +16,7 @@ constructor(stopWords?: string[], locales?: string[]);
 
 ## Parameters
 
-| Parameter | Type                  | Description                                   |
-| --------- | --------------------- | --------------------------------------------- |
-| stopWords | <code>string[]</code> | Words that should be ignored                  |
-| locales   | <code>string[]</code> | Locales tags to support for toLocaleLowercase |
+| Parameter | Type       | Description                                   |
+| --------- | ---------- | --------------------------------------------- |
+| stopWords | string\[\] | Words that should be ignored                  |
+| locales   | string\[\] | Locales tags to support for toLocaleLowercase |

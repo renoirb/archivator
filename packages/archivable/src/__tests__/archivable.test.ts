@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 
-import { parseArchivableCsvLine, Archivable } from '..'
+import { Archivable } from '..'
 
 import { fixtures } from '.'
 
-describe('parseArchivableCsvLine() and Archivable#fromLine() error handling', () => {
+describe('Archivable error handling', () => {
   test.each(fixtures.loadArchiveCsvFixture())('%s', line => {
-    expect(() => parseArchivableCsvLine(line)).not.toThrow()
+    expect(() => Archivable.parseLine(line)).not.toThrow()
     expect(() => Archivable.fromLine(line)).not.toThrow()
   })
 
@@ -23,7 +23,7 @@ describe('parseArchivableCsvLine() and Archivable#fromLine() error handling', ()
   ])('%s', line => {
     // @ts-ignore
     // We do not validate CSS selectors, but we do validate the URLs.
-    expect(() => parseArchivableCsvLine(line)).toThrow()
+    expect(() => Archivable.parseLine(line)).toThrow()
     // @ts-ignore
     expect(() => Archivable.fromLine(line)).toThrow()
   })
@@ -33,7 +33,7 @@ describe('Archivable', () => {
   test('Idempotency', () => {
     const lines = fixtures.loadArchiveCsvFixture()
     for (const line of lines) {
-      const parsed = parseArchivableCsvLine(line)
+      const parsed = Archivable.parseLine(line)
       const subject = Archivable.fromLine(line)
       const objectified = Archivable.fromLine(line).toJSON()
       const newed = new Archivable(parsed[0], parsed[1], parsed[2])

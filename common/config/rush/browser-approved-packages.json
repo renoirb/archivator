@@ -7,12 +7,16 @@
       "allowedCategories": [ "apps" ]
     },
     {
-      "name": "@archivator/command-runner",
+      "name": "@archivator/content-divinator",
       "allowedCategories": [ "apps" ]
     },
     {
-      "name": "@archivator/content-divinator",
-      "allowedCategories": [ "apps" ]
+      "name": "@microsoft/api-documenter",
+      "allowedCategories": [ "packages" ]
+    },
+    {
+      "name": "@microsoft/api-extractor",
+      "allowedCategories": [ "packages" ]
     },
     {
       "name": "@microsoft/node-core-library",
@@ -21,6 +25,10 @@
     {
       "name": "@microsoft/node-library-build",
       "allowedCategories": [ "apps", "libraries", "packages" ]
+    },
+    {
+      "name": "@microsoft/rush-lib",
+      "allowedCategories": [ "libraries" ]
     },
     {
       "name": "@microsoft/rush-stack-compiler-3.7",
@@ -43,6 +51,10 @@
       "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
+      "name": "@renoirb/conventions-use-typescript-3",
+      "allowedCategories": [ "apps", "libraries", "packages" ]
+    },
+    {
       "name": "@renoirb/tools-bundling-helpers",
       "allowedCategories": [ "apps", "libraries", "packages" ]
     },
@@ -52,7 +64,15 @@
     },
     {
       "name": "@rushstack/node-core-library",
-      "allowedCategories": [ "apps", "packages" ]
+      "allowedCategories": [ "apps", "libraries", "packages" ]
+    },
+    {
+      "name": "@rushstack/stream-collator",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@rushstack/ts-command-line",
+      "allowedCategories": [ "libraries" ]
     },
     {
       "name": "bili",

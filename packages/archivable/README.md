@@ -63,17 +63,12 @@ NormalizedAsset contains:
 - `dest`: would be where we would archive the asset, it is basically `directoryNameNormalizer(sourceDocument) + reference`
 - `src`: is where we should attempt downloading the asset from
 
-````js
-import {
-  DocumentAssets,
-  NormalizedAsset,
-  createHashFunction,
-} from '@archivator/archivable'
+````ts
+import { DocumentAssets, NormalizedAsset } from '@archivator/archivable'
 
 // HTML Source document URL from where the asset is embedded
-// Ignore document origin if resource has full URL, protocol relative, non TLS
-const sourceDocument =
-  'http://blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path'
+// Notice the source might not be the same as where images are stored
+const sourceDocument = 'http://www1.example.net/articles/1'
 
 // Image tag src attribute value, e.g. `<img src="//example.org/a/b.png" />`
 // Notice we used protocol relative URL
@@ -92,97 +87,19 @@ const assetUrl = '//www.example.org/a/b/c.png'
  * }
  * ```
  *
- * @type {import('@archivator/archivable').NormalizedAsset}
+ * @type {import('@archivator/archivable').NormalizedAssetType}
  */
 const normalized = new NormalizedAsset(sourceDocument, assetUrl)
-
-/**
- * If you want more than one NormalizedAsset; Along with a dest and reference non null.
- * Leverage DocumentAssets instead.
- */
-const matches = [assetUrl]
-
-/**
- * To do this, pass all assets as an array of strings (like above)
- * Then, pass them to `DocumentAssets` as constructor arguments
- *
- * @type {Iterable<import('@archivator/archivable').NormalizedAssetType>}
- */
-const collection = new DocumentAssets(sourceDocument, matches)
-
-// And we can iterate over the collection
-for (const normalized of collection) {
-  /**
-   * `normalized` is an instance of `NormalizedAssetType`, and should look like this
-   *
-   * Notice "4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97" is sha1 of "http://www.example.org/a/b/c.png".
-   * It is configurable, see below.
-   *
-   * ```json
-   * {
-   *   "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
-   *   "match": "//www.example.org/a/b/c.png",
-   *   "reference": "4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
-   *   "src": "http://www.example.org/a/b/c.png",
-   * }
-   * ```
-   */
-  console.log(normalized)
-}
 ````
-
-If you want to change hashing function type, you can do by using `DocumentAssets.setReferenceHandler(HashingFunctionType, NormalizedAssetFileExtensionExtractorType)`
-
-```typescript
-// ... Continuing from example above
-import {
-  HashingFunctionType,
-  createHashFunction,
-  NormalizedAssetFileExtensionExtractorType,
-} from '@archivator/archivable'
-
-// One can set its own hash function
-// As long as the returned createHashFunction is of type `(msg: string) => string`
-const hasher: HashingFunctionType = createHashFunction('md5', 'hex')
-
-/**
- * One can set their own normalizer, as long as it of type `(file: string) => string`
- * When the output is either an empty string, or a file extension prefixed by a dot (e.g. `.png`)
- *
- * In the example below, in every case, the file extension would ALWAYS be ".foo".
- * Not really useful, instead use {@link assetFileExtensionNormalizer}.
- *
- * But we can later-on replace that function after validating the mime-type.
- */
-const extensionNormalizer: NormalizedAssetFileExtensionExtractorType = (
-  foo: string,
-): string => `.foo`
-
-collection.setReferenceHandler(
-  assetReferenceHandlerFactory(hasher, extensionNormalizer),
-)
-```
-
-The above example's md5 for 'http://www.example.org/a/b/c.png' would then be
-
-> 6a324cd1a0e4e480c4db3e0558360527
-
-Iterating over the same `collection` would look like this
-
-```json
-[
-  {
-    "dest": "blackhole.webpagetest.org/renoirb/archivator/test/normalizer/assets/ignore-path/6a324cd1a0e4e480c4db3e0558360527.png",
-    "match": "//example.org/a/b.png",
-    "reference": "6a324cd1a0e4e480c4db3e0558360527.png",
-    "src": "http://www.example.org/a/b/c.png"
-  }
-]
-```
 
 ### DocumentAssets
 
-When we have more than one asset to download, we might have a list of assets, and we want to get an iterable collection of NormalizedAsset
+When we have more than one asset to download, we might have a list of assets, we can use `DocumentAssets` _class_.
+
+Using it, we can iterate from it [because it implements `Iterable` the protocol][exploringjs--ch_sync-generators]
+and treat it as if it's an array of `NormalizedAsset` items.
+
+[exploringjs--ch_sync-generators]: https://exploringjs.com/impatient-js/ch_sync-generators.html '35 Synchronous generators (advanced)'
 
 ````js
 import { DocumentAssets } from '@archivator/archivable'
@@ -204,6 +121,7 @@ const matches = [
   '/wp-content/themes/renoirb/assets/img/zce_logo.jpg',
   // Case 5: Relative URL to the current source document
   '../../avatar.jpg',
+  '//www.example.org/a/b/c.png',
 ]
 
 /**
@@ -245,16 +163,90 @@ const matches = [
  *      "reference": "37fd63a34f42ed3b012b9baac82e97fbe9f9c067.jpg",
  *      "src": "http://renoirboulanger.com/avatar.jpg",
  *    },
+ *    {
+ *      "dest": "renoirboulanger.com/page/3/4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
+ *      "match": "//www.example.org/a/b/c.png",
+ *      "reference": "4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
+ *      "src": "http://www.example.org/a/b/c.png",
+ *    }
  * ]
  * ```
  *
  * @type {Iterable<import('@archivator/archivable').NormalizedAssetType>}
  */
-const collection = new DocumentAssets(sourceDocument, matches)
-for (const normalized of collection) {
+const assets = new DocumentAssets(sourceDocument, matches)
+for (const normalized of assets) {
   // It is a generator function, we can iterate normalized like an array.
   // If we were in an asychronous function, we'd be able to await each step.
   // In this example, we're simply using the return of assetCollectionNormalizer like we would with an array.
   console.log(normalized)
 }
 ````
+
+#### Change `reference` hashing format
+
+In the above example, the last item looks like this;
+
+```json
+{
+  "dest": "renoirboulanger.com/page/3/4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
+  "match": "//www.example.org/a/b/c.png",
+  "reference": "4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
+  "src": "http://www.example.org/a/b/c.png"
+}
+```
+
+The asset file "`4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png`" contains the SHA1 hash for "`//www.example.org/a/b/c.png`".
+
+Maybe you'd prefer a shorter file name, or use a different hashing function.
+
+You can change it by using `DocumentAssets.setReferenceHandler(hasherFn, normalizerFn)` method.
+
+The arguments are:
+
+`hasherFn`
+: Where you can provide your own hashing function. See [crypto.ts](https://github.com/renoirb/archivator/blob/v3.x-dev/packages/archivable/src/crypto.ts) if you're OK with [Node.js’ **Crypto** module](https://nodejs.org/api/crypto.html#crypto_crypto_createhash_algorithm_options)
+
+`normalizerFn`
+: A function with signature `(file: string) => string` where you can append the file extension, refer to [normalizer/asset.ts](https://github.com/renoirb/archivator/blob/v3.x-dev/packages/archivable/src/normalizer/asset.ts) at `assetFileExtensionNormalizer`.
+
+```ts
+// ... Continuing from example above
+import {
+  HashingFunctionType,
+  createHashFunction,
+  NormalizedAssetFileExtensionExtractorType,
+} from '@archivator/archivable'
+
+// One can set its own hash function
+// As long as the returned createHashFunction is of type `(msg: string) => string`
+const hashingHandler = createHashFunction('md5', 'hex')
+
+/**
+ * In the example below, in every case, the file extension would ALWAYS be ".foo".
+ * We could eventually use the file's mime-type, or the source's response headers. #TODO
+ */
+const extensionHandler: NormalizedAssetFileExtensionExtractorType = (
+  foo: string,
+): string => `.foo`
+
+collection.setReferenceHandler(
+  assetReferenceHandlerFactory(hashingHandler, extensionHandler),
+)
+```
+
+With the above configuration in place, for the item "`//www.example.org/a/b/c.png`",
+we'd have the md5 hash as `6a324cd1a0e4e480c4db3e0558360527` with `.foo`
+
+Which would then look like this;
+
+```json
+[
+  {
+    "dest": "renoirboulanger.com/page/3/6a324cd1a0e4e480c4db3e0558360527.foo",
+    "match": "//www.example.org/a/b/c.png",
+    "reference": "6a324cd1a0e4e480c4db3e0558360527.foo",
+    "src": "http://www.example.org/a/b/c.png"
+  }
+]
+```

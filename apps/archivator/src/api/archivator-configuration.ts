@@ -3,7 +3,10 @@ import * as fs from 'fs'
 import { join, dirname, resolve, extname } from 'path'
 import { trueCasePathSync } from 'true-case-path'
 
-import { ArchivableOrderedInputUrlTruncateTuplesFirstLine } from '@archivator/archivable'
+import {
+  ArchivableOrderedInputUrlTruncateTuplesFirstLine,
+  Archivable,
+} from '@archivator/archivable'
 
 import { archiveIndexLoader } from './archive-index-loader'
 import { ArchivatorConfigurationArchive } from './archivator-configuration-archive'
@@ -191,26 +194,38 @@ export class ArchivatorConfiguration {
   }
 
   /**
-   * Looks up a archive in the archivesByName map.
-   * If the archive is not found, then undefined is returned.
+   * Attempts loading archive, if found, returns
+   * an IterableIterator of Archivable objects.
+   *
+   * @generator
+   * @yields {Archivable} — An Archivable instance
    */
-  public getArchiveIndex(archiveName: string): ReadonlyArray<string> {
+  *createIterable(archiveName: string): IterableIterator<Archivable> {
     const { archiveFolder } = this.getArchiveByName(archiveName) || {}
     if (!archiveFolder) {
       const message = `No archivator archive found for name ${archiveName}`
       throw new Error(message)
     }
     const archiveIndexFolder = join(this.archivatorJsonFolder, archiveFolder)
-    const lines = archiveIndexLoader(archiveIndexFolder)
-
-    return lines
+    const items = archiveIndexLoader(archiveIndexFolder)
+    for (const line of items) {
+      try {
+        const archivable = Archivable.fromLine(line)
+        yield archivable
+      } catch (e) {
+        // Line is invalid, carry-on
+        continue
+      }
+    }
   }
 
   /**
    * In order to have an usable archivator archive, each archive directory
    * must have their own "archivator.csv" index file.
    */
-  static ensureValidArchiveFolder(archivatorArchiveFolder: string): void {
+  private static ensureValidArchiveFolder(
+    archivatorArchiveFolder: string,
+  ): void {
     if (!FileSystem.exists(archivatorArchiveFolder)) {
       console.log(`Creating folder: ${archivatorArchiveFolder}`)
       FileSystem.ensureFolder(archivatorArchiveFolder)

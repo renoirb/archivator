@@ -1,5 +1,5 @@
-import { FileSystem, JsonFile } from '@rushstack/node-core-library'
 import { resolve } from 'path'
+import { FileSystem, JsonFile } from '@rushstack/node-core-library'
 import {
   AvailableStopWordResources,
   ContentDivinatorSetupFactoryType,
