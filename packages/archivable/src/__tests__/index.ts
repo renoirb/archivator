@@ -38,7 +38,7 @@ const loadCsv = (fileName: string): ReadonlyArray<string> => {
     .split('\n')
     .filter(Boolean)
   // Make them all as TemplateStrings, because jest.each likes them
-  const out = Object.freeze(loaded.map(i => `${i}`)) as TemplateStringsArray
+  const out = Object.freeze(loaded.map((i) => `${i}`)) as TemplateStringsArray
 
   return out
 }

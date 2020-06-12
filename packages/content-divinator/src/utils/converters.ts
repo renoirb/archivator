@@ -34,7 +34,7 @@ export const convertMapToRecordHashMap = (
 ): Record<string, number> => {
   const out: Record<string, number> = Object.create(null)
 
-  for (let [key, value] of textMap.entries()) {
+  for (const [key, value] of textMap.entries()) {
     Object.assign(out, { [key]: value })
   }
 

@@ -1,9 +1,34 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-  "rushVersion": "5.23.2",
-  "pnpmVersion": "4.11.5",
+
+  "rushVersion": "5.24.4",
+  "pnpmVersion": "4.14.4",
+
   "pnpmOptions": {
-    "strictPeerDependencies": true
+    /**
+     * If true, then Rush will add the "--strict-peer-dependencies" option when invoking PNPM.
+     * This causes "rush install" to fail if there are unsatisfied peer dependencies, which is
+     * an invalid state that can cause build failures or incompatible dependency versions.
+     * (For historical reasons, JavaScript package managers generally do not treat this invalid
+     * state as an error.)
+     *
+     * The default value is false to avoid legacy compatibility issues.
+     * It is strongly recommended to set strictPeerDependencies=true.
+     */
+    "strictPeerDependencies": true,
+    /**
+     * Configures the strategy used to select versions during installation.
+     *
+     * This feature requires PNPM version 3.1 or newer.  It corresponds to the "--resolution-strategy" command-line
+     * option for PNPM.  Possible values are "fast" and "fewer-dependencies".  PNPM's default is "fast", but this may
+     * be incompatible with certain packages, for example the "@types" packages from DefinitelyTyped.  Rush's default
+     * is "fewer-dependencies", which causes PNPM to avoid installing a newer version if an already installed version
+     * can be reused; this is more similar to NPM's algorithm.
+     *
+     * After modifying this field, it's recommended to run "rush update --full" so that the package manager
+     * will recalculate all version selections.
+     */
+    // "resolutionStrategy": "fast",
   },
 
   /**
@@ -14,7 +39,7 @@
    * Specify a SemVer range to ensure developers use a Node.js version that is appropriate
    * for your repo.
    */
-  "nodeSupportedVersionRange": ">=10.13.0",
+  "nodeSupportedVersionRange": ">=10.13.0 <11.0.0 || >=12.13.0 <13.0.0 || >=14.0.0 <15.0.0",
 
   /**
    * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
@@ -89,10 +114,10 @@
      * or you could just have a single category called "default".
      */
     "reviewCategories": [
-      "apps", // Standalone package
-      "packages", // projects that ships as standalone
-      "libraries", // non-shipping projects that are part of the development
-      "prototypes" // experiments that should mostly be ignored by the review process
+      "apps",      // Standalone package
+      "libraries", // Non-Shipping projects that are part of the development
+      "packages",  // Projects that ships as standalone
+      "prototypes" // Experiments that should mostly be ignored by the review process
     ],
 
     /**
@@ -245,18 +270,63 @@
    * 3. It's useful to have a centralized inventory of all projects and their important metadata.
    */
   "projects": [
+    // {
+    //   /**
+    //    * The NPM package name of the project (must match package.json)
+    //    */
+    //   "packageName": "my-app",
+    //
+    //   /**
+    //    * The path to the project folder, relative to the rush.json config file.
+    //    */
+    //   "projectFolder": "apps/my-app",
+    //
+    //   /**
+    //    * An optional category for usage in the "browser-approved-packages.json"
+    //    * and "nonbrowser-approved-packages.json" files.  The value must be one of the
+    //    * strings from the "reviewCategories" defined above.
+    //    */
+    //   "reviewCategory": "production",
+    //
+    //   /**
+    //    * A list of local projects that appear as devDependencies for this project, but cannot be
+    //    * locally linked because it would create a cyclic dependency; instead, the last published
+    //    * version will be installed in the Common folder.
+    //    */
+    //   "cyclicDependencyProjects": [
+    //     // "my-toolchain"
+    //   ],
+    //
+    //   /**
+    //    * If true, then this project will be ignored by the "rush check" command.
+    //    * The default value is false.
+    //    */
+    //   // "skipRushCheck": false,
+    //
+    //   /**
+    //    * A flag indicating that changes to this project will be published to npm, which affects
+    //    * the Rush change and publish workflows. The default value is false.
+    //    * NOTE: "versionPolicyName" and "shouldPublish" are alternatives; you cannot specify them both.
+    //    */
+    //   // "shouldPublish": false,
+    //
+    //   /**
+    //    * An optional version policy associated with the project.  Version policies are defined
+    //    * in "version-policies.json" file.  See the "rush publish" documentation for more info.
+    //    * NOTE: "versionPolicyName" and "shouldPublish" are alternatives; you cannot specify them both.
+    //    */
+    //   // "versionPolicyName": ""
+    // },
+
+    // "apps" folder (alphabetical order)
     {
       "packageName": "archivator",
       "projectFolder": "apps/archivator",
       "reviewCategory": "apps",
       "shouldPublish": false
     },
-    {
-      "packageName": "url-dirname-normalizer",
-      "projectFolder": "packages/url-dirname-normalizer",
-      "reviewCategory": "packages",
-      "shouldPublish": true
-    },
+
+    // "packages" folder (alphabetical order)
     {
       "packageName": "@archivator/archivable",
       "projectFolder": "packages/archivable",
@@ -269,5 +339,12 @@
       "reviewCategory": "packages",
       "shouldPublish": true
     },
+    {
+      "packageName": "url-dirname-normalizer",
+      "projectFolder": "packages/url-dirname-normalizer",
+      "reviewCategory": "packages",
+      "shouldPublish": true
+    },
+
   ]
 }

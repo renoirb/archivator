@@ -1,8 +1,6 @@
 export { ArchivatorConfiguration } from './archivator-configuration'
 
-export {
-  ArchivatorConfigurationArchive,
-} from './archivator-configuration-archive'
+export { ArchivatorConfigurationArchive } from './archivator-configuration-archive'
 
 export {
   ArchivatorConfigurationArchiveJson,

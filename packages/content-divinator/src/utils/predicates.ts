@@ -15,10 +15,10 @@ import { WordNormalizerType, NonStopWordIsserType } from '../types'
  */
 export const wordNormalizer = (
   locales?: string | string[],
-): WordNormalizerType => word =>
+): WordNormalizerType => (word) =>
   word && typeof word === 'string'
     ? word.replace(/[^\w]/g, '').toLocaleLowerCase(locales)
-    : void 0
+    : undefined
 
 /**
  * Utility method to shave off words with no meaning.
@@ -35,5 +35,5 @@ export const nonStopWordIsser = (
    */
   const stopWordsSet = new Set([...stopWords])
 
-  return word => stopWordsSet.has(word) === false
+  return (word) => stopWordsSet.has(word) === false
 }

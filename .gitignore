@@ -53,12 +53,23 @@ jspm_packages/
 # Common toolchain intermediate files
 temp
 
-# Rush files
-common/temp/**
-package-deps.json
-
 # OS X
 .DS_Store
+
+# Rush files
+common/deploy/
+common/temp/
+common/autoinstallers/*/.npmrc
+**/.rush/temp/
+
+# Common toolchain intermediate files
+temp
+lib
+lib-amd
+lib-es6
+dist
+*.scss.ts
+*.sass.ts
 
 # Build cache
 .rpt2_cache/
@@ -70,3 +81,5 @@ dist/
 # Demo
 public/dist/
 
+# Remove eventually
+package-deps.json

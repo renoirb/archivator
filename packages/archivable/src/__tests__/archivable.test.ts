@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
+/* eslint-env jest */
 
 import { Archivable } from '..'
 
 import { fixtures } from '.'
 
 describe('Archivable error handling', () => {
-  test.each(fixtures.loadArchiveCsvFixture())('%s', line => {
+  test.each(fixtures.loadArchiveCsvFixture())('%s', (line) => {
     expect(() => Archivable.parseLine(line)).not.toThrow()
     expect(() => Archivable.fromLine(line)).not.toThrow()
   })
@@ -20,7 +20,7 @@ describe('Archivable error handling', () => {
     [],
     () => ({}),
     Number.POSITIVE_INFINITY,
-  ])('%s', line => {
+  ])('%s', (line) => {
     // @ts-ignore
     // We do not validate CSS selectors, but we do validate the URLs.
     expect(() => Archivable.parseLine(line)).toThrow()

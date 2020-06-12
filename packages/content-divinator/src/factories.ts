@@ -61,10 +61,7 @@ export const _createContentDivinatorSetup = (
 ): ContentDivinatorSetupFactoryType => {
   const locales = _loadJson<ReadonlyArray<string>>(predefined, 'locales.json')
   const textFile = _loadText(predefined, 'common.txt')
-  const stopWords = textFile
-    .split('\n')
-    .filter(Boolean)
-    .sort()
+  const stopWords = textFile.split('\n').filter(Boolean).sort()
 
   const out: ContentDivinatorSetupFactoryType = {
     locales: [...locales, ...moarLocales],

@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 import { searchParams, toUrl, pathName } from '..'
 
 describe('pathName', () => {

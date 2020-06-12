@@ -270,7 +270,7 @@ export class ArchivatorConfiguration {
         ArchivatorConstants.archiveIndexFilename,
       ]
       const knownSet: Set<string> = new Set<string>(
-        knownAcceptableFiles.map(x => x.toUpperCase()),
+        knownAcceptableFiles.map((x) => x.toUpperCase()),
       )
       if (!knownSet.has(filename.toUpperCase())) {
         throw new Error(

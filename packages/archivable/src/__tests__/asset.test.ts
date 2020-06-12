@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
+/* eslint-env jest */
 
 import {
   createHashFunction,
@@ -122,7 +122,7 @@ describe('NormalizedAsset', () => {
 
   const resourceUrl = 'http://www.example.org/a/b/c.png'
   // @ts-ignore
-  test.skip.each(getHashes())(`${resourceUrl} hashed in %s`, hash => {
+  test.skip.each(getHashes())(`${resourceUrl} hashed in %s`, (hash) => {
     const hashed = createHashFunction(hash, 'hex')(resourceUrl)
     // expect(hashed).toMatchSnapshot()
     console.log('getHashes run', { resourceUrl, hash, hashed })

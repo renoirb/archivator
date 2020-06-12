@@ -87,6 +87,10 @@
       "allowedCategories": [ "apps", "libraries" ]
     },
     {
+      "name": "core-js",
+      "allowedCategories": [ "apps", "packages" ]
+    },
+    {
       "name": "eslint",
       "allowedCategories": [ "apps", "libraries", "packages" ]
     },
@@ -101,6 +105,10 @@
     {
       "name": "true-case-path",
       "allowedCategories": [ "apps" ]
+    },
+    {
+      "name": "ts-jest",
+      "allowedCategories": [ "apps", "packages" ]
     },
     {
       "name": "tslib",

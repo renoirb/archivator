@@ -1,6 +1,11 @@
-import { Config } from 'bili'
-import bili from '@renoirb/conventions-use-bili'
+import useBili from '@renoirb/conventions-use-bili'
 
-const config: Config = bili('src/index.ts')(process.env)
+const main = useBili(
+  {
+    input: 'src/index.ts',
+    bundleNodeModules: true,
+  },
+  { firstYear: 2003 },
+)
 
-export default config
+export default main

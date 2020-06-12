@@ -12,5 +12,6 @@
     * to temporarily restore the old behavior where everything must be rebuilt whenever pnpm-lock.json
     * is modified.
     */
-  // "legacyIncrementalBuildDependencyDetection": true
+  // "legacyIncrementalBuildDependencyDetection": true,
+  "usePnpmFrozenLockfileForRushInstall": true,
 }

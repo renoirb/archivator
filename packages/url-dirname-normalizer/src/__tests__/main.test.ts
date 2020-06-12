@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
+/* eslint-env jest */
+
 import { fixtures } from '.'
 import { dirnameNormalizer } from '..'
 

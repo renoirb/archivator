@@ -154,7 +154,7 @@ export const assetUrlNormalizer = (
       // e.g. '/a/c.html' => [ '', 'a', 'c.html' ]
       const targetAssetPathnameArray = sourceDocumentUrl.pathname
         .split('/')
-        .filter(n => n)
+        .filter((n) => n)
       targetAssetPathnameArray.pop() // Strip off file and extension member
       targetGiven += targetAssetPathnameArray.join('/')
       if (endWithOneSlashRegEx.test(targetGiven) === false) {
@@ -251,7 +251,7 @@ export const assetUrlNormalizer = (
     const tempTargetGivenUrlObj = toUrl(targetGiven)
     const targetGivenPathname = tempTargetGivenUrlObj.pathname
       .split('/')
-      .filter(n => n)
+      .filter((n) => n)
     const isTargetAssetGoUpOverflow =
       Array.isArray(goUp) && targetGivenPathname.length < goUp.length
     let sliceUntilHowMany = Array.isArray(goUp)
@@ -274,7 +274,7 @@ export const assetUrlNormalizer = (
       sliceUntilHowMany,
     )
     const targetAssetArray = newTargetGivenPathname.concat(
-      targetAsset.split('/').filter(n => n !== '..'),
+      targetAsset.split('/').filter((n) => n !== '..'),
     )
     // console.log([
     //   { sourceDocument, targetGiven },
@@ -338,7 +338,9 @@ export type NormalizedAssetFileExtensionExtractorType = (
  * @public
  * {@link NormalizedAssetFileExtensionExtractorType}
  */
-export const assetFileExtensionNormalizer: NormalizedAssetFileExtensionExtractorType = assetUrl => {
+export const assetFileExtensionNormalizer: NormalizedAssetFileExtensionExtractorType = (
+  assetUrl,
+) => {
   const url = toUrl(assetUrl)
   // svg, png, jpg, webm
   let extension = ''

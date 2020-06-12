@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
+/* eslint-env jest */
 
 import { ContentDivinator } from '..'
 import { summary } from '../extractors'

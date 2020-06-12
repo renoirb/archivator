@@ -2,13 +2,13 @@ import * as path from 'path'
 
 import { ArchivatorConfiguration } from '..'
 
-describe('ArchivatorConfiguration', () => {
-  const configFile: string = path.resolve(
-    __dirname,
-    'sample-repo',
-    'archivator.json',
-  )
+const configFile: string = path.resolve(
+  __dirname,
+  'sample-repo',
+  'archivator.json',
+)
 
+describe('ArchivatorConfiguration', () => {
   let _oldEnv: typeof process.env
 
   beforeEach(() => {

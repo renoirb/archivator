@@ -15,16 +15,13 @@ export const searchParams = (url: string): string => {
   // Notice input order is b,a,c and is sorted to be a,b,c
   // ?b=2&a=1&c=  -> [a=1, b=2, c=]
   // ?a=1&c=&b=2  -> [a=1, b=2, c=]
-  const search = String(urlObj.search)
-    .replace(/^\?/, '')
-    .split('&')
-    .sort()
+  const search = String(urlObj.search).replace(/^\?/, '').split('&').sort()
   // Filter out empty elements
   // ?b=2&a=1&c=  -> [a=1, b=2]
   // ?b=2&a=1&c   -> [a=1, b=2]
-  let pairs = search.map(e => e.split('='))
-  pairs = pairs.filter(e => Boolean(e[1]))
-  const flattened = pairs.map(e => e.join('/'))
+  let pairs = search.map((e) => e.split('='))
+  pairs = pairs.filter((e) => Boolean(e[1]))
+  const flattened = pairs.map((e) => e.join('/'))
   const out = String('/' + flattened.join('/')).replace(/pageI?d?/i, 'page')
   return /^\/$/.test(out) ? '' : out
 }
