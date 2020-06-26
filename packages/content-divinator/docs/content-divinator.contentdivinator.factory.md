@@ -14,11 +14,11 @@ static factory(predefined: AvailableStopWordResources, locales?: string[]): Cont
 
 ## Parameters
 
-| Parameter  | Type                       | Description                                          |
-| ---------- | -------------------------- | ---------------------------------------------------- |
-| predefined | AvailableStopWordResources | Load a locally available stop-word library, refer to |
-| locales    | string\[\]                 | Add more locale tags, if needed                      |
+| Parameter  | Type                       | Description                                                                                                   |
+| ---------- | -------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| predefined | AvailableStopWordResources | Load a locally available stop-word library, refer to <code>AvailableStopWordResources</code> (e.g. 'english') |
+| locales    | string\[\]                 | Add more locale tags, if needed                                                                               |
 
 <b>Returns:</b>
 
-[ContentDivinator](./content-divinator.contentdivinator.md)
+ContentDivinator

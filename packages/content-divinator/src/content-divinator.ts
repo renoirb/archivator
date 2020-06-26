@@ -49,7 +49,7 @@ export class ContentDivinator {
   /**
    * Create a preconfigured ContentDivinator based on statically stored files.
    *
-   * @param predefined - Load a locally available stop-word library, refer to {@link AvailableStopWordResources}
+   * @param predefined - Load a locally available stop-word library, refer to `AvailableStopWordResources` (e.g. 'english')
    * @param locales - Add more locale tags, if needed
    */
   static factory(

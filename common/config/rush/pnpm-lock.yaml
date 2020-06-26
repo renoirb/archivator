@@ -10818,7 +10818,7 @@ packages:
     peerDependencies:
       jest: '*'
     resolution:
-      integrity: sha512-Emu2kD1iK3seFRrTKF6QkeCcp7b14rKfbOAdCIayD1Q3Biqp09RTURomGOhbFGHEOcPGuIBSauEWUJRvEE2CaA==
+      integrity: sha512-RCZofQ7ElcQfa8S5E3ImJaYsiHGr2UHhFl+xl3wjtC0SBDA/U0aMHqyrHHtJWRX9I7NS81SRyWFoE8QhzuURmg==
       tarball: 'file:projects/content-divinator.tgz'
     version: 0.0.0
   'file:projects/url-dirname-normalizer.tgz':
@@ -10856,8 +10856,8 @@ specifiers:
   '@babel/preset-env': ^7.10.0
   '@babel/preset-typescript': ^7.10.0
   '@babel/runtime-corejs3': ^7.10.0
-  '@microsoft/api-documenter': ^7.8.0
-  '@microsoft/api-extractor': ^7.8.0
+  '@microsoft/api-documenter': ^7.8.17
+  '@microsoft/api-extractor': ^7.8.15
   '@microsoft/node-library-build': ^6.4.0
   '@renoirb/conventions-use-bili': ^1.1.0-dev
   '@renoirb/conventions-use-eslint': ^1.1.0-dev

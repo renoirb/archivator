@@ -10,6 +10,7 @@ export type WordUsageMapType = Map<string, number>
 /**
  * Which Stop-Words collection are locally available in the project's
  * resources/stop-words folder.
+ * @internal
  */
 export type AvailableStopWordResources = 'english'
 

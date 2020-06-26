@@ -44,10 +44,11 @@
     "test:snapshots": "use-cross-env use-jest --detectOpenHandles -u"
   },
   "devDependencies": {
-    "@babel/runtime-corejs3": "^7.10.0",
     "@babel/core": "^7.10.0",
     "@babel/plugin-transform-runtime": "^7.10.0",
     "@babel/preset-env": "^7.10.0",
+    "@babel/preset-typescript": "^7.10.0",
+    "@babel/runtime-corejs3": "^7.10.0",
     "@microsoft/node-library-build": "^6.4.0",
     "@renoirb/conventions-use-bili": "^1.1.0-dev",
     "@renoirb/conventions-use-eslint": "^1.1.0-dev",
@@ -55,12 +56,11 @@
     "@renoirb/conventions-use-prettier": "^1.1.0-dev",
     "@renoirb/conventions-use-typescript-3": "^1.1.0-dev",
     "@renoirb/tools-bundling-helpers": "^1.1.0-dev",
-    "@babel/preset-typescript": "^7.10.0",
     "@rushstack/node-core-library": "^3.24.1",
     "@types/jest": "^26.0.0",
     "@types/node": "^10.17.13",
-    "jest": "^25.5.0",
     "core-js": "^3.1.4",
+    "jest": "^25.5.0",
     "ts-jest": "^25.5.0",
     "tslib": "^2.0.0",
     "typescript": "^3.9.0"

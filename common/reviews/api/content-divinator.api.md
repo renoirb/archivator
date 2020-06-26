@@ -9,7 +9,8 @@ class ContentDivinator {
     constructor(stopWords?: string[], locales?: string[]);
     // Warning: (ae-forgotten-export) The symbol "AvailableStopWordResources" needs to be exported by the entry point index.d.ts
     static factory(predefined: AvailableStopWordResources, locales?: string[]): ContentDivinator;
-    words(text: string): WordUsageMapType;
+    // Warning: (ae-forgotten-export) The symbol "WordUsageMapType" needs to be exported by the entry point index.d.ts
+    words(text: string): WordUsageMapType_2;
 }
 
 export { ContentDivinator }

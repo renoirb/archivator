@@ -13,7 +13,7 @@ Methods should return immutable copies of the instance’s configuration.
 <b>Signature:</b>
 
 ```typescript
-export declare class ContentDivinator
+declare class ContentDivinator
 ```
 
 ## Constructors
