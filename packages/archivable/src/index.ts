@@ -1,13 +1,14 @@
 export * from './archivable'
 
-import {
-  assetFileExtensionNormalizer,
+import type {
   NormalizedAssetDestType,
   NormalizedAssetFileExtensionExtractorType,
   NormalizedAssetReferenceHandlerFactoryType,
   NormalizedAssetReferenceType,
   NormalizedAssetType,
 } from './normalizer'
+
+import { assetFileExtensionNormalizer } from './normalizer'
 
 import {
   assetReferenceHandlerFactory,
@@ -17,24 +18,28 @@ import {
   NormalizedAsset,
 } from './asset'
 
-import {
-  createHashFunction,
+import type {
   CryptoCommonHashingFunctions,
   HashingFunctionType,
   HexBase64Latin1Encoding,
 } from './crypto'
+
+import { createHashFunction } from './crypto'
 
 export {
   assetFileExtensionNormalizer,
   assetReferenceHandlerFactory,
   createHashFunction,
   createNormalizedAssetReferenceMap,
-  CryptoCommonHashingFunctions,
-  DocumentAssets,
   extractNormalizedAssetDest,
+  NormalizedAsset,
+  DocumentAssets,
+}
+
+export type {
+  CryptoCommonHashingFunctions,
   HashingFunctionType,
   HexBase64Latin1Encoding,
-  NormalizedAsset,
   NormalizedAssetDestType,
   NormalizedAssetFileExtensionExtractorType,
   NormalizedAssetReferenceHandlerFactoryType,

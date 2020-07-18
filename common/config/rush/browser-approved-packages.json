@@ -95,6 +95,10 @@
       "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
+      "name": "esm",
+      "allowedCategories": [ "apps", "packages" ]
+    },
+    {
       "name": "gulp",
       "allowedCategories": [ "apps", "libraries", "packages" ]
     },

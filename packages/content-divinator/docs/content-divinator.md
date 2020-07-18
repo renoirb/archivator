@@ -12,9 +12,9 @@
 
 ## Interfaces
 
-| Interface                                                     | Description                                                          |
-| ------------------------------------------------------------- | -------------------------------------------------------------------- |
-| [SummaryRecordType](./content-divinator.summaryrecordtype.md) | What are the sorted words and the top keywords found after analysis. |
+| Interface                                                       | Description                                                          |
+| --------------------------------------------------------------- | -------------------------------------------------------------------- |
+| [ISummaryRecordType](./content-divinator.isummaryrecordtype.md) | What are the sorted words and the top keywords found after analysis. |
 
 ## Type Aliases
 

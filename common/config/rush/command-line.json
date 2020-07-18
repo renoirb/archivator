@@ -169,6 +169,13 @@
       "enableParallelism": true,
       "ignoreMissingScript": true
     },
+    {
+      "commandKind": "global",
+      "name": "sort-package-json",
+      "summary": "Runs sort-package-json on ALL monorepo package.json for each project.",
+      "description": "In order to keep predictable package.json files, we run sort-package-json for each package managed in this monorepo.",
+      "shellCommand": "common/temp/node_modules/.bin/use-sort-package-json '{apps,packages}/*/package.json'"
+    },
   ],
 
   /**

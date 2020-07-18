@@ -1,4 +1,4 @@
-import { WordNormalizerType, NonStopWordIsserType } from '../types'
+import type { WordNormalizerType, NonStopWordIsserType } from '../types'
 
 /**
  * Remove any non alpha numeric items.

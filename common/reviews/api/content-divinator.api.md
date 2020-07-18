@@ -9,29 +9,20 @@ class ContentDivinator {
     constructor(stopWords?: string[], locales?: string[]);
     // Warning: (ae-forgotten-export) The symbol "AvailableStopWordResources" needs to be exported by the entry point index.d.ts
     static factory(predefined: AvailableStopWordResources, locales?: string[]): ContentDivinator;
-    // Warning: (ae-forgotten-export) The symbol "WordUsageMapType" needs to be exported by the entry point index.d.ts
-    words(text: string): WordUsageMapType_2;
+    words(text: string): WordUsageMapType;
 }
 
 export { ContentDivinator }
 
 export default ContentDivinator;
 
-// Warning: (ae-internal-missing-underscore) The name "ContentDivinatorSetupFactoryType" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
-export interface ContentDivinatorSetupFactoryType {
-    readonly locales: string[];
-    readonly stopWords: string[];
+// @public
+export interface ISummaryRecordType {
+    readonly keywords: string[];
 }
 
 // @public
 export type NonStopWordIsserType = (word: string) => boolean;
-
-// @public
-export interface SummaryRecordType {
-    readonly keywords: string[];
-}
 
 // @public
 export type WordNormalizerType = (word: any) => string | void;

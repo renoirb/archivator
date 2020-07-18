@@ -5,14 +5,14 @@ import {
   getHashes,
   CryptoCommonHashingFunctions,
 } from '../crypto'
+import { assetFileExtensionNormalizer } from '../normalizer'
 import {
   assetReferenceHandlerFactory,
   createNormalizedAssetReferenceMap,
   DocumentAssets,
   extractNormalizedAssetDest,
-  assetFileExtensionNormalizer,
   NormalizedAsset,
-} from '..'
+} from '../asset'
 
 import { fixtures } from '.'
 

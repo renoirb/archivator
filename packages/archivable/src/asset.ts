@@ -1,4 +1,4 @@
-import dirnameNormalizer from 'url-dirname-normalizer'
+import { dirnameNormalizer } from 'url-dirname-normalizer'
 
 import {
   assetUrlNormalizer,

@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-import { Archivable } from '..'
+import { Archivable } from '../archivable'
 
 import { fixtures } from '.'
 

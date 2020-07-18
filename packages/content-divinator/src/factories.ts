@@ -1,8 +1,8 @@
 import { resolve } from 'path'
 import { FileSystem, JsonFile } from '@rushstack/node-core-library'
-import {
+import type {
   AvailableStopWordResources,
-  ContentDivinatorSetupFactoryType,
+  IContentDivinatorSetupFactoryType,
 } from './types'
 
 /**
@@ -58,12 +58,12 @@ export const _loadText = (name: string, fileName: string): string => {
 export const _createContentDivinatorSetup = (
   predefined: AvailableStopWordResources,
   moarLocales: string[] = [],
-): ContentDivinatorSetupFactoryType => {
+): IContentDivinatorSetupFactoryType => {
   const locales = _loadJson<ReadonlyArray<string>>(predefined, 'locales.json')
   const textFile = _loadText(predefined, 'common.txt')
   const stopWords = textFile.split('\n').filter(Boolean).sort()
 
-  const out: ContentDivinatorSetupFactoryType = {
+  const out: IContentDivinatorSetupFactoryType = {
     locales: [...locales, ...moarLocales],
     stopWords,
   }

@@ -1,10 +1,9 @@
-export {
+export type {
   WordUsageMapType,
   WordsType,
   NonStopWordIsserType,
   WordNormalizerType,
-  ContentDivinatorSetupFactoryType,
-  SummaryRecordType,
+  ISummaryRecordType,
 } from './types'
 
 import { ContentDivinator } from './content-divinator'

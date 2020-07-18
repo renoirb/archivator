@@ -1,15 +1,5 @@
 {
   "extends": "./node_modules/@renoirb/conventions-use-typescript-3/includes/tsconfig.json",
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "importHelpers": true,
-    "newLine": "lf",
-    "module": "ES2015",
-    "target": "ES2017",
-    "types": ["jest", "node", "@rushstack/node-core-library"]
-  },
-  "include": ["src"],
-  "exclude": ["src/__tests__"]
+  "compilerOptions": {},
+  "include": ["src"]
 }

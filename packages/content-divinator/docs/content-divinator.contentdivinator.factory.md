@@ -21,4 +21,4 @@ static factory(predefined: AvailableStopWordResources, locales?: string[]): Cont
 
 <b>Returns:</b>
 
-ContentDivinator
+[ContentDivinator](./content-divinator.contentdivinator.md)

@@ -45,7 +45,7 @@ export type WordNormalizerType = (word: any) => string | void
  *
  * @internal
  */
-export interface ContentDivinatorSetupFactoryType {
+export interface IContentDivinatorSetupFactoryType {
   /**
    *  Stop-Words are words that carry no meaning in the context of
    * trying to figure out a web page's textual content.
@@ -72,9 +72,9 @@ export interface ContentDivinatorSetupFactoryType {
  *
  * @public
  */
-export interface SummaryRecordType {
+export interface ISummaryRecordType {
   /**
-   * After being processed by the {@link extractors.summary|Summary Extractor},
+   * After being processed by the summary extractor,
    * what are the top most used words.
    */
   readonly keywords: string[]

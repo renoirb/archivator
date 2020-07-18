@@ -1,4 +1,4 @@
-import { SummaryRecordType, WordUsageMapType } from '../types'
+import type { ISummaryRecordType, WordUsageMapType } from '../types'
 
 /**
  * Summarizing content.
@@ -28,7 +28,7 @@ export const summary = (
   wordsMap: WordUsageMapType,
   floor: number = 3,
   max: number = 10,
-): SummaryRecordType => {
+): ISummaryRecordType => {
   const zeroIndexSafeFloor = Number.isInteger(+floor) && +floor > 0 ? floor : 1
   const keywords: string[] = []
   let iter = 0
@@ -40,7 +40,7 @@ export const summary = (
     iter++
   }
 
-  const out: SummaryRecordType = { keywords }
+  const out: ISummaryRecordType = { keywords }
 
   return out
 }

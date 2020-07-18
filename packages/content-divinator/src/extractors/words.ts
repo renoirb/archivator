@@ -3,7 +3,7 @@ import {
   nonStopWordIsser,
   convertRecordHashMapToMap,
 } from '../utils'
-import { WordUsageMapType } from '../types'
+import type { WordUsageMapType } from '../types'
 
 /**
  * Extract words and calculate usage frequency.

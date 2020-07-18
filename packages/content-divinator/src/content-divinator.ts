@@ -1,6 +1,6 @@
 import { words } from './extractors'
 import { _createContentDivinatorSetup } from './factories'
-import { WordUsageMapType, AvailableStopWordResources } from './types'
+import type { WordUsageMapType, AvailableStopWordResources } from './types'
 
 /**
  * Attempt at guessing stuff, summarize content, based on raw text.
@@ -14,8 +14,8 @@ import { WordUsageMapType, AvailableStopWordResources } from './types'
  * @public
  */
 export class ContentDivinator {
-  private readonly stopWords: ReadonlyArray<string>
-  private readonly locales: ReadonlyArray<string>
+  private readonly _stopWords: ReadonlyArray<string>
+  private readonly _locales: ReadonlyArray<string>
 
   /**
    * Create a ContentDivinator instance.
@@ -29,8 +29,8 @@ export class ContentDivinator {
     stopWords: string[] = [],
     locales: string[] = ['en-CA', 'fr-CA'],
   ) {
-    this.stopWords = Object.freeze(stopWords)
-    this.locales = Object.freeze(locales)
+    this._stopWords = Object.freeze(stopWords)
+    this._locales = Object.freeze(locales)
   }
 
   /**
@@ -41,8 +41,8 @@ export class ContentDivinator {
    * @param body - Contents to process, only text.
    */
   words(text: string): WordUsageMapType {
-    const stopWords = [...this.stopWords]
-    const locales = [...this.locales]
+    const stopWords = [...this._stopWords]
+    const locales = [...this._locales]
     return words(text, stopWords, locales)
   }
 

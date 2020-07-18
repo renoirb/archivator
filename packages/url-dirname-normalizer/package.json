@@ -20,13 +20,14 @@
     "name": "Renoir Boulanger",
     "email": "contribs@renoirboulanger.com"
   },
+  "type": "module",
   "exports": {
-    "import": "dist/index.mjs",
-    "require": "dist/index.js"
+    "import": "./dist/index.mjs",
+    "require": "./main.cjs"
   },
-  "main": "dist/index.js",
+  "main": "main.cjs",
   "module": "dist/index.mjs",
-  "typings": "dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "resources",
@@ -34,14 +35,16 @@
   ],
   "scripts": {
     "build": "use-cross-env use-run-all clean build:*",
-    "build:node": "use-bili -c bili.config.ts --format cjs --file-name index.js",
-    "build:node-esm": "use-bili -c bili.config.ts --format esm --file-name index.mjs",
-    "clean": "use-rimraf .rpt2_cache dist *.*.log",
+    "build:node-esm": "use-cross-env BROWSERSLIST='maintained node versions' use-bili -c bili.config.ts --format esm --file-name index.mjs",
+    "clean": "use-cross-env use-rimraf .rpt2_cache dist *.*.log",
     "fix": "use-cross-env use-prettier --write  '**/*.{ts,json,md}'",
     "lint": "use-cross-env use-eslint --fix 'src/**/*.ts'",
     "prepublishOnly": "rushx build",
     "test": "use-cross-env use-jest --detectOpenHandles",
     "test:snapshots": "use-cross-env use-jest --detectOpenHandles -u"
+  },
+  "dependencies": {
+    "esm": "^3.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.0",
@@ -50,16 +53,16 @@
     "@babel/preset-typescript": "^7.10.0",
     "@babel/runtime-corejs3": "^7.10.0",
     "@microsoft/node-library-build": "^6.4.0",
-    "@renoirb/conventions-use-bili": "^1.1.0-dev",
-    "@renoirb/conventions-use-eslint": "^1.1.0-dev",
-    "@renoirb/conventions-use-jest": "^1.1.0-dev",
-    "@renoirb/conventions-use-prettier": "^1.1.0-dev",
-    "@renoirb/conventions-use-typescript-3": "^1.1.0-dev",
-    "@renoirb/tools-bundling-helpers": "^1.1.0-dev",
-    "@rushstack/node-core-library": "^3.24.1",
+    "@renoirb/conventions-use-bili": "^1.1.1",
+    "@renoirb/conventions-use-eslint": "^1.1.1",
+    "@renoirb/conventions-use-jest": "^1.1.1",
+    "@renoirb/conventions-use-prettier": "^1.1.1",
+    "@renoirb/conventions-use-typescript-3": "^1.1.1",
+    "@renoirb/tools-bundling-helpers": "^1.1.1",
+    "@rushstack/node-core-library": "^3.25.0",
     "@types/jest": "^26.0.0",
     "@types/node": "^10.17.13",
-    "core-js": "^3.1.4",
+    "core-js": "^3.6.0",
     "jest": "^25.5.0",
     "ts-jest": "^25.5.0",
     "tslib": "^2.0.0",
