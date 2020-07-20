@@ -1,102 +1,11 @@
 import { toUrl } from 'url-dirname-normalizer'
 
-/**
- * Given every row in source file .csv
- *
- * ```csv
- * http://example.org/a/b.html;selector;truncate
- * ```
- *
- * 1. First item is a fully qualified source document URL (i.e. a Web Page's address)
- * 2. _selector_, A CSS selector where the main content is
- * 3. _truncate_, A list of CSS selectors to strip off (e.g. ads, orthogonal content)
- *
- * This is the shape of data input we can use for iteration.
- *
- * @public
- *
- * {@link parseArchivableCsvLine}
- * {@link ArchivableOrderedInputUrlTruncateTuplesFirstLine}
- */
-export type ArchivableOrderedInputUrlTruncateTuplesType = [
-  string,
-  string,
-  string,
-]
+import { parseArchivableCsvLine } from './parse-csv-line'
 
-/**
- * The first line of the archive index CSV file
- *
- * 1. First item is a fully qualified source document URL (i.e. a Web Page's address)
- * 2. _selector_, A CSS selector where the main content is
- * 3. _truncate_, A list of CSS selectors to strip off (e.g. ads, orthogonal content)
- *
- * This is the shape of data input we can use for iteration.
- *
- * {@link parseArchivableCsvLine}
- */
-export const ArchivableOrderedInputUrlTruncateTuplesFirstLine =
-  '"Web Page URL";"CSS Selectors for main content";"CSS Selectors to strip content off"'
-
-/**
- * An Archivable Entity.
- *
- * For a given source document URL, where to extract the main content ("selector"),
- * and what parts of the page aren't relevant to an archive ("truncate").
- *
- * @public
- * @author Renoir Boulanger <contribs@renoirboulanger.com>
- */
-export interface ArchivableType {
-  /**
-   * Based on the constructor url argument, where on the filesystem to archive the web page
-   */
-  archive: string | null
-  /**
-   * CSS selector where the principal web page content is in
-   */
-  selector: string
-  /**
-   * Coma Separated List of CSS selectors to strip content off (e.g. ads, orthogonal content)
-   */
-  truncate: string
-  /**
-   * URL to the source document
-   */
-  url: string
-}
-
-/**
- * Parse an Archivable CSV Line.
- *
- * Private method to handle parsing
- */
-const parseArchivableCsvLine = (
-  line: string,
-): ArchivableOrderedInputUrlTruncateTuplesType => {
-  const [url = null, selector = '', truncate = ''] = line.split(';')
-
-  const errorMessage = `parseArchivableCsvLine invalid received line "${line}"`
-
-  try {
-    // This should throw at runtime.
-    toUrl(url as string)
-  } catch (e) {
-    const message = `${errorMessage}. ${e}`
-    throw new Error(message)
-  }
-
-  if (typeof url === 'string') {
-    const out: ArchivableOrderedInputUrlTruncateTuplesType = [
-      url,
-      selector,
-      truncate,
-    ]
-    return out
-  } else {
-    throw new Error(errorMessage)
-  }
-}
+import type {
+  ArchivableOrderedInputUrlTruncateTuplesType,
+  IArchivable,
+} from './types'
 
 const appendTruncate = (truncateArg: string): string => {
   // Truncate is to strip off any patterns we do not want
@@ -112,7 +21,13 @@ const appendSelector = (selectorArg: string): string => {
   return selectorArg.length === 0 ? 'body' : `${selectorArg}`
 }
 
-export class Archivable implements ArchivableType {
+/**
+ * Something to Archive.
+ *
+ * From an URL, which part to pick from that page,
+ * what to truncate.
+ */
+export class Archivable implements IArchivable {
   readonly archive: string | null = null
   readonly selector: string
   readonly truncate: string
@@ -142,15 +57,15 @@ export class Archivable implements ArchivableType {
     }
   }
 
-  toJSON(): Readonly<ArchivableType> {
-    const out: ArchivableType = {
+  toJSON(): Readonly<IArchivable> {
+    const out: IArchivable = {
       archive: this.archive,
       selector: this.selector,
       truncate: this.truncate,
       url: this.url,
     }
 
-    return Object.seal<ArchivableType>(out)
+    return Object.seal<IArchivable>(out)
   }
 
   static fromTuple(
@@ -169,7 +84,8 @@ export class Archivable implements ArchivableType {
     ])
   }
 
-  static fromJSON(arg: any): ArchivableType {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static fromJSON(arg: any): IArchivable {
     const argIsString = typeof arg === 'string'
     if (argIsString === false) {
       const message = 'Only String is supported'
@@ -187,7 +103,9 @@ export class Archivable implements ArchivableType {
    *
    * @param {string} line — string of text that may or may not be valid CSV
    */
-  static fromLine(line = 'http://localhost;;'): Archivable {
+  static fromLine(
+    line = 'http://localhost;body;.ad,.social-button',
+  ): Archivable {
     const [url, selector, truncate] = parseArchivableCsvLine(line)
     return new Archivable(url, selector, truncate)
   }
@@ -200,7 +118,7 @@ export class Archivable implements ArchivableType {
    * @param {string} line — string of text that may or may not be valid CSV
    */
   static parseLine(
-    line = 'http://localhost;;',
+    line = 'http://localhost;body;.ad,.social-button',
   ): ArchivableOrderedInputUrlTruncateTuplesType {
     const tuple = parseArchivableCsvLine(line)
     return tuple

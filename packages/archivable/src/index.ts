@@ -1,10 +1,17 @@
+export { NormalizedAsset } from './normalize'
+export { DocumentAssets } from './document-assets'
+export { ArchivableOrderedInputUrlTruncateTuplesFirstLine } from './types'
+
+export * from './types'
 export * from './archivable'
 
+/*
+
 import type {
-  NormalizedAssetDestType,
+  INormalizedAssetDestination,
   NormalizedAssetFileExtensionExtractorType,
   NormalizedAssetReferenceHandlerFactoryType,
-  NormalizedAssetReferenceType,
+  INormalizedAssetReferenceType,
   NormalizedAssetType,
 } from './normalizer'
 
@@ -14,7 +21,7 @@ import {
   assetReferenceHandlerFactory,
   createNormalizedAssetReferenceMap,
   DocumentAssets,
-  extractNormalizedAssetDest,
+  extractNormalizedAsset,
   NormalizedAsset,
 } from './asset'
 
@@ -31,7 +38,7 @@ export {
   assetReferenceHandlerFactory,
   createHashFunction,
   createNormalizedAssetReferenceMap,
-  extractNormalizedAssetDest,
+  extractNormalizedAsset,
   NormalizedAsset,
   DocumentAssets,
 }
@@ -40,9 +47,10 @@ export type {
   CryptoCommonHashingFunctions,
   HashingFunctionType,
   HexBase64Latin1Encoding,
-  NormalizedAssetDestType,
+  INormalizedAssetDestination,
   NormalizedAssetFileExtensionExtractorType,
   NormalizedAssetReferenceHandlerFactoryType,
-  NormalizedAssetReferenceType,
+  INormalizedAssetReferenceType,
   NormalizedAssetType,
 }
+*/

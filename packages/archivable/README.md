@@ -101,76 +101,34 @@ and treat it as if it's an array of `NormalizedAsset` items.
 
 [exploringjs--ch_sync-generators]: https://exploringjs.com/impatient-js/ch_sync-generators.html '35 Synchronous generators (advanced)'
 
-````js
+```js
 import { DocumentAssets } from '@archivator/archivable'
 
 // HTML Source document URL from where the asset is embedded
-const sourceDocument = 'http://renoirboulanger.com/page/3/'
+const sourceDocument = 'http://renoirboulanger.com/about/projects/'
 
 // List of URLs you might find on that URL
 // e.g. `<img src="//example.org/a/b.png" />`
 // Notice some URLs are relative, protocol-relative, others are going on another domain
 const matches = [
-  // Case 1: Fully qualified URL that is local to the site
-  'http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg',
-  // Case 2: Fully qualified URL that is outside
-  'https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png',
-  // Case 3: Fully qualified  URL that is outside and protocol relative
-  '//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500',
-  // Case 4: Relative URL to the domain name, starting at root
-  '/wp-content/themes/renoirb/assets/img/zce_logo.jpg',
-  // Case 5: Relative URL to the current source document
-  '../../avatar.jpg',
+  // Case 1: On an almost (no protocol) fully-qualified URL, on another domain
   '//www.example.org/a/b/c.png',
+  // Case 2: Relative URL to the current source document
+  '../../avatar.jpg',
+  // Case 3: Fully qualified URL that is local to the site
+  'http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg',
+  // Case 4: Fully qualified URL that is outside
+  'https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png',
+  // Case 5: Fully qualified  URL that is outside and protocol relative
+  '//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500',
+  // Case 6: Relative URL to the domain name, starting at root
+  '/wp-content/themes/renoirb/assets/img/zce_logo.jpg',
 ]
 
 /**
  * Leverage ECMAScript 2015+ Iteration prototocol.
  *
  * Pass a collection of strings, get a normalized list with iteration.
- *
- * Each item in collection should look like this;
- *
- * ```json
- * [
- *    {
- *      "dest": "renoirboulanger.com/page/3/430e2156af17010e0d8ffcd726a95595fa71a4fd.jpg",
- *      "match": "http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg",
- *      "reference": "430e2156af17010e0d8ffcd726a95595fa71a4fd.jpg",
- *      "src": "http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg",
- *    },
- *    {
- *      "dest": "renoirboulanger.com/page/3/b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png",
- *      "match": "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png",
- *      "reference": "b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png",
- *      "src": "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png",
- *    },
- *    {
- *      "dest": "renoirboulanger.com/page/3/63dc122dfd3c702e12714fbe4ba744e463c49edb",
- *      "match": "//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500",
- *      "reference": "63dc122dfd3c702e12714fbe4ba744e463c49edb",
- *      "src": "http://www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500",
- *    },
- *    {
- *      "dest": "renoirboulanger.com/page/3/840257d7de220958ca4cc05a3c0ee337e2b0401d.jpg",
- *      "match": "/wp-content/themes/renoirb/assets/img/zce_logo.jpg",
- *      "reference": "840257d7de220958ca4cc05a3c0ee337e2b0401d.jpg",
- *      "src": "http://renoirboulanger.com/wp-content/themes/renoirb/assets/img/zce_logo.jpg",
- *    },
- *    {
- *      "dest": "renoirboulanger.com/page/3/37fd63a34f42ed3b012b9baac82e97fbe9f9c067.jpg",
- *      "match": "../../avatar.jpg",
- *      "reference": "37fd63a34f42ed3b012b9baac82e97fbe9f9c067.jpg",
- *      "src": "http://renoirboulanger.com/avatar.jpg",
- *    },
- *    {
- *      "dest": "renoirboulanger.com/page/3/4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
- *      "match": "//www.example.org/a/b/c.png",
- *      "reference": "4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
- *      "src": "http://www.example.org/a/b/c.png",
- *    }
- * ]
- * ```
  *
  * @type {Iterable<import('@archivator/archivable').NormalizedAssetType>}
  */
@@ -181,24 +139,26 @@ for (const normalized of assets) {
   // In this example, we're simply using the return of assetCollectionNormalizer like we would with an array.
   console.log(normalized)
 }
-````
+```
 
 #### Change `reference` hashing format
 
-In the above example, the last item looks like this;
+In the above example, the first item looks like this;
 
 ```json
 {
-  "dest": "renoirboulanger.com/page/3/4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
   "match": "//www.example.org/a/b/c.png",
-  "reference": "4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
-  "src": "http://www.example.org/a/b/c.png"
+  "src": "http://www.example.org/a/b/c.png",
+  "dest": "renoirboulanger.com/about/projects/4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
+  "reference": "4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png"
 }
 ```
 
-The asset file "`4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png`" contains the SHA1 hash for "`//www.example.org/a/b/c.png`".
+The asset file "`4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png`" contains the SHA1 hash for "`http://www.example.org/a/b/c.png`".
 
-Maybe you'd prefer a shorter file name, or use a different hashing function.
+Notice that the initial match was "`//www.example.org/a/b/c.png`" (the "`match`" attribute), but the "`src`" (where we will download image from) saw that the "`sourceDocument`" had `http` as protocol. If the protocol was `https`, the "`src`" (and the hash) would be different.
+
+About the hashing, if you'd prefer a shorter file name, or use a different hashing function.
 
 You can change it by using `DocumentAssets.setReferenceHandler(hasherFn, normalizerFn)` method.
 

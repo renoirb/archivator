@@ -8,11 +8,6 @@ const main = {
     // TODO: Make this list smaller, not bigger
     // To try it out, comment one line, then run `rushx lint`.
     '@rushstack/no-null': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-member-accessibility': 'off',
-    '@typescript-eslint/member-naming': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-parameter-properties': 'off',
     '@typescript-eslint/typedef': 'off',
   },
 }

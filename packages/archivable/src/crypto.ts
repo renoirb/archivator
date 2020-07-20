@@ -1,30 +1,6 @@
 import { createHash, getHashes, HexBase64Latin1Encoding } from 'crypto'
 
-/**
- * Available Crypto Hashing Functions.
- * Runtime might have a different list though.
- *
- * Also, this isn't planned to run client-side (in a Web Browser).
- * Maybe the following list won't work.
- *
- * @public
- */
-export type CryptoCommonHashingFunctions =
-  | 'sha1'
-  | 'sha256'
-  | 'md5'
-  | 'md5-sha1'
-  | 'mdc2'
-  | 'sha512'
-  | 'sha224'
-  | string
-
-/**
- * Take a message, return a hashed representation of it.
- *
- * @public
- */
-export type HashingFunctionType = (message: string) => string
+import type { CryptoCommonHashingFunctions, HashingFunctionType } from './types'
 
 /**
  * Create a configured hashing function.

@@ -10870,6 +10870,8 @@ packages:
       '@babel/preset-env': 7.10.4_@babel+core@7.10.5
       '@babel/preset-typescript': 7.10.4_@babel+core@7.10.5
       '@babel/runtime-corejs3': 7.10.5
+      '@microsoft/api-documenter': 7.8.21
+      '@microsoft/api-extractor': 7.9.2
       '@microsoft/node-library-build': 6.4.32
       '@renoirb/conventions-use-bili': 1.1.1_bfece11bd3c5bb85afb726111464bb51
       '@renoirb/conventions-use-eslint': 1.1.1_typescript@3.9.7
@@ -10891,7 +10893,7 @@ packages:
     peerDependencies:
       jest: '*'
     resolution:
-      integrity: sha512-YF3AP+S34w2YTTCTYdPkGylxFRFI6HV0nmimCNq0s1n/SGW1+7ge8bUMK2oU0zWYeAREnOWkVmKvvWe9n3FD+Q==
+      integrity: sha512-FL3pVhmrgzlUG2MC7JWZKDJ35hyIbIbpJJpzdE6kSntXQJFZb6QPP9IU2Cfr94AonR8uMgeBTtOnav3x2CAQ7w==
       tarball: 'file:projects/archivable.tgz'
     version: 0.0.0
   'file:projects/archivator.tgz_jest@25.5.4':

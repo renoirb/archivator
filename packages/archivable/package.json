@@ -27,10 +27,14 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "resources"
+    "resources",
+    "docs"
   ],
   "scripts": {
-    "build": "use-cross-env use-run-all clean build:*",
+    "api": "use-run-all api-extractor api-documenter fix",
+    "api-documenter": "api-documenter markdown --input temp --output docs",
+    "api-extractor": "api-extractor run -c config/api-extractor.json --verbose --local",
+    "build": "use-cross-env use-run-all clean build:* api",
     "build:node-esm": "use-cross-env BROWSERSLIST='maintained node versions' use-bili -c bili.config.ts --format esm --file-name index.mjs",
     "clean": "use-cross-env use-rimraf .rpt2_cache dist *.*.log",
     "fix": "use-cross-env use-prettier --write  '**/*.{ts,json,md}'",
@@ -49,6 +53,8 @@
     "@babel/preset-env": "^7.10.0",
     "@babel/preset-typescript": "^7.10.0",
     "@babel/runtime-corejs3": "^7.10.0",
+    "@microsoft/api-documenter": "^7.8.17",
+    "@microsoft/api-extractor": "^7.8.15",
     "@microsoft/node-library-build": "^6.4.0",
     "@renoirb/conventions-use-bili": "^1.1.1",
     "@renoirb/conventions-use-eslint": "^1.1.1",

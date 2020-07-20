@@ -29,7 +29,8 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "resources"
+    "resources",
+    "docs"
   ],
   "scripts": {
     "api": "use-run-all api-extractor api-documenter fix",

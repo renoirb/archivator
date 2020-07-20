@@ -14,34 +14,34 @@ Array [
 exports[`DocumentAssets Happy-Path 1`] = `
 Array [
   Object {
-    "dest": "renoirboulanger.com/page/3/430e2156af17010e0d8ffcd726a95595fa71a4fd.jpg",
+    "dest": "renoirboulanger.com/about/projects/430e2156af17010e0d8ffcd726a95595fa71a4fd.jpg",
     "match": "http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg",
     "reference": "430e2156af17010e0d8ffcd726a95595fa71a4fd.jpg",
     "src": "http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg",
   },
   Object {
-    "dest": "renoirboulanger.com/page/3/b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png",
+    "dest": "renoirboulanger.com/about/projects/b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png",
     "match": "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png",
     "reference": "b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png",
     "src": "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png",
   },
   Object {
-    "dest": "renoirboulanger.com/page/3/63dc122dfd3c702e12714fbe4ba744e463c49edb",
+    "dest": "renoirboulanger.com/about/projects/63dc122dfd3c702e12714fbe4ba744e463c49edb",
     "match": "//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500",
     "reference": "63dc122dfd3c702e12714fbe4ba744e463c49edb",
     "src": "http://www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500",
   },
   Object {
-    "dest": "renoirboulanger.com/page/3/840257d7de220958ca4cc05a3c0ee337e2b0401d.jpg",
+    "dest": "renoirboulanger.com/about/projects/840257d7de220958ca4cc05a3c0ee337e2b0401d.jpg",
     "match": "/wp-content/themes/renoirb/assets/img/zce_logo.jpg",
     "reference": "840257d7de220958ca4cc05a3c0ee337e2b0401d.jpg",
     "src": "http://renoirboulanger.com/wp-content/themes/renoirb/assets/img/zce_logo.jpg",
   },
   Object {
-    "dest": "renoirboulanger.com/page/3/37fd63a34f42ed3b012b9baac82e97fbe9f9c067.jpg",
-    "match": "../../avatar.jpg",
-    "reference": "37fd63a34f42ed3b012b9baac82e97fbe9f9c067.jpg",
-    "src": "http://renoirboulanger.com/avatar.jpg",
+    "dest": "renoirboulanger.com/about/projects/0fb44f6abe0832a7beb2d961db42223260ec4292.jpg",
+    "match": "../../photo.jpg",
+    "reference": "0fb44f6abe0832a7beb2d961db42223260ec4292.jpg",
+    "src": "http://renoirboulanger.com/photo.jpg",
   },
 ]
 `;
@@ -640,5 +640,55 @@ Map {
   "//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500" => "63dc122dfd3c702e12714fbe4ba744e463c49edb",
   "/wp-content/themes/renoirb/assets/img/zce_logo.jpg" => "840257d7de220958ca4cc05a3c0ee337e2b0401d.jpg",
   "../../avatar.jpg" => "37fd63a34f42ed3b012b9baac82e97fbe9f9c067.jpg",
+}
+`;
+
+exports[`createNormalizedAssetReferenceMap README examples DocumentsAssets 1`] = `
+Array [
+  Object {
+    "dest": "renoirboulanger.com/about/projects/4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
+    "match": "//www.example.org/a/b/c.png",
+    "reference": "4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
+    "src": "http://www.example.org/a/b/c.png",
+  },
+  Object {
+    "dest": "renoirboulanger.com/about/projects/37fd63a34f42ed3b012b9baac82e97fbe9f9c067.jpg",
+    "match": "../../avatar.jpg",
+    "reference": "37fd63a34f42ed3b012b9baac82e97fbe9f9c067.jpg",
+    "src": "http://renoirboulanger.com/avatar.jpg",
+  },
+  Object {
+    "dest": "renoirboulanger.com/about/projects/430e2156af17010e0d8ffcd726a95595fa71a4fd.jpg",
+    "match": "http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg",
+    "reference": "430e2156af17010e0d8ffcd726a95595fa71a4fd.jpg",
+    "src": "http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg",
+  },
+  Object {
+    "dest": "renoirboulanger.com/about/projects/b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png",
+    "match": "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png",
+    "reference": "b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png",
+    "src": "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png",
+  },
+  Object {
+    "dest": "renoirboulanger.com/about/projects/63dc122dfd3c702e12714fbe4ba744e463c49edb",
+    "match": "//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500",
+    "reference": "63dc122dfd3c702e12714fbe4ba744e463c49edb",
+    "src": "http://www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500",
+  },
+  Object {
+    "dest": "renoirboulanger.com/about/projects/840257d7de220958ca4cc05a3c0ee337e2b0401d.jpg",
+    "match": "/wp-content/themes/renoirb/assets/img/zce_logo.jpg",
+    "reference": "840257d7de220958ca4cc05a3c0ee337e2b0401d.jpg",
+    "src": "http://renoirboulanger.com/wp-content/themes/renoirb/assets/img/zce_logo.jpg",
+  },
+]
+`;
+
+exports[`createNormalizedAssetReferenceMap README examples DocumentsAssets 2`] = `
+Object {
+  "dest": "renoirboulanger.com/about/projects/4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
+  "match": "//www.example.org/a/b/c.png",
+  "reference": "4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png",
+  "src": "http://www.example.org/a/b/c.png",
 }
 `;
