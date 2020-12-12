@@ -5,10 +5,14 @@
 A _Data Transfer Object_ (or _Entity_ object) and related utilities to manipulate Web Page Metadata while archiving.
 
 [repo-url]: https://github.com/renoirb/archivator/blob/v3.x-dev/packages/archivable 'Archivable Data Transfer Object'
+[npmjs-package-badge]: https://img.shields.io/npm/v/%40archivator%2Farchivable?style=flat-square&logo=appveyor&label=npm&logo=npm
+[npmjs-package]: https://www.npmjs.com/package/%40archivator%2Farchivable
+[bundlesize-badge]: https://img.shields.io/bundlephobia/min/%40archivator%2Farchivable?style=flat-square
+[dependabot-badge]: https://img.shields.io/librariesio/release/npm/%40archivator%2Farchivable?style=flat-square&logo=appveyor&logo=dependabot
 
 | Version                                                                                                                                                                        | Size                                                                                                     | Dependencies                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [![npm](https://img.shields.io/npm/v/%40archivator%2Farchivable?style=flat-square&logo=appveyor&label=npm&logo=npm)](https://www.npmjs.com/package/%40archivator%2Farchivable) | ![npm bundle size](https://img.shields.io/bundlephobia/min/%40archivator%2Farchivable?style=flat-square) | ![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/%40archivator%2Farchivable?style=flat-square&logo=appveyor&logo=dependabot) |
+| [![npm][npmjs-package-badge]][npmjs-package] | ![npm bundle size][bundlesize-badge] | ![Libraries.io dependency status for latest release][dependabot-badge] |
 
 ## Usage
 

@@ -35,6 +35,10 @@
       "allowedCategories": [ "apps", "libraries", "packages" ]
     },
     {
+      "name": "@renoirb/conventions-code-formatter",
+      "allowedCategories": [ "apps", "packages" ]
+    },
+    {
       "name": "@renoirb/conventions-use-bili",
       "allowedCategories": [ "apps", "libraries", "packages" ]
     },
