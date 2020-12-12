@@ -62,7 +62,7 @@
      *
      * This option is experimental. The default value is false.
      */
-    "useWorkspaces": true,
+    "useWorkspaces": true
   },
 
   /**
@@ -148,9 +148,9 @@
      * or you could just have a single category called "default".
      */
     "reviewCategories": [
-      "apps",      // Standalone package
+      "apps", // Standalone package
       "libraries", // Non-Shipping projects that are part of the development
-      "packages",  // Projects that ships as standalone
+      "packages", // Projects that ships as standalone
       "prototypes" // Experiments that should mostly be ignored by the review process
     ],
 
@@ -217,7 +217,7 @@
      * your PR branch, and in this situation "rush change" will also automatically invoke "git fetch"
      * to retrieve the latest activity for the remote master branch.
      */
-    "url": "git@github.com:renoirb/archivator.git",
+    "url": "git@github.com:renoirb/archivator.git"
 
     /**
      * The default branch name. This tells "rush change" which remote branch to compare against.
@@ -390,7 +390,6 @@
       "projectFolder": "packages/url-dirname-normalizer",
       "reviewCategory": "packages",
       "shouldPublish": true
-    },
-
+    }
   ]
 }
