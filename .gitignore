@@ -1,7 +1,9 @@
-# Files managed by Rush.js -- Cannot include from outside at root. #FIXME @TODO
-#/.prettierignore
-#/prettier.config.js
+# > -------------------------------------------------------------------------------------------------------------------
+# > BEGIN .gitignore
+# > -------------------------------------------------------------------------------------------------------------------
 
+####
+# >> BEGIN FROM https://github.com/microsoft/rush-example/blob/master/.gitignore
 # Logs
 *.log
 npm-debug.log*
@@ -21,6 +23,12 @@ coverage
 
 # nyc test coverage
 .nyc_output
+
+# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# Bower dependency directory (https://bower.io/)
+bower_components
 
 # node-waf configuration
 .lock-wscript
@@ -48,38 +56,57 @@ jspm_packages/
 .yarn-integrity
 
 # dotenv environment variables file
-.envrc
+.env
 
-# Common toolchain intermediate files
-temp
+# next.js build output
+.next
 
-# OS X
+# OS X temporary files
 .DS_Store
 
-# Rush files
+# Rush temporary files
 common/deploy/
 common/temp/
 common/autoinstallers/*/.npmrc
 **/.rush/temp/
 
 # Common toolchain intermediate files
+lib
+temp
+# >> END FROM https://github.com/microsoft/rush-example/blob/master/.gitignore
+####
+
+
+
+####
+# >> BEGIN FROM https://github.com/microsoft/rushstack/blob/%40microsoft/rush_v5.35.2/.gitignore
+# Common toolchain intermediate files
 temp
 lib
 lib-amd
 lib-es6
+lib-esnext
+lib-commonjs
 dist
 *.scss.ts
 *.sass.ts
 
-# Build cache
-.rpt2_cache/
-*.tsbuildinfo
+# Visual Studio Code
+.vscode
 
-# Build output
-dist/
+# Heft
+*/*/.heft/build-cache/**
+*/*/.heft/temp/**
+# >> END FROM https://github.com/microsoft/rushstack/blob/%40microsoft/rush_v5.35.2/.gitignore
+####
 
-# Demo
-public/dist/
+# >> -------------------------------------------------------------------------------------------------------------------
+# >> Specific for this monorepo
+# >> -------------------------------------------------------------------------------------------------------------------
 
-# Remove eventually
-package-deps.json
+.envrc
+dist
+
+# > -------------------------------------------------------------------------------------------------------------------
+# > END .gitignore
+# > -------------------------------------------------------------------------------------------------------------------
