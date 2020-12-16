@@ -1,6 +1,6 @@
 {
   "name": "@archivator/archivable",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Archivable Data Transfer Object and NormalizedAsset Entities for archiving web pages and their assets",
   "keywords": [
     "archiving",
@@ -72,10 +72,10 @@
     "ts-jest": "^25.5.0",
     "tslib": "^2.0.0",
     "typescript": "^3.9.0",
-    "url-dirname-normalizer": "workspace:^1.3.2"
+    "url-dirname-normalizer": "workspace:^1.4.0"
   },
   "peerDependencies": {
-    "url-dirname-normalizer": "workspace:^1.3.2"
+    "url-dirname-normalizer": "workspace:^1.4.0"
   },
   "engines": {
     "node": ">=14"

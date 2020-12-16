@@ -1,0 +1,25 @@
+{
+  "name": "@archivator/content-divinator",
+  "entries": [
+    {
+      "version": "0.2.0",
+      "tag": "@archivator/content-divinator_v0.2.0",
+      "date": "Wed, 16 Dec 2020 23:33:19 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Initial package relase to npm"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "New package, migrated from initial monolithic implementation"
+          },
+          {
+            "comment": "new summary and word usage"
+          }
+        ]
+      }
+    }
+  ]
+}

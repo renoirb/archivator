@@ -1,6 +1,6 @@
 {
   "name": "@archivator/content-divinator",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Attempt at guessing stuff, summarize content, based on raw text. A naïve Natural Language Processing toolkit.",
   "keywords": [
     "text",
