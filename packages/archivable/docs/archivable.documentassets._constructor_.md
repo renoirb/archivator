@@ -6,7 +6,7 @@
 
 ## DocumentAssets.(constructor)
 
-Constructs a new instance of the `DocumentAssets` class
+Assets found on a Web Page Document.
 
 <b>Signature:</b>
 
@@ -16,7 +16,7 @@ constructor(sourceDocument: string, assets?: string[]);
 
 ## Parameters
 
-| Parameter      | Type       | Description                                                                                                                                              |
-| -------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| sourceDocument | string     | — URL String to the document where we found assets                                                                                                       |
-| assets         | string\[\] | — List of asset URLs that were found on sourceDocument, they can be relative paths with or without Search Query or Hash arguments and/or fully-qualified |
+| Parameter      | Type       | Description                                                                                                                                            |
+| -------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| sourceDocument | string     | URL String to the document where we found assets                                                                                                       |
+| assets         | string\[\] | List of asset URLs that were found on sourceDocument, they can be relative paths with or without Search Query or Hash arguments and/or fully-qualified |

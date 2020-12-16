@@ -1,6 +1,7 @@
 # Change Log - url-dirname-normalizer
 
-This log was last generated on Sat, 29 Feb 2020 04:49:04 GMT and should not be manually modified.
+This log was last generated on Sat, 29 Feb 2020 04:49:04 GMT and should not be
+manually modified.
 
 ## 1.2.0
 

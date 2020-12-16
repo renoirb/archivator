@@ -1,16 +1,15 @@
 import { toUrl } from 'url-dirname-normalizer'
-import { NormalizedAssetFileExtensionExtractorType } from '../types'
+import type { INormalizedAssetFileExtensionExtractorFn } from '../types'
 
 /**
  * Return a file extension with a dot as prefix, or an empty string.
  *
+ * @package
+ *
  * One can set their own normalizer, as long as it of type `(file: string) => string`
  * When the output is either an empty string, or a file extension prefixed by a dot (e.g. `.png`)
- *
- * @public
- * {@link NormalizedAssetFileExtensionExtractorType}
  */
-export const assetFileExtensionNormalizer: NormalizedAssetFileExtensionExtractorType = (
+export const assetFileExtensionNormalizer: INormalizedAssetFileExtensionExtractorFn = (
   assetUrl,
 ) => {
   const url = toUrl(assetUrl)

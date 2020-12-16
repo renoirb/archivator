@@ -1,15 +1,15 @@
 import { toUrl } from 'url-dirname-normalizer'
 
-import type { ArchivableOrderedInputUrlTruncateTuplesType } from './types'
+import type { IArchivableOrderedInputUrlTruncateTuple } from './types'
 
 /**
  * Parse an Archivable CSV Line.
  *
- * Private method to handle parsing
+ * @public
  */
 export const parseArchivableCsvLine = (
   line: string,
-): ArchivableOrderedInputUrlTruncateTuplesType => {
+): IArchivableOrderedInputUrlTruncateTuple => {
   const [url = null, selector = '', truncate = ''] = line.split(';')
 
   const errorMessage = `parseArchivableCsvLine invalid received line "${line}"`
@@ -23,7 +23,7 @@ export const parseArchivableCsvLine = (
   }
 
   if (typeof url === 'string') {
-    const out: ArchivableOrderedInputUrlTruncateTuplesType = [
+    const out: IArchivableOrderedInputUrlTruncateTuple = [
       url,
       selector,
       truncate,

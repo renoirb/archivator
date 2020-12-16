@@ -9,9 +9,9 @@
 <b>Signature:</b>
 
 ```typescript
-toTuple(): Readonly<ArchivableOrderedInputUrlTruncateTuplesType>;
+toTuple(): Readonly<IArchivableOrderedInputUrlTruncateTuple>;
 ```
 
 <b>Returns:</b>
 
-Readonly&lt;[ArchivableOrderedInputUrlTruncateTuplesType](./archivable.archivableorderedinputurltruncatetuplestype.md)<!-- -->&gt;
+Readonly&lt;[IArchivableOrderedInputUrlTruncateTuple](./archivable.iarchivableorderedinputurltruncatetuple.md)<!-- -->&gt;

@@ -15,5 +15,5 @@ INormalizedAsset\#reference.
 <b>Signature:</b>
 
 ```typescript
-match: string
+readonly match: string;
 ```

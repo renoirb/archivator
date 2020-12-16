@@ -20,16 +20,15 @@
     "name": "Renoir Boulanger",
     "email": "contribs@renoirboulanger.com"
   },
+  "type": "module",
   "exports": {
-    "import": "./dist/index.mjs",
-    "require": "./main.cjs"
+    "import": "./dist/index.mjs"
   },
-  "main": "main.cjs",
+  "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "main.cjs",
     "resources",
     "docs"
   ],
@@ -48,7 +47,7 @@
     "test:snapshots": "use-cross-env use-jest --detectOpenHandles -u"
   },
   "dependencies": {
-    "esm": "^3.2.0"
+    "@rushstack/node-core-library": "^3.25.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.0",
@@ -66,7 +65,6 @@
     "@renoirb/conventions-use-prettier": "^1.3.0",
     "@renoirb/conventions-use-typescript-3": "^1.2.1",
     "@renoirb/tools-bundling-helpers": "^1.2.1",
-    "@rushstack/node-core-library": "^3.25.0",
     "@types/jest": "^26.0.0",
     "@types/node": "^14.14.11",
     "core-js": "^3.8.0",
@@ -75,10 +73,10 @@
     "tslib": "^2.0.0",
     "typescript": "^3.9.0"
   },
-  "peerDependencies": {
-    "@rushstack/node-core-library": "^3.25.0"
-  },
   "engines": {
     "node": ">=10"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

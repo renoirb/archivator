@@ -9,14 +9,14 @@
 <b>Signature:</b>
 
 ```typescript
-static fromTuple(tuple: ArchivableOrderedInputUrlTruncateTuplesType): Archivable;
+static fromTuple(tuple: IArchivableOrderedInputUrlTruncateTuple): Archivable;
 ```
 
 ## Parameters
 
-| Parameter | Type                                                                                                       | Description |
-| --------- | ---------------------------------------------------------------------------------------------------------- | ----------- |
-| tuple     | [ArchivableOrderedInputUrlTruncateTuplesType](./archivable.archivableorderedinputurltruncatetuplestype.md) |             |
+| Parameter | Type                                                                                               | Description |
+| --------- | -------------------------------------------------------------------------------------------------- | ----------- |
+| tuple     | [IArchivableOrderedInputUrlTruncateTuple](./archivable.iarchivableorderedinputurltruncatetuple.md) |             |
 
 <b>Returns:</b>
 

@@ -1,25 +1,37 @@
 # [@archivator/archivable][repo-url]
 
-> Archivable Data Transfer Object and NormalizedAsset Entities for archiving web pages and their assets
+> Archivable Data Transfer Object and NormalizedAsset Entities for archiving web
+> pages and their assets
 
-A _Data Transfer Object_ (or _Entity_ object) and related utilities to manipulate Web Page Metadata while archiving.
+A _Data Transfer Object_ (or _Entity_ object) and related utilities to
+manipulate Web Page Metadata while archiving.
 
-[repo-url]: https://github.com/renoirb/archivator/blob/v3.x-dev/packages/archivable 'Archivable Data Transfer Object'
-[npmjs-package-badge]: https://img.shields.io/npm/v/%40archivator%2Farchivable?style=flat-square&logo=appveyor&label=npm&logo=npm
+[repo-url]:
+  https://github.com/renoirb/archivator/blob/v3.x-dev/packages/archivable
+  'Archivable Data Transfer Object'
+[npmjs-package-badge]:
+  https://img.shields.io/npm/v/%40archivator%2Farchivable?style=flat-square&logo=appveyor&label=npm&logo=npm
 [npmjs-package]: https://www.npmjs.com/package/%40archivator%2Farchivable
-[bundlesize-badge]: https://img.shields.io/bundlephobia/min/%40archivator%2Farchivable?style=flat-square
-[dependabot-badge]: https://img.shields.io/librariesio/release/npm/%40archivator%2Farchivable?style=flat-square&logo=appveyor&logo=dependabot
+[bundlesize-badge]:
+  https://img.shields.io/bundlephobia/min/%40archivator%2Farchivable?style=flat-square
+[dependabot-badge]:
+  https://img.shields.io/librariesio/release/npm/%40archivator%2Farchivable?style=flat-square&logo=appveyor&logo=dependabot
 
-| Version                                                                                                                                                                        | Size                                                                                                     | Dependencies                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Version                                      | Size                                 | Dependencies                                                           |
+| -------------------------------------------- | ------------------------------------ | ---------------------------------------------------------------------- |
 | [![npm][npmjs-package-badge]][npmjs-package] | ![npm bundle size][bundlesize-badge] | ![Libraries.io dependency status for latest release][dependabot-badge] |
 
 ## Usage
 
+_See also_:
+
+- [API Extractor code-review signature](../../common/reviews/api/archivable.api.md)
+- [API Documentor generated docs](./docs/index.md)
+
 ### Archivable
 
 ```js
-import { Archivable } from '@archivator/archivable'
+import Archivable from '@archivator/archivable'
 
 // HTML Source document URL from where the asset is embedded
 // Ignore document origin if resource has full URL, protocol relative, non TLS
@@ -37,7 +49,7 @@ const dto = new Archivable(sourceDocument, selector, truncate)
 When using CSV format
 
 ```js
-import { Archivable } from '@archivator/archivable'
+import Archivable from '@archivator/archivable'
 
 // The following lines would be from a text file where we have one item per line
 // Each item MUST have two semi-columns
@@ -54,17 +66,22 @@ for (const line of lines) {
 
 ### DocumentAssets and NormalizedAsset
 
-While archiving a web page, we might have a list of all assets the document makes references to.
-They can be embedded inside `<img src="...">` tags and other similar schemes.
+While archiving a web page, we might have a list of all assets the document
+makes references to. They can be embedded inside `<img src="...">` tags and
+other similar schemes.
 
-Each "NormalizedAsset" is an entity from which we can figure out where an asset can be downloaded in relation
-to the current source document URL, like web browsers do.
+Each "NormalizedAsset" is an entity from which we can figure out where an asset
+can be downloaded in relation to the current source document URL, like web
+browsers do.
 
 NormalizedAsset contains:
 
-- `match`: is the initial value passed in, that can be useful if we want to rewrite the source document
-- `reference`: is the normalized hash for the asset, we could use that value to replace the source document's HTML with a local name
-- `dest`: would be where we would archive the asset, it is basically `directoryNameNormalizer(sourceDocument) + reference`
+- `match`: is the initial value passed in, that can be useful if we want to
+  rewrite the source document
+- `reference`: is the normalized hash for the asset, we could use that value to
+  replace the source document's HTML with a local name
+- `dest`: would be where we would archive the asset, it is basically
+  `directoryNameNormalizer(sourceDocument) + reference`
 - `src`: is where we should attempt downloading the asset from
 
 ````ts
@@ -98,12 +115,16 @@ const normalized = new NormalizedAsset(sourceDocument, assetUrl)
 
 ### DocumentAssets
 
-When we have more than one asset to download, we might have a list of assets, we can use `DocumentAssets` _class_.
+When we have more than one asset to download, we might have a list of assets, we
+can use `DocumentAssets` _class_.
 
-Using it, we can iterate from it [because it implements `Iterable` the protocol][exploringjs--ch_sync-generators]
-and treat it as if it's an array of `NormalizedAsset` items.
+Using it, we can iterate from it [because it implements `Iterable` the
+protocol][exploringjs--ch_sync-generators] and treat it as if it's an array of
+`NormalizedAsset` items.
 
-[exploringjs--ch_sync-generators]: https://exploringjs.com/impatient-js/ch_sync-generators.html '35 Synchronous generators (advanced)'
+[exploringjs--ch_sync-generators]:
+  https://exploringjs.com/impatient-js/ch_sync-generators.html
+  '35 Synchronous generators (advanced)'
 
 ```js
 import { DocumentAssets } from '@archivator/archivable'
@@ -158,21 +179,31 @@ In the above example, the first item looks like this;
 }
 ```
 
-The asset file "`4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png`" contains the SHA1 hash for "`http://www.example.org/a/b/c.png`".
+The asset file "`4c49ccbf4cdbdbcfc7f91cf87f6e9636008e4a97.png`" contains the
+SHA1 hash for "`http://www.example.org/a/b/c.png`".
 
-Notice that the initial match was "`//www.example.org/a/b/c.png`" (the "`match`" attribute), but the "`src`" (where we will download image from) saw that the "`sourceDocument`" had `http` as protocol. If the protocol was `https`, the "`src`" (and the hash) would be different.
+Notice that the initial match was "`//www.example.org/a/b/c.png`" (the "`match`"
+attribute), but the "`src`" (where we will download image from) saw that the
+"`sourceDocument`" had `http` as protocol. If the protocol was `https`, the
+"`src`" (and the hash) would be different.
 
-About the hashing, if you'd prefer a shorter file name, or use a different hashing function.
+About the hashing, if you'd prefer a shorter file name, or use a different
+hashing function.
 
-You can change it by using `DocumentAssets.setReferenceHandler(hasherFn, normalizerFn)` method.
+You can change it by using
+`DocumentAssets.setReferenceHandler(hasherFn, normalizerFn)` method.
 
 The arguments are:
 
-`hasherFn`
-: Where you can provide your own hashing function. See [crypto.ts](https://github.com/renoirb/archivator/blob/v3.x-dev/packages/archivable/src/crypto.ts) if you're OK with [Node.js’ **Crypto** module](https://nodejs.org/api/crypto.html#crypto_crypto_createhash_algorithm_options)
+`hasherFn` : Where you can provide your own hashing function. See
+[crypto.ts](https://github.com/renoirb/archivator/blob/v3.x-dev/packages/archivable/src/crypto.ts)
+if you're OK with
+[Node.js’ **Crypto** module](https://nodejs.org/api/crypto.html#crypto_crypto_createhash_algorithm_options)
 
-`normalizerFn`
-: A function with signature `(file: string) => string` where you can append the file extension, refer to [normalizer/asset.ts](https://github.com/renoirb/archivator/blob/v3.x-dev/packages/archivable/src/normalizer/asset.ts) at `assetFileExtensionNormalizer`.
+`normalizerFn` : A function with signature `(file: string) => string` where you
+can append the file extension, refer to
+[normalizer/asset.ts](https://github.com/renoirb/archivator/blob/v3.x-dev/packages/archivable/src/normalizer/asset.ts)
+at `assetFileExtensionNormalizer`.
 
 ```ts
 // ... Continuing from example above
@@ -199,8 +230,9 @@ collection.setReferenceHandler(
 )
 ```
 
-With the above configuration in place, for the item "`//www.example.org/a/b/c.png`",
-we'd have the md5 hash as `6a324cd1a0e4e480c4db3e0558360527` with `.foo`
+With the above configuration in place, for the item
+"`//www.example.org/a/b/c.png`", we'd have the md5 hash as
+`6a324cd1a0e4e480c4db3e0558360527` with `.foo`
 
 Which would then look like this;
 

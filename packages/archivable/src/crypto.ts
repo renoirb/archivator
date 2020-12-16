@@ -1,9 +1,20 @@
-import { createHash, getHashes, HexBase64Latin1Encoding } from 'crypto'
+import { createHash, getHashes } from 'crypto'
 
-import type { CryptoCommonHashingFunctions, HashingFunctionType } from './types'
+import type { CryptoCommonHashingFunctions, IHashingFn } from './types'
+
+// import type { BinaryToTextEncoding } from 'crypto'
+
+type IBinaryToTextEncoding = 'base64' | 'hex'
+
+const encodings: ReadonlyArray<IBinaryToTextEncoding> = [
+  'hex',
+  'base64',
+] as const
 
 /**
  * Create a configured hashing function.
+ *
+ * @package
  *
  * Calculate the sha256 digest of a string.
  *
@@ -19,18 +30,13 @@ import type { CryptoCommonHashingFunctions, HashingFunctionType } from './types'
  * hasher('test')
  * // => '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
  *
- * @public
- * @param {string} [hash=sha256] - Hashing function to use against message
- * @param {string} [encoding=hex] - Output digest encoding format: hex, base64
+ * @param [hash=sha256] - Hashing function to use against message
+ * @param [encoding=hex] - Output digest encoding format: hex, base64
  */
 export const createHashFunction = (
   hash: CryptoCommonHashingFunctions = 'sha256',
-  encoding: HexBase64Latin1Encoding = 'hex',
-): HashingFunctionType => {
-  // TypeScript does not necessarily transpile type checks for runtime.
-  // type HexBase64Latin1Encoding from 'crypto' module.
-  const encodings: HexBase64Latin1Encoding[] = ['latin1', 'hex', 'base64']
-
+  encoding: IBinaryToTextEncoding = 'hex',
+): IHashingFn => {
   if (encodings.indexOf(encoding) < 0) {
     const supported = encodings.join(', ')
     const message = `Unsupported digest encoding format "${encoding}", currently supported: ${supported}`
@@ -88,10 +94,10 @@ export const createHashFunction = (
   }
 
   return (message: string): string => {
-    const hashedMessage = createHash(hash).update(message)
-    const digest: string = hashedMessage.digest(encoding)
-    return digest
+    const hashed = createHash(hash).update(message)
+    const digested: string = hashed.digest(encoding)
+    return digested
   }
 }
 
-export { HexBase64Latin1Encoding, getHashes }
+export { IBinaryToTextEncoding, getHashes }

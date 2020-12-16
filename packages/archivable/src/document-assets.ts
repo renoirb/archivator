@@ -4,12 +4,12 @@ import { assetFileExtensionNormalizer, NormalizedAsset } from './normalize'
 
 import type {
   INormalizedAsset,
-  NormalizedAssetReferenceHandlerType,
-  HashingFunctionType,
+  INormalizedAssetReferenceHandlerFn,
+  IHashingFn,
 } from './types'
 
 /**
- * Assets found on a Web Page Document
+ * Assets found on a Web Page Document.
  *
  * So we can prepare for downloading a copy of all the document's assets.
  *
@@ -38,8 +38,8 @@ import type {
  *
  * Notice:
  * - Each dest file are hashes with extension
- * - Gravatar sample started by //, and below, at src value, we'll have over http
- * - zce_logo.png is in /wp-content/..., but below at src value, it's on renoirboulanger.com
+ * - Gravatar sample started by `//`, and below, at src value, we'll have over http
+ * - zce_logo.png is in `/wp-content/...`, but below at src value, it's on `renoirboulanger.com`
  *
  * We should receive something similar to this;
  *
@@ -70,31 +70,24 @@ import type {
  * ]
  * ```
  *
- * ----
- *
- * See earlier implementation:
- *   v1.0.0, initial implementation:
- *     links:
- *       - url: https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L186
- *       - url: https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L192
- *       - url: https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L20
- *       - url: https://github.com/renoirb/archivator/blob/v1.0.0/src/normalizer/assets.js#L32
- *
- * ----
+ * {@see https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L186 `transformer.js` line 186 in initial implementation}
+ * {@see https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L192 `transformer.js` line 192 in initial implementation}
+ * {@see https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L20 `transformer.js` line 20 in initial implementation}
+ * {@see https://github.com/renoirb/archivator/blob/v1.0.0/src/normalizer/assets.js#L32 `normalizer/assets.js` line 32 in initial implementation}
  *
  * @public
- * @author Renoir Boulanger <contribs@renoirboulanger.com>
  */
 export class DocumentAssets implements Iterable<INormalizedAsset> {
   private _iterator: Iterator<string>
-  private _referenceHandler?: NormalizedAssetReferenceHandlerType
+  private _referenceHandler?: INormalizedAssetReferenceHandlerFn
 
   public readonly sourceDocument: string
 
   /**
+   * Assets found on a Web Page Document.
    *
-   * @param {string} sourceDocument — URL String to the document where we found assets
-   * @param {string[]} assets — List of asset URLs that were found on sourceDocument, they can be relative paths with or without Search Query or Hash arguments and/or fully-qualified
+   * @param sourceDocument - URL String to the document where we found assets
+   * @param assets - List of asset URLs that were found on sourceDocument, they can be relative paths with or without Search Query or Hash arguments and/or fully-qualified
    */
   constructor(sourceDocument: string, assets: string[] = []) {
     this._iterator = assets[Symbol.iterator]()
@@ -107,6 +100,10 @@ export class DocumentAssets implements Iterable<INormalizedAsset> {
     })
   }
 
+  /**
+   * What makes it possible to take a DocumentAssets
+   * to be for..of iterable.
+   */
   [Symbol.iterator](): Iterator<INormalizedAsset> {
     return this
   }
@@ -114,11 +111,11 @@ export class DocumentAssets implements Iterable<INormalizedAsset> {
   /**
    * How to process assets during iteration.
    *
-   * @TODO: Have before and after HTTP call hooks so we can better normalize based on mime-types.
+   * @TODO Have before and after HTTP call hooks so we can better normalize based on mime-types.
    *
-   * @param {NormalizedAssetReferenceHandlerType} handler
+   * @param handler - Bind a function from which we will use to create an asset reference hash
    */
-  setReferenceHandler(handler: NormalizedAssetReferenceHandlerType): void {
+  setReferenceHandler(handler: INormalizedAssetReferenceHandlerFn): void {
     this._referenceHandler = handler.bind(this)
   }
 
@@ -135,10 +132,7 @@ export class DocumentAssets implements Iterable<INormalizedAsset> {
   next(): IteratorResult<Readonly<INormalizedAsset>> {
     if (!this._referenceHandler) {
       // If not set after constructor, let’s setup defaults
-      const hashingHandler = createHashFunction(
-        'sha1',
-        'hex',
-      ) as HashingFunctionType
+      const hashingHandler = createHashFunction('sha1', 'hex') as IHashingFn
       const referenceHandler = assetReferenceHandlerFactory(
         hashingHandler,
         assetFileExtensionNormalizer,

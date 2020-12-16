@@ -16,8 +16,8 @@ constructor(url: string, selector?: string, truncate?: string);
 
 ## Parameters
 
-| Parameter | Type   | Description                                                                                |
-| --------- | ------ | ------------------------------------------------------------------------------------------ |
-| url       | string | — URL to the source document                                                               |
-| selector  | string | — CSS selector where the principal web page content is in                                  |
-| truncate  | string | — Coma Separated List of CSS selectors to strip content off (e.g. ads, orthogonal content) |
+| Parameter | Type   | Description                                                                              |
+| --------- | ------ | ---------------------------------------------------------------------------------------- |
+| url       | string | URL to the source document                                                               |
+| selector  | string | CSS selector where the principal web page content is in                                  |
+| truncate  | string | Coma Separated List of CSS selectors to strip content off (e.g. ads, orthogonal content) |

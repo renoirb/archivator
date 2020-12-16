@@ -34,11 +34,11 @@ export declare class Archivable implements IArchivable
 
 ## Methods
 
-| Method                                                   | Modifiers           | Description                                       |
-| -------------------------------------------------------- | ------------------- | ------------------------------------------------- |
-| [fromJSON(arg)](./archivable.archivable.fromjson.md)     | <code>static</code> |                                                   |
-| [fromLine(line)](./archivable.archivable.fromline.md)    | <code>static</code> | Take a string, creates an Archivable based on it. |
-| [fromTuple(tuple)](./archivable.archivable.fromtuple.md) | <code>static</code> |                                                   |
-| [parseLine(line)](./archivable.archivable.parseline.md)  | <code>static</code> | Extract from CSV line.                            |
-| [toJSON()](./archivable.archivable.tojson.md)            |                     |                                                   |
-| [toTuple()](./archivable.archivable.totuple.md)          |                     |                                                   |
+| Method                                                            | Modifiers           | Description                                       |
+| ----------------------------------------------------------------- | ------------------- | ------------------------------------------------- |
+| [fromJSON(maybeValidString)](./archivable.archivable.fromjson.md) | <code>static</code> | Convert a JSON string into an IArchivable object. |
+| [fromLine(line)](./archivable.archivable.fromline.md)             | <code>static</code> | Take a string, creates an Archivable based on it. |
+| [fromTuple(tuple)](./archivable.archivable.fromtuple.md)          | <code>static</code> |                                                   |
+| [parseLine(line)](./archivable.archivable.parseline.md)           | <code>static</code> | Extract from CSV line.                            |
+| [toJSON()](./archivable.archivable.tojson.md)                     |                     |                                                   |
+| [toTuple()](./archivable.archivable.totuple.md)                   |                     |                                                   |

@@ -12,9 +12,6 @@ relation to the source document. When saving downloaded assets, save into
 "dest", and eventually, refactor source document's HTML source to a new
 "reference" name.
 
-Renoir Boulanger
-&lt;<!-- -->contribs<!-- -->@<!-- -->renoirboulanger.com<!-- -->&gt;
-
 <b>Signature:</b>
 
 ```typescript

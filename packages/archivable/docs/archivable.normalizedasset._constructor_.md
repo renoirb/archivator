@@ -16,7 +16,7 @@ constructor(sourceDocument: string, match: string);
 
 ## Parameters
 
-| Parameter      | Type   | Description                                                     |
-| -------------- | ------ | --------------------------------------------------------------- |
-| sourceDocument | string | — URL of the document in which we would download the asset from |
-| match          | string | Value into image's src attribute value                          |
+| Parameter      | Type   | Description                                                   |
+| -------------- | ------ | ------------------------------------------------------------- |
+| sourceDocument | string | URL of the document in which we would download the asset from |
+| match          | string | Value into image's src attribute value                        |

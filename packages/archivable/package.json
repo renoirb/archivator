@@ -17,6 +17,7 @@
     "name": "Renoir Boulanger",
     "email": "contribs@renoirboulanger.com"
   },
+  "type": "module",
   "exports": {
     "import": "./dist/index.mjs",
     "require": "./main.cjs"
@@ -45,7 +46,6 @@
     "test:snapshots": "use-cross-env use-jest --detectOpenHandles -u"
   },
   "dependencies": {
-    "@rushstack/node-core-library": "^3.25.0",
     "esm": "^3.2.0"
   },
   "devDependencies": {
@@ -64,6 +64,7 @@
     "@renoirb/conventions-use-prettier": "^1.3.0",
     "@renoirb/conventions-use-typescript-3": "^1.2.1",
     "@renoirb/tools-bundling-helpers": "^1.2.1",
+    "@rushstack/node-core-library": "^3.25.0",
     "@types/jest": "^26.0.0",
     "@types/node": "^14.14.11",
     "core-js": "^3.8.0",
@@ -74,9 +75,12 @@
     "url-dirname-normalizer": "workspace:^1.3.2"
   },
   "peerDependencies": {
-    "url-dirname-normalizer": "^1.3.2"
+    "url-dirname-normalizer": "workspace:^1.3.2"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

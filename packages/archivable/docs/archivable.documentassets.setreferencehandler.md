@@ -8,20 +8,20 @@
 
 How to process assets during iteration.
 
-@<!-- -->TODO: Have before and after HTTP call hooks so we can better normalize
-based on mime-types.
+Have before and after HTTP call hooks so we can better normalize based on
+mime-types.
 
 <b>Signature:</b>
 
 ```typescript
-setReferenceHandler(handler: NormalizedAssetReferenceHandlerType): void;
+setReferenceHandler(handler: INormalizedAssetReferenceHandlerFn): void;
 ```
 
 ## Parameters
 
-| Parameter | Type                                                                                       | Description |
-| --------- | ------------------------------------------------------------------------------------------ | ----------- |
-| handler   | [NormalizedAssetReferenceHandlerType](./archivable.normalizedassetreferencehandlertype.md) |             |
+| Parameter | Type                               | Description                                                              |
+| --------- | ---------------------------------- | ------------------------------------------------------------------------ |
+| handler   | INormalizedAssetReferenceHandlerFn | Bind a function from which we will use to create an asset reference hash |
 
 <b>Returns:</b>
 

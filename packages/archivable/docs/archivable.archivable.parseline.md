@@ -11,15 +11,15 @@ Extract from CSV line.
 <b>Signature:</b>
 
 ```typescript
-static parseLine(line?: string): ArchivableOrderedInputUrlTruncateTuplesType;
+static parseLine(line?: string): IArchivableOrderedInputUrlTruncateTuple;
 ```
 
 ## Parameters
 
-| Parameter | Type   | Description                                       |
-| --------- | ------ | ------------------------------------------------- |
-| line      | string | — string of text that may or may not be valid CSV |
+| Parameter | Type   | Description                                     |
+| --------- | ------ | ----------------------------------------------- |
+| line      | string | string of text that may or may not be valid CSV |
 
 <b>Returns:</b>
 
-[ArchivableOrderedInputUrlTruncateTuplesType](./archivable.archivableorderedinputurltruncatetuplestype.md)
+[IArchivableOrderedInputUrlTruncateTuple](./archivable.iarchivableorderedinputurltruncatetuple.md)

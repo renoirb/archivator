@@ -16,9 +16,9 @@ static fromLine(line?: string): Archivable;
 
 ## Parameters
 
-| Parameter | Type   | Description                                       |
-| --------- | ------ | ------------------------------------------------- |
-| line      | string | — string of text that may or may not be valid CSV |
+| Parameter | Type   | Description                                     |
+| --------- | ------ | ----------------------------------------------- |
+| line      | string | string of text that may or may not be valid CSV |
 
 <b>Returns:</b>
 

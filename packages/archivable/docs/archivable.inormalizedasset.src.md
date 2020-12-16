@@ -14,5 +14,5 @@ isn't the same value as provided at constructor time.
 <b>Signature:</b>
 
 ```typescript
-src: string
+readonly src: string;
 ```

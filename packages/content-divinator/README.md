@@ -1,11 +1,26 @@
 # [@archivator/content-divinator][repo-url]
 
-> Attempt at guessing stuff, summarize content, based on raw text. A naïve Natural Language Processing toolkit.
+> Attempt at guessing stuff, summarize content, based on raw text. A naïve
+> Natural Language Processing toolkit.
 
-This is, by no means, an actual attempt at Machine Learning.
-It’s simply a few helpers to help automate maintenance of metadata from imported content.
+This is, by no means, an actual attempt at Machine Learning. It’s simply a few
+helpers to help automate maintenance of metadata from imported content.
 
-[repo-url]: https://github.com/renoirb/archivator/blob/v3.x-dev/packages/content-divinator 'Content Divinator'
+[repo-url]:
+  https://github.com/renoirb/archivator/blob/v3.x-dev/packages/content-divinator
+  'Content Divinator'
+[npmjs-package-badge]:
+  https://img.shields.io/npm/v/%40archivator%2Fcontent-divinator?style=flat-square&logo=appveyor&label=npm&logo=npm
+[npmjs-package]: https://www.npmjs.com/package/%40archivator%2Fcontent-divinator
+[bundlesize-badge]:
+  https://img.shields.io/bundlephobia/min/%40archivator%2Fcontent-divinator?style=flat-square
+  'Bundle Size'
+[dependabot-badge]:
+  https://img.shields.io/librariesio/release/npm/%40archivator%2Fcontent-divinator?style=flat-square&logo=appveyor&logo=dependabot
+
+| Version                                      | Size                                 | Dependencies                                                           |
+| -------------------------------------------- | ------------------------------------ | ---------------------------------------------------------------------- |
+| [![npm][npmjs-package-badge]][npmjs-package] | ![npm bundle size][bundlesize-badge] | ![Libraries.io dependency status for latest release][dependabot-badge] |
 
 ## Usage
 
@@ -80,11 +95,14 @@ console.log(hashMap)
 
 ### Refactor into coroutine?
 
-During March 5th refactor work session, [I’ve attempted in making use of coroutine][coroutine-gist].
-But I’ve dropped the idea when my [favourite JavaScript author said _he hasn’t seen strongly typed usage of coroutine_][renoir-axel-tweets].
+During March 5th refactor work session, [I’ve attempted in making use of
+coroutine][coroutine-gist]. But I’ve dropped the idea when my [favourite
+JavaScript author said _he hasn’t seen strongly typed usage of
+coroutine_][renoir-axel-tweets].
 
 [renoir-axel-tweets]: https://twitter.com/renoirb/status/1236386606266953731
-[coroutine-gist]: https://gist.github.com/renoirb/e7d344cb88524800c247c6842e4eb550
+[coroutine-gist]:
+  https://gist.github.com/renoirb/e7d344cb88524800c247c6842e4eb550
 
 - https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/co/index.d.ts
 - https://gist.github.com/OrionNebula/bd2d4339497a2c05e599d7d24038d290

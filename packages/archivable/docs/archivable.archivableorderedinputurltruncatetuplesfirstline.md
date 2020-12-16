@@ -5,7 +5,7 @@
 
 ## ArchivableOrderedInputUrlTruncateTuplesFirstLine variable
 
-The first line of the archive index CSV file
+The first line of the archive index CSV file.
 
 1. First item is a fully qualified source document URL (i.e. a Web Page's
    address) 2. \_selector\_, A CSS selector where the main content is 3.

@@ -6,6 +6,8 @@
 
 ## DocumentAssets.\[Symbol.iterator\]() method
 
+What makes it possible to take a DocumentAssets to be for..of iterable.
+
 <b>Signature:</b>
 
 ```typescript

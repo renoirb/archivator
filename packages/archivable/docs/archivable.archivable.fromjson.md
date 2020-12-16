@@ -6,18 +6,20 @@
 
 ## Archivable.fromJSON() method
 
+Convert a JSON string into an IArchivable object.
+
 <b>Signature:</b>
 
 ```typescript
-static fromJSON(arg: any): IArchivable;
+static fromJSON(maybeValidString: string): Archivable;
 ```
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
-| arg       | any  |             |
+| Parameter        | Type   | Description                                                 |
+| ---------------- | ------ | ----------------------------------------------------------- |
+| maybeValidString | string | Take a JSON String, hopefully in the format for IArchivable |
 
 <b>Returns:</b>
 
-[IArchivable](./archivable.iarchivable.md)
+[Archivable](./archivable.archivable.md)

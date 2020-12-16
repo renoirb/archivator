@@ -1,12 +1,22 @@
 # [url-dirname-normalizer][repo-url]
 
-> Normalize URLs to be valid filesystem paths for archiving web pages and their assets
+> Normalize URLs to be valid filesystem paths for archiving web pages and their
+> assets
 
-[repo-url]: https://github.com/renoirb/archivator/blob/v3.x-dev/packages/url-dirname-normalizer 'URL Directory Name Normalizer'
+[repo-url]:
+  https://github.com/renoirb/archivator/blob/v3.x-dev/packages/url-dirname-normalizer
+  'URL Directory Name Normalizer'
+[npmjs-package-badge]:
+  https://img.shields.io/npm/v/url-dirname-normalizer?style=flat-square&logo=appveyor&label=npm&logo=npm
+[npmjs-package]: https://www.npmjs.com/package/url-dirname-normalizer
+[bundlesize-badge]:
+  https://img.shields.io/bundlephobia/min/url-dirname-normalizer?style=flat-square
+[dependabot-badge]:
+  https://img.shields.io/librariesio/release/npm/url-dirname-normalizer?style=flat-square&logo=appveyor&logo=dependabot
 
-| Version                                                                                                                                                                | Size                                                                                                 | Dependencies                                                                                                                                                                |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [![npm](https://img.shields.io/npm/v/url-dirname-normalizer?style=flat-square&logo=appveyor&label=npm&logo=npm)](https://www.npmjs.com/package/url-dirname-normalizer) | ![npm bundle size](https://img.shields.io/bundlephobia/min/url-dirname-normalizer?style=flat-square) | ![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/url-dirname-normalizer?style=flat-square&logo=appveyor&logo=dependabot) |
+| Version                                      | Size                                 | Dependencies                                                           |
+| -------------------------------------------- | ------------------------------------ | ---------------------------------------------------------------------- |
+| [![npm][npmjs-package-badge]][npmjs-package] | ![npm bundle size][bundlesize-badge] | ![Libraries.io dependency status for latest release][dependabot-badge] |
 
 ## Usage
 
@@ -33,7 +43,9 @@ dirnameNormalizer(sourceDocument)
 
 Alongside the default export, there is also a `normalizer` with a few methods.
 
-Refer to notes in [**pathName** in `normalizer/path-name.ts`](./src/normalizer/path-name.ts) and [**searchParams** in `normalizer/search-params.ts`](./src/normalizer/search-params.ts)
+Refer to notes in
+[**pathName** in `normalizer/path-name.ts`](./src/normalizer/path-name.ts) and
+[**searchParams** in `normalizer/search-params.ts`](./src/normalizer/search-params.ts)
 
 ```js
 import { normalizer } from 'url-dirname-normalizer'

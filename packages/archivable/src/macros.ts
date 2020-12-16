@@ -1,16 +1,20 @@
 import { dirnameNormalizer } from 'url-dirname-normalizer'
 
 import { DocumentAssets } from './document-assets'
-import {
-  HashingFunctionType,
+import type {
+  IHashingFn,
   INormalizedAsset,
-  INormalizedAssetDestination,
-  INormalizedAssetReferenceType,
-  NormalizedAssetFileExtensionExtractorType,
-  NormalizedAssetReferenceHandlerType,
+  INormalizedAssetDest,
+  INormalizedAssetReference,
+  INormalizedAssetFileExtensionExtractorFn,
+  INormalizedAssetReferenceHandlerFn,
 } from './types'
 
 /**
+ * Create a NormalizedAsset Reference Map, for iteration.
+ *
+ * @package
+ *
  * For any reference found in initial source document, what reference
  * to use to replace it with so that we can use local copy of asset.
  *
@@ -29,17 +33,8 @@ import {
  * This way, we can search and replace the initial attribute value,
  * and rewrite with the reference (i.e. hash) of the file we've downloaded.
  *
- * ----
- *
- * See earlier implementation:
- *   v1.0.0, initial implementation:
- *     links:
- *       - url: https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L70-L83
- *       - url: https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L85-L114
- *
- * ----
- *
- * @public
+ * {@see https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L70-L83  transformer.js lines 70..83, initial implementation}
+ * {@see https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L85-L114 transformer.js lines 85..114, initial implementation}
  */
 export const createNormalizedAssetReferenceMap = (
   assets: DocumentAssets,
@@ -62,26 +57,25 @@ export const createNormalizedAssetReferenceMap = (
 /**
  * Return missing properties for normalized asset entity: The file hash (a.k.a. reference).
  *
+ * @package
+ *
  * This is a pure function, we do not mutate the asset entry.
  * It's done that way so we can decouple from intial iteration, for later use.
  *
  * For example, maybe we'll have another way to figure out the asset file extension.
  * Possibly by using HTTP headers and reading mime-type.
  * That would be done a second time, i.e. not at initial iteration.
- *
- * @public
- * @author Renoir Boulanger <contribs@renoirboulanger.com>
  */
 export const assetReferenceHandlerFactory = (
-  hashingHandler: HashingFunctionType,
-  extensionHandler: NormalizedAssetFileExtensionExtractorType,
-): NormalizedAssetReferenceHandlerType => {
+  hashingHandler: IHashingFn,
+  extensionHandler: INormalizedAssetFileExtensionExtractorFn,
+): INormalizedAssetReferenceHandlerFn => {
   return (asset: INormalizedAsset) => {
     const extension = extensionHandler.apply(null, [asset.src])
     const hasExtension = extension !== ''
     const reference = hashingHandler.apply(null, [asset.src]) + extension
 
-    const out: INormalizedAssetReferenceType = {
+    const out: INormalizedAssetReference = {
       reference,
       hasExtension,
     }
@@ -93,13 +87,15 @@ export const assetReferenceHandlerFactory = (
 /**
  * Return missing properties for normalized asset entity: The file destination (a.k.a. dest).
  *
- * @param asset {INormalizedAsset} — The asset entity
- * @param sourceDocument {string} — The document this asset has been found in
+ * @package
+ *
+ * @param asset - The asset entity
+ * @param sourceDocument - The document this asset has been found in
  */
 export const extractNormalizedAsset = (
   asset: INormalizedAsset,
   sourceDocument: string,
-): INormalizedAssetDestination => {
+): INormalizedAssetDest => {
   const { reference } = asset
   if (typeof reference !== 'string') {
     const message = `Missing asset reference, make sure you’ve used assetReferenceHandlerFactory before using extractNormalizedAsset.`
@@ -108,9 +104,33 @@ export const extractNormalizedAsset = (
   const basePath = dirnameNormalizer(sourceDocument)
   const dest = `${basePath}/${reference}`
 
-  const out: INormalizedAssetDestination = {
+  const out: INormalizedAssetDest = {
     dest,
   }
 
   return out
+}
+
+/**
+ * List of CSS selectors we typically do not want in a web page archive.
+ *
+ * @package
+ */
+export const appendTruncate = (truncateArg: string): string => {
+  // Truncate is to strip off any patterns we do not want
+  // as part of our archived article.
+  let truncate = truncateArg.length === 0 ? '' : `${truncateArg},`
+  truncate += 'script,style,noscript,template'
+  return truncate
+}
+
+/**
+ * Ensure we have at least the document's body
+ *
+ * @package
+ */
+export const appendSelector = (selectorArg: string): string => {
+  // If we know exactly where the main content is, otherwise grab the whole
+  // document body.
+  return selectorArg.length === 0 ? 'body' : `${selectorArg}`
 }

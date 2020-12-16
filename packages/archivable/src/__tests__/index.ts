@@ -2,16 +2,16 @@ import { FileSystem, JsonFile } from '@rushstack/node-core-library'
 
 import { resolve } from 'path'
 
-export type AssetsNormalizationUrlsExpectedExplanationTuples = [
+export type IAssetsNormalizationUrlsExpectedExplanationTuple = [
   string,
   string,
   string,
   string,
-][]
+]
 
 export const loadJson = (
   fileName: string,
-): Readonly<AssetsNormalizationUrlsExpectedExplanationTuples> => {
+): Readonly<IAssetsNormalizationUrlsExpectedExplanationTuple[]> => {
   const parentPath = resolve(__dirname, '..', '..', 'resources', 'fixtures')
   const normalizedFilePath = resolve(parentPath, fileName)
   if (!FileSystem.exists(normalizedFilePath)) {
@@ -20,7 +20,7 @@ export const loadJson = (
 
   const loaded = JsonFile.load(
     normalizedFilePath,
-  ) as AssetsNormalizationUrlsExpectedExplanationTuples
+  ) as IAssetsNormalizationUrlsExpectedExplanationTuple[]
   const out = Object.freeze(loaded)
 
   return out

@@ -1,7 +1,7 @@
-const base = require('@renoirb/conventions-use-jest')
+import base from '@renoirb/conventions-use-jest'
 
 const main = {
   ...base,
 }
 
-module.exports = main
+export default main

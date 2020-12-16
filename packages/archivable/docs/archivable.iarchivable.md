@@ -10,9 +10,6 @@ An Archivable Entity.
 For a given source document URL, where to extract the main content ("selector"),
 and what parts of the page aren't relevant to an archive ("truncate").
 
-Renoir Boulanger
-&lt;<!-- -->contribs<!-- -->@<!-- -->renoirboulanger.com<!-- -->&gt;
-
 <b>Signature:</b>
 
 ```typescript

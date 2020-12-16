@@ -5,7 +5,7 @@
 
 ## DocumentAssets class
 
-Assets found on a Web Page Document
+Assets found on a Web Page Document.
 
 So we can prepare for downloading a copy of all the document's assets.
 
@@ -34,8 +34,8 @@ Should provide us a cleaned up list of assets where is a good guess the asset
 might be found so we can make a copy and archive them.
 
 Notice: - Each dest file are hashes with extension - Gravatar sample started by
-//, and below, at src value, we'll have over http - zce_logo.png is in
-/wp-content/..., but below at src value, it's on renoirboulanger.com
+`//`<!-- -->, and below, at src value, we'll have over http - zce_logo.png is in
+`/wp-content/...`<!-- -->, but below at src value, it's on `renoirboulanger.com`
 
 We should receive something similar to this;
 
@@ -77,21 +77,6 @@ const collection = [
 ]
 ```
 
-\-\-\--
-
-See earlier implementation: v1.0.0, initial implementation: links: - url:
-https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js\#L186 -
-url:
-https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js\#L192 -
-url: https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js\#L20 -
-url:
-https://github.com/renoirb/archivator/blob/v1.0.0/src/normalizer/assets.js\#L32
-
-\-\-\--
-
-Renoir Boulanger
-&lt;<!-- -->contribs<!-- -->@<!-- -->renoirboulanger.com<!-- -->&gt;
-
 <b>Signature:</b>
 
 ```typescript
@@ -103,9 +88,9 @@ Iterable&lt;[INormalizedAsset](./archivable.inormalizedasset.md)<!-- -->&gt;
 
 ## Constructors
 
-| Constructor                                                                           | Modifiers | Description                                                        |
-| ------------------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------ |
-| [(constructor)(sourceDocument, assets)](./archivable.documentassets._constructor_.md) |           | Constructs a new instance of the <code>DocumentAssets</code> class |
+| Constructor                                                                           | Modifiers | Description                          |
+| ------------------------------------------------------------------------------------- | --------- | ------------------------------------ |
+| [(constructor)(sourceDocument, assets)](./archivable.documentassets._constructor_.md) |           | Assets found on a Web Page Document. |
 
 ## Properties
 
@@ -117,6 +102,6 @@ Iterable&lt;[INormalizedAsset](./archivable.inormalizedasset.md)<!-- -->&gt;
 
 | Method                                                                             | Modifiers | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | ---------------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [\[Symbol.iterator\]()](./archivable.documentassets._symbol.iterator_.md)          |           |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| [\[Symbol.iterator\]()](./archivable.documentassets._symbol.iterator_.md)          |           | What makes it possible to take a DocumentAssets to be for..of iterable.                                                                                                                                                                                                                                                                                                                                                                                                               |
 | [next()](./archivable.documentassets.next.md)                                      |           | Anything done here allows us to build full-blown objects only at iteration time. This is following ECMAScript 2015+ Iteration protocol.<!-- -->Bookmarks: - https://www.carloscaballero.io/design-patterns-iterator/ - https://www.carloscaballero.io/understanding-iterator-pattern-in-javascript-typescript-using-symbol-iterator/ - https://exploringjs.com/es6/ch\_iteration.html - https://codeburst.io/a-simple-guide-to-es6-iterators-in-javascript-with-examples-189d052c3d8e |
-| [setReferenceHandler(handler)](./archivable.documentassets.setreferencehandler.md) |           | How to process assets during iteration.<!-- -->@<!-- -->TODO: Have before and after HTTP call hooks so we can better normalize based on mime-types.                                                                                                                                                                                                                                                                                                                                   |
+| [setReferenceHandler(handler)](./archivable.documentassets.setreferencehandler.md) |           | How to process assets during iteration. Have before and after HTTP call hooks so we can better normalize based on mime-types.                                                                                                                                                                                                                                                                                                                                                         |

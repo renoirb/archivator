@@ -5,50 +5,47 @@
 ```ts
 
 // @public
-export class Archivable implements IArchivable {
+class Archivable implements IArchivable {
     constructor(url: string, selector?: string, truncate?: string);
     // (undocumented)
     readonly archive: string | null;
-    // (undocumented)
-    static fromJSON(arg: any): IArchivable;
+    static fromJSON(maybeValidString: string): Archivable;
     static fromLine(line?: string): Archivable;
     // (undocumented)
-    static fromTuple(tuple: ArchivableOrderedInputUrlTruncateTuplesType): Archivable;
-    static parseLine(line?: string): ArchivableOrderedInputUrlTruncateTuplesType;
+    static fromTuple(tuple: IArchivableOrderedInputUrlTruncateTuple): Archivable;
+    static parseLine(line?: string): IArchivableOrderedInputUrlTruncateTuple;
     // (undocumented)
     readonly selector: string;
     // (undocumented)
     toJSON(): Readonly<IArchivable>;
     // (undocumented)
-    toTuple(): Readonly<ArchivableOrderedInputUrlTruncateTuplesType>;
+    toTuple(): Readonly<IArchivableOrderedInputUrlTruncateTuple>;
     // (undocumented)
     readonly truncate: string;
     // (undocumented)
     readonly url: string;
 }
 
-// @public
-export const ArchivableOrderedInputUrlTruncateTuplesFirstLine = "\"Web Page URL\";\"CSS Selectors for main content\";\"CSS Selectors to strip content off\"";
+export { Archivable }
+
+export default Archivable;
 
 // @public
-export type ArchivableOrderedInputUrlTruncateTuplesType = [string, string, string];
+export const ArchivableOrderedInputUrlTruncateTuplesFirstLine = "\"Web Page URL\";\"CSS Selectors for main content\";\"CSS Selectors to strip content off\"";
 
 // @public
 export type CryptoCommonHashingFunctions = 'sha1' | 'sha256' | 'md5' | 'md5-sha1' | 'mdc2' | 'sha512' | 'sha224' | string;
 
 // @public
 export class DocumentAssets implements Iterable<INormalizedAsset> {
-    // (undocumented)
     [Symbol.iterator](): Iterator<INormalizedAsset>;
     constructor(sourceDocument: string, assets?: string[]);
     next(): IteratorResult<Readonly<INormalizedAsset>>;
-    setReferenceHandler(handler: NormalizedAssetReferenceHandlerType): void;
+    // Warning: (ae-incompatible-release-tags) The symbol "setReferenceHandler" is marked as @public, but its signature references "INormalizedAssetReferenceHandlerFn" which is marked as @internal
+    setReferenceHandler(handler: INormalizedAssetReferenceHandlerFn): void;
     // (undocumented)
     readonly sourceDocument: string;
 }
-
-// @public
-export type HashingFunctionType = (message: string) => string;
 
 // @public
 export interface IArchivable {
@@ -59,29 +56,64 @@ export interface IArchivable {
 }
 
 // @public
+export type IArchivableOrderedInputUrlTruncateTuple = [string, string, string];
+
+// Warning: (ae-internal-missing-underscore) The name "IHashingFn" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export type IHashingFn = (message: string) => string;
+
+// @public
 export interface INormalizedAsset {
     dest: string | null;
-    match: string;
+    readonly match: string;
     reference: string | null;
-    src: string;
+    readonly src: string;
 }
 
 // @public
-export interface INormalizedAssetDestination {
+export interface INormalizedAssetDest {
     // (undocumented)
     dest: string;
 }
 
-// @public
-export interface INormalizedAssetReferenceType {
+// Warning: (ae-internal-missing-underscore) The name "INormalizedAssetEntity" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export interface INormalizedAssetEntity {
+    // (undocumented)
+    toJSON(): Readonly<INormalizedAsset>;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "INormalizedAssetFileExtensionExtractorFn" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export type INormalizedAssetFileExtensionExtractorFn = (assetUrl: string) => string;
+
+// Warning: (ae-internal-missing-underscore) The name "INormalizedAssetReference" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export interface INormalizedAssetReference {
     // (undocumented)
     hasExtension: boolean;
     // (undocumented)
     reference: string;
 }
 
+// Warning: (ae-internal-missing-underscore) The name "INormalizedAssetReferenceHandlerFactoryFn" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export type INormalizedAssetReferenceHandlerFactoryFn = (hashingHandler: IHashingFn, extensionHandler: INormalizedAssetFileExtensionExtractorFn) => INormalizedAssetReferenceHandlerFn;
+
+// Warning: (ae-internal-missing-underscore) The name "INormalizedAssetReferenceHandlerFn" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export type INormalizedAssetReferenceHandlerFn = (asset: INormalizedAsset) => INormalizedAssetReference;
+
+// Warning: (ae-incompatible-release-tags) The symbol "NormalizedAsset" is marked as @public, but its signature references "INormalizedAssetEntity" which is marked as @internal
+//
 // @public
-export class NormalizedAsset implements INormalizedAsset {
+export class NormalizedAsset implements INormalizedAsset, INormalizedAssetEntity {
     constructor(sourceDocument: string, match: string);
     // (undocumented)
     dest: string | null;
@@ -94,15 +126,6 @@ export class NormalizedAsset implements INormalizedAsset {
     // (undocumented)
     toJSON(): Readonly<INormalizedAsset>;
 }
-
-// @public
-export type NormalizedAssetFileExtensionExtractorType = (assetUrl: string) => string;
-
-// @public
-export type NormalizedAssetReferenceHandlerFactoryType = (hashingHandler: HashingFunctionType, extensionHandler: NormalizedAssetFileExtensionExtractorType) => NormalizedAssetReferenceHandlerType;
-
-// @public
-export type NormalizedAssetReferenceHandlerType = (asset: INormalizedAsset) => INormalizedAssetReferenceType;
 
 
 // (No @packageDocumentation comment for this package)

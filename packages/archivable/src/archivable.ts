@@ -1,31 +1,20 @@
 import { toUrl } from 'url-dirname-normalizer'
 
 import { parseArchivableCsvLine } from './parse-csv-line'
+import { appendSelector, appendTruncate } from './macros'
 
 import type {
-  ArchivableOrderedInputUrlTruncateTuplesType,
+  IArchivableOrderedInputUrlTruncateTuple,
   IArchivable,
 } from './types'
-
-const appendTruncate = (truncateArg: string): string => {
-  // Truncate is to strip off any patterns we do not want
-  // as part of our archived article.
-  let truncate = truncateArg.length === 0 ? '' : `${truncateArg},`
-  truncate += 'script,style,noscript,template'
-  return truncate
-}
-
-const appendSelector = (selectorArg: string): string => {
-  // If we know exactly where the main content is, otherwise grab the whole
-  // document body.
-  return selectorArg.length === 0 ? 'body' : `${selectorArg}`
-}
 
 /**
  * Something to Archive.
  *
  * From an URL, which part to pick from that page,
  * what to truncate.
+ *
+ * @public
  */
 export class Archivable implements IArchivable {
   readonly archive: string | null = null
@@ -34,9 +23,9 @@ export class Archivable implements IArchivable {
   readonly url: string
 
   /**
-   * @param url {string} — URL to the source document
-   * @param selector {string} — CSS selector where the principal web page content is in
-   * @param truncate {string} — Coma Separated List of CSS selectors to strip content off (e.g. ads, orthogonal content)
+   * @param url - URL to the source document
+   * @param selector - CSS selector where the principal web page content is in
+   * @param truncate - Coma Separated List of CSS selectors to strip content off (e.g. ads, orthogonal content)
    */
   constructor(url: string, selector = '', truncate = '') {
     // At runtime, do not let undefined pass.
@@ -68,16 +57,14 @@ export class Archivable implements IArchivable {
     return Object.seal<IArchivable>(out)
   }
 
-  static fromTuple(
-    tuple: ArchivableOrderedInputUrlTruncateTuplesType,
-  ): Archivable {
+  static fromTuple(tuple: IArchivableOrderedInputUrlTruncateTuple): Archivable {
     const [url, selector, truncate] = tuple
     return new Archivable(url, selector, truncate)
   }
 
-  toTuple(): Readonly<ArchivableOrderedInputUrlTruncateTuplesType> {
+  toTuple(): Readonly<IArchivableOrderedInputUrlTruncateTuple> {
     const { url, selector, truncate } = this.toJSON()
-    return Object.freeze<ArchivableOrderedInputUrlTruncateTuplesType>([
+    return Object.freeze<IArchivableOrderedInputUrlTruncateTuple>([
       url,
       selector,
       truncate,
@@ -85,13 +72,20 @@ export class Archivable implements IArchivable {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static fromJSON(arg: any): IArchivable {
-    const argIsString = typeof arg === 'string'
+  /**
+   * Convert a JSON string into an IArchivable object.
+   *
+   * @param maybeValidString - Take a JSON String, hopefully in the format for IArchivable
+   */
+  static fromJSON(maybeValidString: string): Archivable {
+    const argIsString = typeof maybeValidString === 'string'
     if (argIsString === false) {
       const message = 'Only String is supported'
       throw new Error(message)
     }
-    const { url = null, truncate = '', selector = '' } = JSON.parse(arg)
+    const { url = null, truncate = '', selector = '' } = JSON.parse(
+      maybeValidString,
+    )
 
     return new Archivable(url, truncate, selector)
   }
@@ -99,9 +93,7 @@ export class Archivable implements IArchivable {
   /**
    * Take a string, creates an Archivable based on it.
    *
-   * {@link parseArchivableCsvLine}
-   *
-   * @param {string} line — string of text that may or may not be valid CSV
+   * @param line - string of text that may or may not be valid CSV
    */
   static fromLine(
     line = 'http://localhost;body;.ad,.social-button',
@@ -113,13 +105,11 @@ export class Archivable implements IArchivable {
   /**
    * Extract from CSV line.
    *
-   * {@link parseArchivableCsvLine}
-   *
-   * @param {string} line — string of text that may or may not be valid CSV
+   * @param line - string of text that may or may not be valid CSV
    */
   static parseLine(
     line = 'http://localhost;body;.ad,.social-button',
-  ): ArchivableOrderedInputUrlTruncateTuplesType {
+  ): IArchivableOrderedInputUrlTruncateTuple {
     const tuple = parseArchivableCsvLine(line)
     return tuple
   }

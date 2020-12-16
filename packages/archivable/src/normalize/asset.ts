@@ -1,38 +1,35 @@
 import { assetUrlNormalizer } from './asset-url'
 
-import type { INormalizedAsset } from '../types'
+import type { INormalizedAsset, INormalizedAssetEntity } from '../types'
 
 /**
- * Asset we might want to keep a copy that is found on a document on the www.
- *
- * {@link INormalizedAsset}
+ * An image or picture we want to keep a copy alongside its web page document source.
  *
  * @public
- * @author Renoir Boulanger <contribs@renoirboulanger.com>
  */
-export class NormalizedAsset implements INormalizedAsset {
-  /**
-   * {@see INormalizedAsset#dest}
-   * {@link extractNormalizedAsset}
-   */
-  dest: string | null = null
-
+export class NormalizedAsset
+  implements INormalizedAsset, INormalizedAssetEntity {
   readonly match: string
-
-  /**
-   * {@see INormalizedAsset#reference}
-   * {@link assetReferenceHandlerFactory}
-   */
-  reference: string | null = null
 
   readonly src: string
 
   /**
+   * {@see INormalizedAsset#dest}
+   * {@see extractNormalizedAsset}
+   */
+  dest: string | null = null
+
+  /**
+   * {@see INormalizedAsset#reference}
+   * {@see assetReferenceHandlerFactory}
+   */
+  reference: string | null = null
+
+  /**
    * Normalize Asset reference.
    *
-   * @param sourceDocument {string} — URL of the document in which we would download the asset from
-   * @param match {string} - Value into image's src attribute value
-   * @param hashWith {string} — Hashing function to use to normalize reference, defaults to 'sha256'
+   * @param sourceDocument - URL of the document in which we would download the asset from
+   * @param match - Value into image's src attribute value
    */
   constructor(
     sourceDocument: string,
@@ -42,6 +39,8 @@ export class NormalizedAsset implements INormalizedAsset {
     this.match = match
     const urlObj = assetUrlNormalizer(sourceDocument, match)
     this.src = String(urlObj)
+    Object.freeze(this.src)
+    Object.freeze(this.match)
   }
 
   toJSON(): Readonly<INormalizedAsset> {

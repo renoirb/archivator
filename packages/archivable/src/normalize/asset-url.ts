@@ -3,16 +3,21 @@ import { toUrl } from 'url-dirname-normalizer'
 /**
  * Normalize Asset Reference.
  *
- * Given we have an article URL at http://example.org/foo/bar/baz.html
- * (a.k.a. "sourceDocument") where we can have many image tags we want
- * to keep a copy (e.g. <img src="/image/a.jpg" />, refered here as "asset").
- * We want to know where should we download /image/a.jpg from.
- * To do this, we can figure out by combining the sourceDocument and the asset
+ * @package
  *
- * For a given sourceDocument URL with 0 or more assets in document's HTML,
+ *
+ * Given we have an article URL at `http://example.org/foo/bar/baz.html`
+ * (a.k.a. "`sourceDocument`") where we can have many image tags we want
+ * to keep a copy (e.g. `<img src="/image/a.jpg" />`, refered here as "`asset`").
+ * We want to know where should we download `/image/a.jpg` from.
+ * To do this, we can figure out by combining the `sourceDocument` and the `asset`
+ *
+ * For a given `sourceDocument` URL with 0 or more assets in document's HTML,
  * we want to get output as:
- * [ http://example.org/image/a.jpg,
- *   ... ]
+ *
+ * ```json
+ * [ 'http://example.org/image/a.jpg', ... ]
+ * ```
  *
  * This module should handle all valid asset paths and return
  * a fully qualified URL so we can download the asset.
@@ -20,19 +25,19 @@ import { toUrl } from 'url-dirname-normalizer'
  * For example, the URL of a sourceDocument could be "http://example.org/foo/bar.html"
  * with images ("asset" img tags with src="...") img[src] values;
  *
- * - /a/b.jpg                      => http://example.org/a/b.jpg
- * - a/b.jpg                       => http://example.org/foo/a/b.jpg
- * - a/b                           => http://example.org/foo/a/b
- * - ../a/b.jpg                    => http://example.org/a/b.jpg
- * - a/b.jpg?foo=bar               => http://example.org/foo/a/b.jpg?foo=bar
- * - //example.org/a/b.jpg         => http://example.org/a/b.jpg
- * - http://elsewhere.org/a/b.jpg  => http://elsewhere.org/a/b.jpg
- * - https://example.org/a/b.jpg   => https://example.org/a/b.jpg
+ * | Input                          | Output                                   |
+ * | ------------------------------ | ---------------------------------------- |
+ * | `/a/b.jpg`                     | `http://example.org/a/b.jpg`             |
+ * | `a/b.jpg`                      | `http://example.org/foo/a/b.jpg`         |
+ * | `a/b`                          | `http://example.org/foo/a/b`             |
+ * | `../a/b.jpg`                   | `http://example.org/a/b.jpg`             |
+ * | `a/b.jpg?foo=bar`              | `http://example.org/foo/a/b.jpg?foo=bar` |
+ * | `//example.org/a/b.jpg`        | `http://example.org/a/b.jpg`             |
+ * | `http://elsewhere.org/a/b.jpg` | `http://elsewhere.org/a/b.jpg`           |
+ * | `https://example.org/a/b.jpg`  | `https://example.org/a/b.jpg`            |
  *
- * @param sourceDocument {string} — URL to the document where the asset is found in
- * @param asset {string} — URL or relative URL path or protocol-less URL reference to asset, typically found in a link,img,... HTML tag
- *
- * @author Renoir Boulanger <contribs@renoirboulanger.com>
+ * @param sourceDocument - URL to the document where the asset is found in
+ * @param asset - URL or relative URL path or protocol-less URL reference to asset, typically found in a link,img,... HTML tag
  */
 export const assetUrlNormalizer = (
   sourceDocument: string,
@@ -104,11 +109,9 @@ export const assetUrlNormalizer = (
    *
    * Here are a few possible edge cases.
    *
-   * ----
-   *
    * Equal number directory deep and request for going up.
    *
-   * ```
+   * ```json
    * [ { sourceDocument: 'http://example.org/ignored/also_ignored/and_too',
    *     targetGiven: 'http://example.org/ignored/also_ignored/and_too/' },
    *   { asset: '../../../a.jpg', targetAsset: '../../../a.jpg' },
@@ -130,11 +133,9 @@ export const assetUrlNormalizer = (
    *     sliceUntilHowMany: 0 } ]
    * ```
    *
-   * ----
-   *
    * File has extension, we cannot treat it as a directory.
    *
-   * ```
+   * ```json
    * [ { sourceDocument: 'http://example.org/b/c.html',
    *     targetGiven: 'http://example.org/b/' },
    *   { asset: '../a.png', targetAsset: '../a.png' },
@@ -146,12 +147,10 @@ export const assetUrlNormalizer = (
    *     sliceUntilHowMany: 0 } ]
    * ```
    *
-   * ----
-   *
    * Here, we are asking to go beyond one directory deep.
    * Notice isTargetAssetGoUpOverflow is true.
    *
-   * ```
+   * ```json
    * [ { sourceDocument: 'http://example.org/b/c.html',
    *     targetGiven: 'http://example.org/' },
    *   { asset: '../../../../../a.png', targetAsset: 'a.png' },

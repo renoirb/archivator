@@ -5,20 +5,17 @@
 
 ## NormalizedAsset class
 
-Asset we might want to keep a copy that is found on a document on the www.
-
-[INormalizedAsset](./archivable.inormalizedasset.md)
-
-Renoir Boulanger
-&lt;<!-- -->contribs<!-- -->@<!-- -->renoirboulanger.com<!-- -->&gt;
+An image or picture we want to keep a copy alongside its web page document
+source.
 
 <b>Signature:</b>
 
 ```typescript
-export declare class NormalizedAsset implements INormalizedAsset
+export declare class NormalizedAsset implements INormalizedAsset, INormalizedAssetEntity
 ```
 
-<b>Implements:</b> [INormalizedAsset](./archivable.inormalizedasset.md)
+<b>Implements:</b> [INormalizedAsset](./archivable.inormalizedasset.md)<!-- -->,
+INormalizedAssetEntity
 
 ## Constructors
 
