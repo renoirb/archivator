@@ -24,6 +24,12 @@ export interface ISummaryRecordType {
 // @public
 export type NonStopWordIsserType = (word: string) => boolean;
 
+// @public (undocumented)
+export const utils: {
+    convertMapToRecordHashMap: (textMap: Map<string, number>) => Record<string, number>;
+    convertRecordHashMapToMap: (textHashMap: Record<string, number>) => Map<string, number>;
+};
+
 // @public
 export type WordNormalizerType = (word: any) => string | void;
 

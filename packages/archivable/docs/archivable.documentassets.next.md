@@ -9,11 +9,6 @@
 Anything done here allows us to build full-blown objects only at iteration time.
 This is following ECMAScript 2015+ Iteration protocol.
 
-Bookmarks: - https://www.carloscaballero.io/design-patterns-iterator/ -
-https://www.carloscaballero.io/understanding-iterator-pattern-in-javascript-typescript-using-symbol-iterator/ -
-https://exploringjs.com/es6/ch\_iteration.html -
-https://codeburst.io/a-simple-guide-to-es6-iterators-in-javascript-with-examples-189d052c3d8e
-
 <b>Signature:</b>
 
 ```typescript

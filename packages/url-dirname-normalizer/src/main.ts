@@ -16,7 +16,6 @@ import { searchParams, pathName, toUrl } from './normalizer'
  * ----
  *
  * @public
- * @author Renoir Boulanger <contribs@renoirboulanger.com>
  */
 export const main = (url: string): string => {
   const search = searchParams(url)

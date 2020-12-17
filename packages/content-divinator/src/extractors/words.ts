@@ -8,35 +8,16 @@ import type { WordUsageMapType } from '../types'
 /**
  * Extract words and calculate usage frequency.
  *
- * ----
- *
- * See earlier implementation:
- *   v1.0.0, initial implementation:
- *     links:
- *       - name: extractWords
- *         url: https://github.com/renoirb/archivator/blob/v1.0.0/src/analyze.js#L22-L46
- *       - name: analyze
- *         url: https://github.com/renoirb/archivator/blob/v1.0.0/src/analyze.js#L76-L94
- *       - name: sort
- *         url: https://github.com/renoirb/archivator/blob/v1.0.0/src/analyze.js#L63-L74
- *       - name: removePunctuation
- *         url: https://github.com/renoirb/archivator/blob/v1.0.0/src/analyze.js#L18-L20
- *   v2.0.0, rework implementation:
- *     links:
- *       - name: normalize
- *         replacing: removePunctuation
- *         replacedWith: wordNormalizer
- *         url: https://github.com/renoirb/archivator/blob/v2.0.0/src/analyze.js#L13-L16
- *       - name: extractWords:
- *         replacedWith: words
- *         url: https://github.com/renoirb/archivator/blob/v2.0.0/src/analyze.js#L18-L48
- *       - name: sort
- *         replacing: sort
- *         url: https://github.com/renoirb/archivator/blob/v2.0.0/src/analyze.js#L64-L77
- *
- * ----
- *
+ * @internal
  * @package extractors
+ *
+ * {@link https://github.com/renoirb/archivator/blob/v1.0.0/src/analyze.js#L22-L46 replacing v1.0 implementation of extractWords}
+ * {@link https://github.com/renoirb/archivator/blob/v1.0.0/src/analyze.js#L76-L94 replacing v1.0 implementation of analyze}
+ * {@link https://github.com/renoirb/archivator/blob/v1.0.0/src/analyze.js#L63-L74 replacing v1.0 implementation of sort}
+ * {@link https://github.com/renoirb/archivator/blob/v1.0.0/src/analyze.js#L18-L20 replacing v1.0 implementation of removePunctuation}
+ * {@link https://github.com/renoirb/archivator/blob/v2.0.0/src/analyze.js#L13-L16 replacing v2.0 implementation of normalize as wordNormalizer}
+ * {@link https://github.com/renoirb/archivator/blob/v2.0.0/src/analyze.js#L18-L48 replacing v2.0 implementation of extractWords as words}
+ * {@link https://github.com/renoirb/archivator/blob/v2.0.0/src/analyze.js#L64-L77 replacing v2.0 implementation of sort}
  *
  * @param body - Text content, as a single string
  * @param stopWords - Words that should be ignored

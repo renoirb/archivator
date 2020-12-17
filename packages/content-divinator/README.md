@@ -7,7 +7,7 @@ This is, by no means, an actual attempt at Machine Learning. It’s simply a few
 helpers to help automate maintenance of metadata from imported content.
 
 [repo-url]:
-  https://github.com/renoirb/archivator/blob/v3.x-dev/packages/content-divinator
+  https://github.com/renoirb/archivator/tree/v3.x-dev/packages/content-divinator
   'Content Divinator'
 [npmjs-package-badge]:
   https://img.shields.io/npm/v/%40archivator%2Fcontent-divinator?style=flat-square&logo=appveyor&label=npm&logo=npm
@@ -24,10 +24,17 @@ helpers to help automate maintenance of metadata from imported content.
 
 ## Usage
 
+[api-extractor-review]:
+  https://github.com/renoirb/archivator/blob/v3.x-dev/common/reviews/api/content-divinator.api.md
+  'API Report'
+[api-extractor-docs]:
+  https://github.com/renoirb/archivator/blob/v3.x-dev/packages/content-divinator/docs/index.md
+  'API Extractor docs/'
+
 _See also_:
 
-- [API Extractor code-review signature](../../common/reviews/api/content-divinator.api.md)
-- [API Documentor generated docs](./docs/index.md)
+- [API Extractor code-review signature][api-extractor-review]
+- [API Documentor generated docs][api-extractor-docs]
 
 ### ContentDivinator
 

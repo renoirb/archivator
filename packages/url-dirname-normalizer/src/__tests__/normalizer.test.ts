@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-import { searchParams, toUrl, pathName } from '..'
+import { dirnameNormalizer, searchParams, toUrl, pathName } from '..'
 
 describe('pathName', () => {
   test('Happy-Path', () => {
@@ -11,6 +11,7 @@ describe('pathName', () => {
     const example = 'http://www.example.org/fOo/Bar/bAAz.html'
     const subject = pathName(example)
     expect(subject).toBe('/foo/bar/baaz')
+    expect(dirnameNormalizer(example)).toBe('example.org/foo/bar/baaz')
   })
 })
 
@@ -20,9 +21,10 @@ describe('searchParams', () => {
      * Get path '/bar/bazz/zulu/please' as consistently sorted
      * out of free-form 'http://example.org/foo?zulu=please&bar=bazz&buzz'
      */
-    const example = 'http://example.org/foo?zulu=please&bar=bazz&buzz'
+    const example = 'http://example.org/foo?Yankee=ZULU&bar=bazz&buzz=BIZZ&whiskey'
     const subject = searchParams(example)
-    expect(subject).toBe('/bar/bazz/zulu/please')
+    expect(subject).toBe('/bar/bazz/buzz/bizz/yankee/zulu')
+    expect(dirnameNormalizer(example)).toBe('example.org/foo/bar/bazz/buzz/bizz/yankee/zulu')
   })
 })
 

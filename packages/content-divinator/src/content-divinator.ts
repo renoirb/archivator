@@ -20,7 +20,7 @@ export class ContentDivinator {
   /**
    * Create a ContentDivinator instance.
    *
-   * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase|String.prototype.toLocaleLowerCase}
+   * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase String.prototype.toLocaleLowerCase}
    *
    * @param stopWords - Words that should be ignored
    * @param locales - Locales tags to support for toLocaleLowercase
