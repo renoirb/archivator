@@ -18,8 +18,8 @@ import type {
  * For any reference found in initial source document, what reference
  * to use to replace it with so that we can use local copy of asset.
  *
- * {@see https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L70-L83  transformer.js lines 70..83, initial implementation}
- * {@see https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L85-L114 transformer.js lines 85..114, initial implementation}
+ * {@link https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L70-L83 | `transformer.js` lines 70..83, initial implementation}
+ * {@link https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L85-L114 | `transformer.js` lines 85..114, initial implementation}
  */
 export const createNormalizedAssetReferenceMap = (
   assets: DocumentAssets,

@@ -1,7 +1,12 @@
-import { Archivable } from './archivable'
+import {
+  Archivable,
+  ArchivableOrderedInputUrlTruncateTuplesFirstLine,
+} from './archivable'
 
-export { NormalizedAsset } from './normalize'
-export { DocumentAssets } from './document-assets'
+export * from './normalize'
+export * from './document-assets'
+
+export { ArchivableOrderedInputUrlTruncateTuplesFirstLine }
 
 export * from './types'
 export * from './archivable'

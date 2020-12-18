@@ -7,19 +7,6 @@
 
 Tuple representation of what comes from a source .csv file
 
-Given every row in source file .csv
-
-e.g.
-
-http://example.org/a/b.html;body;.ad,.social-button
-
-1. First item is a fully qualified source document URL (i.e. a Web Page's
-   address) 2. \_selector\_, A CSS selector where the main content is 3.
-   \_truncate\_, A list of CSS selectors to strip off (e.g. ads, orthogonal
-   content)
-
-This is the shape of data input we can use for iteration.
-
 <b>Signature:</b>
 
 ```typescript
@@ -29,3 +16,15 @@ export declare type IArchivableOrderedInputUrlTruncateTuple = [
   string,
 ]
 ```
+
+## Remarks
+
+Given every row in source file .csv, e.g.
+"http://example.org/a/b.html;body;.ad,.social-button"
+
+1. First item is a fully qualified source document URL (i.e. a Web Page's
+   address) 2. \_selector\_, A CSS selector where the main content is 3.
+   \_truncate\_, A list of CSS selectors to strip off (e.g. ads, orthogonal
+   content)
+
+This is the shape of data input we can use for iteration.

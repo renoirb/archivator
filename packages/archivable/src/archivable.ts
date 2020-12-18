@@ -9,6 +9,15 @@ import type {
 } from './types'
 
 /**
+ * The first line of the archive index CSV file.
+ *
+ * @public
+ * {@inheritDoc IArchivableOrderedInputUrlTruncateTuple}
+ */
+export const ArchivableOrderedInputUrlTruncateTuplesFirstLine =
+  '"Web Page URL";"CSS Selectors for main content";"CSS Selectors to strip content off"'
+
+/**
  * Something to Archive.
  *
  * From an URL, which part to pick from that page,

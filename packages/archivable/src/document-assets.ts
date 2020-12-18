@@ -15,10 +15,10 @@ import type {
  *
  * So we can prepare for downloading a copy of all the document's assets.
  *
- * {@see https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L186 `transformer.js` line 186 in initial implementation}
- * {@see https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L192 `transformer.js` line 192 in initial implementation}
- * {@see https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L20 `transformer.js` line 20 in initial implementation}
- * {@see https://github.com/renoirb/archivator/blob/v1.0.0/src/normalizer/assets.js#L32 `normalizer/assets.js` line 32 in initial implementation}
+ * {@link https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L186 | `transformer.js` line 186 in initial implementation}
+ * {@link https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L192 | `transformer.js` line 192 in initial implementation}
+ * {@link https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L20 | `transformer.js` line 20 in initial implementation}
+ * {@link https://github.com/renoirb/archivator/blob/v1.0.0/src/normalizer/assets.js#L32 | `normalizer/assets.js` line 32 in initial implementation}
  */
 export class DocumentAssets implements Iterable<INormalizedAsset> {
   private _iterator: Iterator<string>
@@ -66,10 +66,10 @@ export class DocumentAssets implements Iterable<INormalizedAsset> {
    * Anything done here allows us to build full-blown objects only at iteration time.
    * This is following ECMAScript 2015+ Iteration protocol.
    *
-   * {@link https://www.carloscaballero.io/design-patterns-iterator/ ECMAScript 6 Iterator Design Patterns}
-   * {@link https://www.carloscaballero.io/understanding-iterator-pattern-in-javascript-typescript-using-symbol-iterator/ Understanding Iterator Pattern in JavaScript/Typescript using Symbol.Iterator}
-   * {@link https://exploringjs.com/es6/ch_iteration.html Exloring ECMAScript 2015 Iterables and iterators}
-   * {@link https://codeburst.io/a-simple-guide-to-es6-iterators-in-javascript-with-examples-189d052c3d8e CodeBurst.io A Simple Guide to ES6 Iterators}
+   * {@link https://www.carloscaballero.io/design-patterns-iterator/ | ECMAScript 6 Iterator Design Patterns}
+   * {@link https://www.carloscaballero.io/understanding-iterator-pattern-in-javascript-typescript-using-symbol-iterator/ | Understanding Iterator Pattern in JavaScript/Typescript using Symbol.Iterator}
+   * {@link https://exploringjs.com/es6/ch_iteration.html | Exloring ECMAScript 2015 Iterables and iterators}
+   * {@link https://codeburst.io/a-simple-guide-to-es6-iterators-in-javascript-with-examples-189d052c3d8e | CodeBurst.io A Simple Guide to ES6 Iterators}
    */
   next(): IteratorResult<Readonly<INormalizedAsset>> {
     if (!this._referenceHandler) {

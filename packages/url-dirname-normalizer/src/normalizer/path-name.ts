@@ -3,7 +3,7 @@ import { toUrl } from './url'
 /**
  * Normalize URL PathName
  *
- * Normalizing from URL http://www.example.org/fOo/Bar/bAAz.html
+ * Normalizing from URL "http://www.example.org/fOo/Bar/bAAz.html"
  * taking "/fOo/Bar/bAAz.html" into "/foo/bar/baaz"
  */
 export const pathName = (url: string): string => {

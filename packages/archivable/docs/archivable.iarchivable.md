@@ -7,14 +7,16 @@
 
 An Archivable Entity.
 
-For a given source document URL, where to extract the main content ("selector"),
-and what parts of the page aren't relevant to an archive ("truncate").
-
 <b>Signature:</b>
 
 ```typescript
 export interface IArchivable
 ```
+
+## Remarks
+
+For a given source document URL, where to extract the main content ("selector"),
+and what parts of the page aren't relevant to an archive ("truncate").
 
 ## Properties
 
