@@ -127,8 +127,28 @@
     "Supports path name with or without trailing slash when with a query string"
   ],
   [
+    "http://example.org/cgi-bin/foo",
+    "example.org/foo",
+    "Does not keep cgi-bin in URL"
+  ],
+  [
+    "http://example.org/foo//bar//bazz/buzz",
+    "example.org/foo/bar/bazz/buzz",
+    "Strips duplicate slashes even when more than one"
+  ],
+  [
     "http://example.org/@ausername/some-lengthy-string-ending-with-a-hash-1a2d8a61510",
     "example.org/ausername/some-lengthy-string-ending-with-a-hash",
     "Remove at sign (@) and random appended hash from URL path name"
+  ],
+  [
+    "http://FrédéricChopin.fr/répertoire/search?type=polonaise",
+    "xn--frdricchopin-cebb.fr/rc3a9pertoire/search/type/polonaise",
+    "By default, does not transform unicode characters from URL"
+  ],
+  [
+    "http://example.org/cgi-bin/foo/bar?whiskey&bazz=buzz&yankee=&alpha=bravo",
+    "example.org/foo/bar/alpha/bravo/bazz/buzz",
+    "Omits empty search query parameters and sorts"
   ]
 ]
