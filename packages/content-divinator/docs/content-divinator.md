@@ -16,6 +16,12 @@
 | --------------------------------------------------------------- | -------------------------------------------------------------------- |
 | [ISummaryRecordType](./content-divinator.isummaryrecordtype.md) | What are the sorted words and the top keywords found after analysis. |
 
+## Variables
+
+| Variable                              | Description |
+| ------------------------------------- | ----------- |
+| [utils](./content-divinator.utils.md) |             |
+
 ## Type Aliases
 
 | Type Alias                                                          | Description                                                                       |

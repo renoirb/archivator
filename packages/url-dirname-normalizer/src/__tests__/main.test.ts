@@ -1,6 +1,7 @@
 /* eslint-env jest */
 
 import { fixtures } from '.'
+import type { UrlsExpectedExplanationTuples } from '.'
 import { dirnameNormalizer } from '..'
 
 const { loadSlugificationJsonFixture } = fixtures
@@ -24,6 +25,21 @@ describe('dirnameNormalizer', () => {
     (input, expected) => {
       const output = dirnameNormalizer(input)
       // console.log('run', {output, input, expected, reason: _})
+      expect(output).toBe(expected)
+    },
+  )
+
+  // With second argument
+  test.each([
+    [
+      'http://FrédéricChopin.fr/répertoire/search?type=polonaise',
+      'fredericchopin.fr/repertoire/search/type/polonaise',
+      'With second argument boolean, replaces accents to accent less'
+    ],
+  ] as UrlsExpectedExplanationTuples)(
+    '%s:\n\tout:\t\t%s\n\treason:\t\t%s\n\tduration:\t',
+    (input, expected) => {
+      const output = dirnameNormalizer(input, true)
       expect(output).toBe(expected)
     },
   )

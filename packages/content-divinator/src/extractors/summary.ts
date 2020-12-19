@@ -3,22 +3,12 @@ import type { ISummaryRecordType, WordUsageMapType } from '../types'
 /**
  * Summarizing content.
  *
- * For starters, what are the most used "keywords".
- * More things to come.
- *
- * ----
- *
- * See earlier implementation:
- *   v2.0.0, rework implementation:
- *     links:
- *       - name: sortedAndKeywords
- *         replacing: analyze
- *         replacedWith: summary
- *         url: https://github.com/renoirb/archivator/blob/v2.0.0/src/analyze.js#L50-L62
- *
- * ----
- *
+ * @internal
  * @package extractors
+ *
+ * For starters, what are the most used "keywords".
+ *
+ * {@link https://github.com/renoirb/archivator/blob/v2.0.0/src/analyze.js#L50-L62 replacing earlier v2.0 implementation `sortedAndKeywords`}
  *
  * @param wordsMap - Unique "word" where each value is its usage count
  * @param floor - In keywords grouping, what is the minimum number of times to qualify (default: 3)

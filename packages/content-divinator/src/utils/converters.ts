@@ -3,9 +3,10 @@ import { whenRecordValueIsNumberOrderByDescending } from '../sorting'
 /**
  * Convert `Record<string, number>` HashMap to `Map<string, number>`
  *
- * For sorting, refer to {@link whenRecordValueIsNumberOrderByDescending}
- *
+ * @public
  * @package utils
+ *
+ * For sorting, refer to {@see whenRecordValueIsNumberOrderByDescending}
  *
  * @param textHashMap - Unique "word" where each value is its usage count
  */

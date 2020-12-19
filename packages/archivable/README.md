@@ -7,7 +7,7 @@ A _Data Transfer Object_ (or _Entity_ object) and related utilities to
 manipulate Web Page Metadata while archiving.
 
 [repo-url]:
-  https://github.com/renoirb/archivator/blob/v3.x-dev/packages/archivable
+  https://github.com/renoirb/archivator/tree/v3.x-dev/packages/archivable
   'Archivable Data Transfer Object'
 [npmjs-package-badge]:
   https://img.shields.io/npm/v/%40archivator%2Farchivable?style=flat-square&logo=appveyor&label=npm&logo=npm
@@ -23,10 +23,17 @@ manipulate Web Page Metadata while archiving.
 
 ## Usage
 
+[api-extractor-review]:
+  https://github.com/renoirb/archivator/blob/v3.x-dev/common/reviews/api/archivable.api.md
+  'API Report'
+[api-extractor-docs]:
+  https://github.com/renoirb/archivator/blob/v3.x-dev/packages/archivable/docs/index.md
+  'API Extractor docs/'
+
 _See also_:
 
-- [API Extractor code-review signature](../../common/reviews/api/archivable.api.md)
-- [API Documentor generated docs](./docs/index.md)
+- [API Extractor code-review signature][api-extractor-review]
+- [API Documentor generated docs][api-extractor-docs]
 
 ### Archivable
 
@@ -208,9 +215,9 @@ at `assetFileExtensionNormalizer`.
 ```ts
 // ... Continuing from example above
 import {
-  HashingFunctionType,
+  IHashingFn,
   createHashFunction,
-  NormalizedAssetFileExtensionExtractorType,
+  INormalizedAssetReferenceHandlerFn,
 } from '@archivator/archivable'
 
 // One can set its own hash function
@@ -221,7 +228,7 @@ const hashingHandler = createHashFunction('md5', 'hex')
  * In the example below, in every case, the file extension would ALWAYS be ".foo".
  * We could eventually use the file's mime-type, or the source's response headers. #TODO
  */
-const extensionHandler: NormalizedAssetFileExtensionExtractorType = (
+const extensionHandler: INormalizedAssetReferenceHandlerFn = (
   foo: string,
 ): string => `.foo`
 

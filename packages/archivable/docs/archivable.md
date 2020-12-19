@@ -6,95 +6,54 @@
 
 ## Classes
 
-| Class                                            | Description                                                                                                                                                                                                                                                |
-| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Archivable](./archivable.archivable.md)         | Something to Archive.<!-- -->From an URL, which part to pick from that page, what to truncate.                                                                                                                                                             |
-| [DocumentAssets](./archivable.documentassets.md) | Assets found on a Web Page Document.<!-- -->So we can prepare for downloading a copy of all the document's assets.<!-- -->Input is a list of resources in many possible format;<!-- -->&lt;<!-- -->!-- See tests DocumentAssets\#Happy-Path --<!-- -->&gt; |
-
-```js
-const sourceDocument = 'http://renoirboulanger.com/about/projects'
-const assets = [
-  // Case 1: Fully qualified URL that is local to the site
-  'http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg',
-  // Case 2: Fully qualified URL that is outside
-  'https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png',
-  // Case 3: Fully qualified  URL that is outside and protocol relative
-  '//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500',
-  // Case 4: Relative URL to the domain name, starting at root
-  '/wp-content/themes/renoirb/assets/img/zce_logo.jpg',
-  // Case 5: Relative URL to the current source document
-  '../../photo.jpg',
-]
-const collection = new DocumentAssets(sourceDocument, assets)
-```
-
-Should provide us a cleaned up list of assets where is a good guess the asset
-might be found so we can make a copy and archive them.<!-- -->Notice: - Each
-dest file are hashes with extension - Gravatar sample started by
-<code>//</code>, and below, at src value, we'll have over http - zce_logo.png is
-in <code>/wp-content/...</code>, but below at src value, it's on
-<code>renoirboulanger.com</code>We should receive something similar to this;
-
-```js
-// Notice that DocumentAssets returns an iterable, we can iterate as if it looked like this;
-const collection = [
-  {
-    dest:
-      'renoirboulanger.com/page/3/430e2156af17010e0d8ffcd726a95595fa71a4fd.jpg',
-    match:
-      'http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg',
-    reference: '430e2156af17010e0d8ffcd726a95595fa71a4fd.jpg',
-    src:
-      'http://renoirboulanger.com/wp-content/themes/twentyseventeen/assets/images/header.jpg',
-  },
-  {
-    dest:
-      'renoirboulanger.com/page/3/b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png',
-    match:
-      'https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png',
-    reference: 'b41de0a18bbb0871b22e0f5c466b3cd2f498807d.png',
-    src: 'https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png',
-  },
-  {
-    dest: 'renoirboulanger.com/page/3/63dc122dfd3c702e12714fbe4ba744e463c49edb',
-    match: '//www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500',
-    reference: '63dc122dfd3c702e12714fbe4ba744e463c49edb',
-    src:
-      'http://www.gravatar.com/avatar/cbf8c9036c204fe85e15155f9d70faec?s=500',
-  },
-  {
-    dest:
-      'renoirboulanger.com/page/3/840257d7de220958ca4cc05a3c0ee337e2b0401d.jpg',
-    match: '/wp-content/themes/renoirb/assets/img/zce_logo.jpg',
-    reference: '840257d7de220958ca4cc05a3c0ee337e2b0401d.jpg',
-    src:
-      'http://renoirboulanger.com/wp-content/themes/renoirb/assets/img/zce_logo.jpg',
-  },
-]
-```
-
-    |
-
-| [NormalizedAsset](./archivable.normalizedasset.md) | An image or picture we
-want to keep a copy alongside its web page document source. |
+| Class                                              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Archivable](./archivable.archivable.md)           | Something to Archive.<!-- -->From an URL, which part to pick from that page, what to truncate.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| [DocumentAssets](./archivable.documentassets.md)   | Assets found on a Web Page Document.<!-- -->So we can prepare for downloading a copy of all the document's assets.[\`transformer.js\` line 186 in initial implementation](https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L186) [\`transformer.js\` line 192 in initial implementation](https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L192) [\`transformer.js\` line 20 in initial implementation](https://github.com/renoirb/archivator/blob/v1.0.0/src/transformer.js#L20) [\`normalizer/assets.js\` line 32 in initial implementation](https://github.com/renoirb/archivator/blob/v1.0.0/src/normalizer/assets.js#L32) |
+| [NormalizedAsset](./archivable.normalizedasset.md) | An image or picture we want to keep a copy alongside its web page document source.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 
 ## Interfaces
 
 | Interface                                                    | Description                                                                                                                                                                                                                                                                         |
 | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [IArchivable](./archivable.iarchivable.md)                   | An Archivable Entity.<!-- -->For a given source document URL, where to extract the main content ("selector"), and what parts of the page aren't relevant to an archive ("truncate").                                                                                                |
+| [IArchivable](./archivable.iarchivable.md)                   | An Archivable Entity.                                                                                                                                                                                                                                                               |
 | [INormalizedAsset](./archivable.inormalizedasset.md)         | Normalized Asset reference.<!-- -->For any "match" (i.e. initial value), where ("src") to download the asset in relation to the source document. When saving downloaded assets, save into "dest", and eventually, refactor source document's HTML source to a new "reference" name. |
 | [INormalizedAssetDest](./archivable.inormalizedassetdest.md) | The file destination (a.k.a. dest) for INormalizedAsset.                                                                                                                                                                                                                            |
 
 ## Variables
 
-| Variable                                                                                                             | Description                                                                                                                                                                                                                                                                                                                                             |
-| -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [ArchivableOrderedInputUrlTruncateTuplesFirstLine](./archivable.archivableorderedinputurltruncatetuplesfirstline.md) | The first line of the archive index CSV file.<!-- -->1. First item is a fully qualified source document URL (i.e. a Web Page's address) 2. \_selector\_, A CSS selector where the main content is 3. \_truncate\_, A list of CSS selectors to strip off (e.g. ads, orthogonal content)<!-- -->This is the shape of data input we can use for iteration. |
+| Variable                                                                                                             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [ArchivableOrderedInputUrlTruncateTuplesFirstLine](./archivable.archivableorderedinputurltruncatetuplesfirstline.md) | Tuple representation of what comes from a source .csv file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| [assetFileExtensionNormalizer](./archivable.assetfileextensionnormalizer.md)                                         | Return a file extension with a dot as prefix, or an empty string.<!-- -->One can set their own normalizer, as long as it of type <code>(file: string) =&gt; string</code> When the output is either an empty string, or a file extension prefixed by a dot (e.g. <code>.png</code>)                                                                                                                                                                                                                                                                                                                                    |
+| [assetUrlNormalizer](./archivable.asseturlnormalizer.md)                                                             | Normalize Asset Reference.<!-- -->Given we have an article URL at <code>http://example.org/foo/bar/baz.html</code> (a.k.a. "<code>sourceDocument</code>") where we can have many image tags we want to keep a copy (e.g. <code>&lt;img src=&quot;/image/a.jpg&quot; /&gt;</code>, refered here as "<code>asset</code>"). We want to know where should we download <code>/image/a.jpg</code> from. To do this, we can figure out by combining the <code>sourceDocument</code> and the <code>asset</code>For a given <code>sourceDocument</code> URL with 0 or more assets in document's HTML, we want to get output as: |
+
+```json
+[ 'http://example.org/image/a.jpg', ... ]
+
+```
+
+This module should handle all valid asset paths and return a fully qualified URL
+so we can download the asset.<!-- -->For example, the URL of a sourceDocument
+could be "http://example.org/foo/bar.html" with images ("asset" img tags with
+src="...") img\[src\] values;<!-- -->\| Input \| Output \| \|
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\- \|
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--
+\| \| <code>/a/b.jpg</code> \| <code>http://example.org/a/b.jpg</code> \| \|
+<code>a/b.jpg</code> \| <code>http://example.org/foo/a/b.jpg</code> \| \|
+<code>a/b</code> \| <code>http://example.org/foo/a/b</code> \| \|
+<code>../a/b.jpg</code> \| <code>http://example.org/a/b.jpg</code> \| \|
+<code>a/b.jpg?foo=bar</code> \|
+<code>http://example.org/foo/a/b.jpg?foo=bar</code> \| \|
+<code>//example.org/a/b.jpg</code> \| <code>http://example.org/a/b.jpg</code> \|
+\| <code>http://elsewhere.org/a/b.jpg</code> \|
+<code>http://elsewhere.org/a/b.jpg</code> \| \|
+<code>https://example.org/a/b.jpg</code> \|
+<code>https://example.org/a/b.jpg</code> \| |
 
 ## Type Aliases
 
-| Type Alias                                                                                         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [CryptoCommonHashingFunctions](./archivable.cryptocommonhashingfunctions.md)                       | Available Crypto Hashing Functions. Runtime might have a different list though.<!-- -->Also, this isn't planned to run client-side (in a Web Browser). Maybe the following list won't work.                                                                                                                                                                                                                                                                                            |
-| [IArchivableOrderedInputUrlTruncateTuple](./archivable.iarchivableorderedinputurltruncatetuple.md) | Tuple representation of what comes from a source .csv file<!-- -->Given every row in source file .csv<!-- -->e.g.<!-- -->http://example.org/a/b.html;body;.ad,.social-button<!-- -->1. First item is a fully qualified source document URL (i.e. a Web Page's address) 2. \_selector\_, A CSS selector where the main content is 3. \_truncate\_, A list of CSS selectors to strip off (e.g. ads, orthogonal content)<!-- -->This is the shape of data input we can use for iteration. |
+| Type Alias                                                                                         | Description                                                                                                                                                                                 |
+| -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [CryptoCommonHashingFunctions](./archivable.cryptocommonhashingfunctions.md)                       | Available Crypto Hashing Functions. Runtime might have a different list though.<!-- -->Also, this isn't planned to run client-side (in a Web Browser). Maybe the following list won't work. |
+| [IArchivableOrderedInputUrlTruncateTuple](./archivable.iarchivableorderedinputurltruncatetuple.md) | Tuple representation of what comes from a source .csv file                                                                                                                                  |

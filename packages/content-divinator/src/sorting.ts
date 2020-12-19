@@ -1,6 +1,9 @@
 /**
  * Sorting closure.
  *
+ * @internal
+ * @package sorting
+ *
  * Assuming each value are some sort of count.
  * We want the biggest number first.
  *
@@ -16,8 +19,6 @@
  *
  * There must be a way to extract `compareFn` argument type using TypeScript’s utility types.
  * I haven't figured it out yet.
- *
- * @package sorting
  */
 export const whenRecordValueIsNumberOrderByDescending = (
   a: [string, number],

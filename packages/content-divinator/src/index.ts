@@ -1,3 +1,7 @@
+import { ContentDivinator } from './content-divinator'
+
+import { convertMapToRecordHashMap, convertRecordHashMapToMap } from './utils'
+
 export type {
   WordUsageMapType,
   WordsType,
@@ -6,7 +10,13 @@ export type {
   ISummaryRecordType,
 } from './types'
 
-import { ContentDivinator } from './content-divinator'
+/**
+ * @public
+ */
+export const utils = {
+  convertMapToRecordHashMap,
+  convertRecordHashMapToMap,
+}
 
 export { ContentDivinator }
 

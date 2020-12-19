@@ -4,26 +4,30 @@
 
 ```ts
 
+// Warning: (ae-forgotten-export) The symbol "IArchivable" needs to be exported by the entry point index.d.ts
+//
 // @public
-class Archivable implements IArchivable {
-    constructor(url: string, selector?: string, truncate?: string);
-    // (undocumented)
-    readonly archive: string | null;
-    static fromJSON(maybeValidString: string): Archivable;
-    static fromLine(line?: string): Archivable;
-    // (undocumented)
-    static fromTuple(tuple: IArchivableOrderedInputUrlTruncateTuple): Archivable;
-    static parseLine(line?: string): IArchivableOrderedInputUrlTruncateTuple;
-    // (undocumented)
-    readonly selector: string;
-    // (undocumented)
-    toJSON(): Readonly<IArchivable>;
-    // (undocumented)
-    toTuple(): Readonly<IArchivableOrderedInputUrlTruncateTuple>;
-    // (undocumented)
-    readonly truncate: string;
-    // (undocumented)
-    readonly url: string;
+class Archivable implements IArchivable_2 {
+  constructor(url: string, selector?: string, truncate?: string)
+  // (undocumented)
+  readonly archive: string | null
+  static fromJSON(maybeValidString: string): Archivable
+  static fromLine(line?: string): Archivable
+  // Warning: (ae-forgotten-export) The symbol "IArchivableOrderedInputUrlTruncateTuple" needs to be exported by the entry point index.d.ts
+  //
+  // (undocumented)
+  static fromTuple(tuple: IArchivableOrderedInputUrlTruncateTuple_2): Archivable
+  static parseLine(line?: string): IArchivableOrderedInputUrlTruncateTuple_2
+  // (undocumented)
+  readonly selector: string
+  // (undocumented)
+  toJSON(): Readonly<IArchivable_2>
+  // (undocumented)
+  toTuple(): Readonly<IArchivableOrderedInputUrlTruncateTuple_2>
+  // (undocumented)
+  readonly truncate: string
+  // (undocumented)
+  readonly url: string
 }
 
 export { Archivable }
@@ -31,84 +35,112 @@ export { Archivable }
 export default Archivable;
 
 // @public
-export const ArchivableOrderedInputUrlTruncateTuplesFirstLine = "\"Web Page URL\";\"CSS Selectors for main content\";\"CSS Selectors to strip content off\"";
+export const ArchivableOrderedInputUrlTruncateTuplesFirstLine =
+  '"Web Page URL";"CSS Selectors for main content";"CSS Selectors to strip content off"';
+
+// Warning: (ae-incompatible-release-tags) The symbol "assetFileExtensionNormalizer" is marked as @public, but its signature references "INormalizedAssetFileExtensionExtractorFn" which is marked as @internal
+//
+// @public
+export const assetFileExtensionNormalizer: INormalizedAssetFileExtensionExtractorFn;
 
 // @public
-export type CryptoCommonHashingFunctions = 'sha1' | 'sha256' | 'md5' | 'md5-sha1' | 'mdc2' | 'sha512' | 'sha224' | string;
+export const assetUrlNormalizer: (sourceDocument: string, asset: string) => string;
+
+// @public
+export type CryptoCommonHashingFunctions =
+  | 'sha1'
+  | 'sha256'
+  | 'md5'
+  | 'md5-sha1'
+  | 'mdc2'
+  | 'sha512'
+  | 'sha224'
+  | string
 
 // @public
 export class DocumentAssets implements Iterable<INormalizedAsset> {
-    [Symbol.iterator](): Iterator<INormalizedAsset>;
-    constructor(sourceDocument: string, assets?: string[]);
-    next(): IteratorResult<Readonly<INormalizedAsset>>;
-    // Warning: (ae-incompatible-release-tags) The symbol "setReferenceHandler" is marked as @public, but its signature references "INormalizedAssetReferenceHandlerFn" which is marked as @internal
-    setReferenceHandler(handler: INormalizedAssetReferenceHandlerFn): void;
-    // (undocumented)
-    readonly sourceDocument: string;
+  [Symbol.iterator](): Iterator<INormalizedAsset>
+  constructor(sourceDocument: string, assets?: string[])
+  next(): IteratorResult<Readonly<INormalizedAsset>>
+  // Warning: (ae-incompatible-release-tags) The symbol "setReferenceHandler" is marked as @public, but its signature references "INormalizedAssetReferenceHandlerFn" which is marked as @internal
+  setReferenceHandler(handler: INormalizedAssetReferenceHandlerFn): void
+  // (undocumented)
+  readonly sourceDocument: string
 }
 
 // @public
 export interface IArchivable {
-    archive: string | null;
-    selector: string;
-    truncate: string;
-    url: string;
+  archive: string | null
+  selector: string
+  truncate: string
+  url: string
 }
 
 // @public
-export type IArchivableOrderedInputUrlTruncateTuple = [string, string, string];
+export type IArchivableOrderedInputUrlTruncateTuple = [
+  string,
+  string,
+  string,
+]
 
 // Warning: (ae-internal-missing-underscore) The name "IHashingFn" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal
-export type IHashingFn = (message: string) => string;
+export type IHashingFn = (message: string) => string
 
 // @public
 export interface INormalizedAsset {
-    dest: string | null;
-    readonly match: string;
-    reference: string | null;
-    readonly src: string;
+  dest: string | null
+  readonly match: string
+  reference: string | null
+  readonly src: string
 }
 
 // @public
 export interface INormalizedAssetDest {
-    // (undocumented)
-    dest: string;
+  // (undocumented)
+  dest: string
 }
 
 // Warning: (ae-internal-missing-underscore) The name "INormalizedAssetEntity" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal
 export interface INormalizedAssetEntity {
-    // (undocumented)
-    toJSON(): Readonly<INormalizedAsset>;
+  // (undocumented)
+  toJSON(): Readonly<INormalizedAsset>
 }
 
 // Warning: (ae-internal-missing-underscore) The name "INormalizedAssetFileExtensionExtractorFn" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal
-export type INormalizedAssetFileExtensionExtractorFn = (assetUrl: string) => string;
+export type INormalizedAssetFileExtensionExtractorFn = (
+  assetUrl: string,
+) => string
 
 // Warning: (ae-internal-missing-underscore) The name "INormalizedAssetReference" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal
 export interface INormalizedAssetReference {
-    // (undocumented)
-    hasExtension: boolean;
-    // (undocumented)
-    reference: string;
+  // (undocumented)
+  hasExtension: boolean
+  // (undocumented)
+  reference: string
 }
 
 // Warning: (ae-internal-missing-underscore) The name "INormalizedAssetReferenceHandlerFactoryFn" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal
-export type INormalizedAssetReferenceHandlerFactoryFn = (hashingHandler: IHashingFn, extensionHandler: INormalizedAssetFileExtensionExtractorFn) => INormalizedAssetReferenceHandlerFn;
+export type INormalizedAssetReferenceHandlerFactoryFn = (
+  hashingHandler: IHashingFn,
+  extensionHandler: INormalizedAssetFileExtensionExtractorFn,
+) => INormalizedAssetReferenceHandlerFn
 
 // Warning: (ae-internal-missing-underscore) The name "INormalizedAssetReferenceHandlerFn" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal
-export type INormalizedAssetReferenceHandlerFn = (asset: INormalizedAsset) => INormalizedAssetReference;
+export type INormalizedAssetReferenceHandlerFn = (
+  asset: INormalizedAsset,
+) => INormalizedAssetReference
 
 // Warning: (ae-incompatible-release-tags) The symbol "NormalizedAsset" is marked as @public, but its signature references "INormalizedAssetEntity" which is marked as @internal
 //
